@@ -1,6 +1,8 @@
 3D Tank Game - Total Tankination
 Core GAme
+
 	Tank Controls
+
 		Basic Movement - Done
 		Turret Controls - 5/7 - Still need power control
 		Shoots with ballistic Trajectory - Done
@@ -9,6 +11,7 @@ Core GAme
 
 
 	World Generation/Destruction
+
 		Voxel Based destructable Terrain
 		Procedural generation
 
@@ -16,6 +19,7 @@ Core GAme
 
 
 Stretch Goals
+
 	AI
 	Economy / More Weapons/ Fuel
 	Defenses
