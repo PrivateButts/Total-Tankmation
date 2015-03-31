@@ -18,6 +18,7 @@ public class TankController : MonoBehaviour{
 	public float power = 20;
 	public Text txtPower;
 	public Text txtSpeed;
+	public float modifier = 1;
 
 	
 
@@ -33,6 +34,12 @@ public class TankController : MonoBehaviour{
 		rb.maxAngularVelocity = maxSpeed;
 		float forwardMoveAmount = 0;
 		float turnAmount = 0;
+
+		if (Input.GetKey (KeyCode.LeftShift)) {
+			modifier = .1F;
+		} else {
+			modifier = 1F;
+		}
 		if(Input.GetKey(KeyCode.W)){
 			forwardMoveAmount = forwardSpeed;
 		}
@@ -40,19 +47,19 @@ public class TankController : MonoBehaviour{
 			forwardMoveAmount = -forwardSpeed;
 		}
 		if(Input.GetKey(KeyCode.A)){
-			turnAmount = turnSpeed;
+			turnAmount = turnSpeed * modifier;
 		}
 		if(Input.GetKey(KeyCode.D)){
-			turnAmount = -turnSpeed;
+			turnAmount = -turnSpeed * modifier;
 		}
 		if(Input.GetKey(KeyCode.PageUp)){
-			power += deltaPower;
+			power += deltaPower * modifier;
 			if (power > maxPower){
 				power = maxPower;
 			}
 		}
 		if(Input.GetKey(KeyCode.PageDown)){
-			power -= deltaPower;
+			power -= deltaPower * modifier;
 			if (power < 0){
 				power = 0;
 			}
@@ -64,7 +71,7 @@ public class TankController : MonoBehaviour{
 		transform.Rotate(0, -turnAmount, 0);
 		rb.AddRelativeForce(0,0,-forwardMoveAmount);
 
-		txtPower.text = "Power: " + power.ToString ();
+		txtPower.text = "Power: " + power.ToString ("F1");
 
 		//Speed Limiter
 		if (Mathf.Sqrt(Mathf.Pow (rb.velocity.z, 2) + Mathf.Pow (rb.velocity.x, 2)) > maxSpeed) {

@@ -17,10 +17,10 @@ public class TurretController : MonoBehaviour{
 		float rotateAmount = 0;
 
 		if(Input.GetKey(KeyCode.LeftArrow)){
-			rotateAmount = TankController.turretRate;
+			rotateAmount = TankController.turretRate * TankController.modifier;
 		}
 		if(Input.GetKey(KeyCode.RightArrow)){
-			rotateAmount = -TankController.turretRate;
+			rotateAmount = -TankController.turretRate * TankController.modifier;
 		}
 		
 		transform.Rotate(0, 0, -rotateAmount);

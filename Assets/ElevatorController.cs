@@ -19,19 +19,19 @@ public class ElevatorController : MonoBehaviour{
 		float elevateAmount = 0;
 		if(Input.GetKey(KeyCode.UpArrow)){
 			if (currentEl < TankController.maxElevation){
-				elevateAmount = TankController.elevateRate;
+				elevateAmount = TankController.elevateRate * TankController.modifier;
 			}
 		}
 		if(Input.GetKey(KeyCode.DownArrow)){
 			if (currentEl > TankController.minElevation) {
-				elevateAmount = -TankController.elevateRate;
+				elevateAmount = -TankController.elevateRate * TankController.modifier;
 			}
 
 		}
 
 		transform.Rotate (elevateAmount, 0,  0);
 		currentEl += elevateAmount;
-		elevator.text = "Elevation: " + currentEl.ToString ();
+		elevator.text = "Elevation: " + currentEl.ToString ("F1");
 		
 	}
 	

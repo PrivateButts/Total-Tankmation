@@ -1005,7 +1005,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: Speed
 --- !u!222 &597374544
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1353,7 +1353,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '1234656
+  m_Text: 'Elevation
 
 '
 --- !u!222 &1275447396
@@ -1421,7 +1421,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: Power
 --- !u!222 &1312853839
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1557,6 +1557,7 @@ MonoBehaviour:
   power: 20
   txtPower: {fileID: 1312853838}
   txtSpeed: {fileID: 597374543}
+  modifier: 1
 --- !u!54 &1628845355
 Rigidbody:
   m_ObjectHideFlags: 0
