@@ -5,7 +5,7 @@ using System.Collections;
 
 public class Explode : MonoBehaviour {
 	GameObject prefab;
-	public float projTTL = 10;
+	public float projTTL = 25;
 	float startTime;
 	void Start () {
 		//grab explosion object from resources
@@ -27,6 +27,7 @@ public class Explode : MonoBehaviour {
 		explosion.transform.position = transform.position;
 		//Destroy the projectile
 		Destroy (gameObject);
+		Debug.Log (transform.position);
 	
 	}
 }

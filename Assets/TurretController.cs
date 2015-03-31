@@ -11,7 +11,7 @@ public class TurretController : MonoBehaviour{
 	
 	
 	void FixedUpdate(){
-		GameObject Tank = GameObject.Find ("TankHull");
+		GameObject Tank = GameObject.Find ("PlayerTank");
 		TankController TankController = Tank.GetComponent<TankController>();
 
 		float rotateAmount = 0;

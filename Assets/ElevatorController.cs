@@ -2,15 +2,18 @@
 
 using UnityEngine;
 using System.Collections;
+using System;
+using UnityEngine.UI;
 
 public class ElevatorController : MonoBehaviour{
 
 	public float currentEl = 0;
+	public Text elevator;
 	void Start(){
 	}
 
 	void FixedUpdate(){
-		GameObject Tank = GameObject.Find ("TankHull");
+		GameObject Tank = GameObject.Find ("PlayerTank");
 		TankController TankController = Tank.GetComponent<TankController>();
 
 		float elevateAmount = 0;
@@ -28,7 +31,7 @@ public class ElevatorController : MonoBehaviour{
 
 		transform.Rotate (elevateAmount, 0,  0);
 		currentEl += elevateAmount;
-		
+		elevator.text = "Elevation: " + currentEl.ToString ();
 		
 	}
 	

@@ -29,7 +29,7 @@ public class ProjectileShooter : MonoBehaviour {
 				shoot.volume = 1;
 				playing = true;
 				SoundTime = Time.time;
-				GameObject Tank = GameObject.Find ("TankHull");
+				GameObject Tank = GameObject.Find ("PlayerTank");
 				TankController TankController = Tank.GetComponent<TankController>();
 				//Start preparing the projectile for launch
 				GameObject projectile = Instantiate(prefab) as GameObject;

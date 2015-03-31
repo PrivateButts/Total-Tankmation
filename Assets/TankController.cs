@@ -2,6 +2,7 @@
 
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class TankController : MonoBehaviour{
 	public float maxSpeed = 5;
@@ -11,8 +12,11 @@ public class TankController : MonoBehaviour{
 	public float elevateRate = 1;
 	public float turretRate = 1;
 	public float maxElevation = 70;
-	public float minElevation = -5;	
-	public float power = 15;
+	public float minElevation = -5;
+	public float maxPower = 120;
+	public float deltaPower = 2;
+	public float power = 20;
+	public Text txtPower;
 
 	
 
@@ -40,12 +44,26 @@ public class TankController : MonoBehaviour{
 		if(Input.GetKey(KeyCode.D)){
 			turnAmount = -turnSpeed;
 		}
+		if(Input.GetKey(KeyCode.PageUp)){
+			power += deltaPower;
+			if (power > maxPower){
+				power = maxPower;
+			}
+		}
+		if(Input.GetKey(KeyCode.PageDown)){
+			power -= deltaPower;
+			if (power < 0){
+				power = 0;
+			}
+		}
+
 
 
 
 		transform.Rotate(0, -turnAmount, 0);
 		rb.AddRelativeForce(0,0,-forwardMoveAmount);
 
+		txtPower.text = "Power: " + power.ToString ();
 
 		//Speed Limiter
 		if (Mathf.Sqrt(Mathf.Pow (rb.velocity.z, 2) + Mathf.Pow (rb.velocity.x, 2)) > maxSpeed) {
@@ -53,7 +71,7 @@ public class TankController : MonoBehaviour{
 		} else {
 			rb.drag = .1F;
 		}
-		Debug.Log (Mathf.Sqrt(Mathf.Pow (rb.velocity.z, 2) + Mathf.Pow (rb.velocity.x, 2)));
+		//Debug.Log (Mathf.Sqrt(Mathf.Pow (rb.velocity.z, 2) + Mathf.Pow (rb.velocity.x, 2)));
 
 	}
 
