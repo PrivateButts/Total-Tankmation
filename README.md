@@ -1,5 +1,5 @@
 3D Tank Game - Total Tankination
-Core GAme
+Core Game
 
 	Tank Controls
 
@@ -23,4 +23,4 @@ Stretch Goals
 	AI
 	Economy / More Weapons/ Fuel
 	Defenses
-	Terrain Manipulation Weapons	
+	Terrain Manipulation Weapons
