@@ -5,10 +5,10 @@ Core Game
 	Tank Controls
 
 		Basic Movement - Done
-		Turret Controls - 5/7 - Still need power control
+		Basic Turret Controls - Done
 		Shoots with ballistic Trajectory - Done
 		Tank Models - Rough
-		GUI - Not Started
+		GUI - Rough
 
 
 	World Generation/Destruction
