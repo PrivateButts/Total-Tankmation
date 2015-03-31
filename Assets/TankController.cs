@@ -17,6 +17,7 @@ public class TankController : MonoBehaviour{
 	public float deltaPower = 2;
 	public float power = 20;
 	public Text txtPower;
+	public Text txtSpeed;
 
 	
 
@@ -71,7 +72,7 @@ public class TankController : MonoBehaviour{
 		} else {
 			rb.drag = .1F;
 		}
-		//Debug.Log (Mathf.Sqrt(Mathf.Pow (rb.velocity.z, 2) + Mathf.Pow (rb.velocity.x, 2)));
+		txtSpeed.text =  "Speed: " + (Mathf.Sqrt(Mathf.Pow (rb.velocity.z, 2) + Mathf.Pow (rb.velocity.x, 2))).ToString("F1");
 
 	}
 
