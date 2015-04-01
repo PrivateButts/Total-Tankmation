@@ -3,7 +3,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class Explode : MonoBehaviour {
+public class Projectile : MonoBehaviour {
 	GameObject prefab;
 	public float projTTL = 25;
 	float startTime;

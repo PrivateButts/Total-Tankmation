@@ -13,7 +13,7 @@ public class ElevatorController : MonoBehaviour{
 	}
 
 	void FixedUpdate(){
-		GameObject Tank = GameObject.Find ("PlayerTank");
+		GameObject Tank = this.transform.parent.parent.parent.gameObject;;
 		TankController TankController = Tank.GetComponent<TankController>();
 
 		float elevateAmount = 0;
