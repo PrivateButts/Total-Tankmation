@@ -24,11 +24,11 @@ public class AITank : MonoBehaviour {
 		Debug.Log (HP);
 
 		GameObject damageGameObject = (GameObject)Instantiate(Resources.Load ("Text Damage Display"), transform.position + new Vector3 (0, 2, 0), transform.rotation);
-		damageGameObject.GetComponentInChildren<Text>().text = damage.ToString();
-		damageGameObject.transform.position = damageGameObject.transform.position + new Vector3 (0, 2, 0);
+		damageGameObject.GetComponentInChildren<TextMesh>().text = damage.ToString();
+		damageGameObject.transform.position = damageGameObject.transform.position + new Vector3 (0.5F, 1F, 0F);
 		damageGameObject.transform.Rotate (0, 180, 0);
 
-		if (HP > 100) {
+		if (HP <= 0) {
 			Debug.Log("Tank Destroyed");
 			Destroy (gameObject);
 		}

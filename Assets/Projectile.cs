@@ -36,7 +36,7 @@ public class Projectile : MonoBehaviour {
 					distance = 1;
 				}
 				Debug.Log ("Range = " + distance);
-				float damage = baseDamage/Mathf.Pow(distance/2, 2);
+				float damage = baseDamage/distance;
 				hits[i].SendMessage ("AddDamage", damage);
 			}
 			i++;
