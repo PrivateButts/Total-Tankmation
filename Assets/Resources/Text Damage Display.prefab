@@ -67,7 +67,7 @@ TextMesh:
   m_LineSpacing: 1
   m_Anchor: 0
   m_Alignment: 0
-  m_TabSize: 4
+  m_TabSize: 1
   m_FontSize: 0
   m_FontStyle: 0
   m_RichText: 1

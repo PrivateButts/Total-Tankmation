@@ -17,18 +17,23 @@ public class AITank : MonoBehaviour {
 	
 	}
 
+	void DamageNotif(string damage, float height, float center, float size){
+		GameObject damageGameObject = (GameObject)Instantiate(Resources.Load ("Text Damage Display"), transform.position + new Vector3 (0, 2, 0), transform.rotation);
+		damageGameObject.GetComponentInChildren<TextMesh>().text = damage;
+		damageGameObject.GetComponentInChildren<TextMesh>().characterSize = size;
+		damageGameObject.transform.position = damageGameObject.transform.position + new Vector3 (center, height, 0F);
+		damageGameObject.transform.Rotate (0, 180, 0);
+	}
 
 	void AddDamage(float damage = 1){
 		HP -= damage;
 		Debug.Log("Damage: " + damage + ", HP Remaining: " + HP);
 		Debug.Log (HP);
 
-		GameObject damageGameObject = (GameObject)Instantiate(Resources.Load ("Text Damage Display"), transform.position + new Vector3 (0, 2, 0), transform.rotation);
-		damageGameObject.GetComponentInChildren<TextMesh>().text = damage.ToString();
-		damageGameObject.transform.position = damageGameObject.transform.position + new Vector3 (0.5F, 1F, 0F);
-		damageGameObject.transform.Rotate (0, 180, 0);
+		DamageNotif (damage.ToString (), 1F , 0.5F, 1F);
 
 		if (HP <= 0) {
+			DamageNotif("Destroyed", -1F, 5.5F, 1.8F);
 			Debug.Log("Tank Destroyed");
 			Destroy (gameObject);
 		}
