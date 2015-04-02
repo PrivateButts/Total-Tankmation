@@ -20,6 +20,9 @@ public class TankController : MonoBehaviour{
 	public Text txtSpeed;
 	public float modifier = 1;
 	public bool followcam = true;
+	public float HP = 100;
+	public string Type = "Tank";
+	public bool playerControlled = true;
 
 	
 
@@ -82,6 +85,12 @@ public class TankController : MonoBehaviour{
 		}
 		txtSpeed.text =  "Speed: " + (Mathf.Sqrt(Mathf.Pow (rb.velocity.z, 2) + Mathf.Pow (rb.velocity.x, 2))).ToString("F1");
 
+	}
+
+	void AddDamage(float damage = 1){
+		HP -= damage;
+		Debug.Log (HP);
+	
 	}
 
 };

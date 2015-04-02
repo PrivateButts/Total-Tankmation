@@ -184,7 +184,7 @@ Transform:
   m_PrefabInternal: {fileID: 1418789980}
   m_GameObject: {fileID: 102904301}
   m_LocalRotation: {x: -.707106829, y: 0, z: -0, w: .707106709}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -.0500000007, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 343395869}
@@ -1062,6 +1062,10 @@ Prefab:
       propertyPath: m_Name
       value: Target
       objectReference: {fileID: 0}
+    - target: {fileID: 100006, guid: 0089b7892bf0bc0438b13e3d8beaa5e8, type: 3}
+      propertyPath: m_TagString
+      value: Tank
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0089b7892bf0bc0438b13e3d8beaa5e8, type: 3}
   m_IsPrefabParent: 0
@@ -1227,6 +1231,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.79999995, y: 1, z: 2.29999995}
   m_Center: {x: 0, y: .180000007, z: 0}
+--- !u!114 &1193254094
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1193254090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc5b657fd4cae2f43a0a75ce158e498f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HP: 100
 --- !u!1 &1264632281
 GameObject:
   m_ObjectHideFlags: 0
@@ -1576,7 +1592,7 @@ GameObject:
   - 114: {fileID: 1628845354}
   m_Layer: 0
   m_Name: PlayerTank
-  m_TagString: Untagged
+  m_TagString: Tank
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1621,6 +1637,9 @@ MonoBehaviour:
   txtSpeed: {fileID: 597374543}
   modifier: 1
   followcam: 1
+  HP: 100
+  Type: Tank
+  playerControlled: 1
 --- !u!54 &1628845355
 Rigidbody:
   m_ObjectHideFlags: 0

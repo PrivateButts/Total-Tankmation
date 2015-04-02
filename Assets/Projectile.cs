@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Collections;
 
 public class Projectile : MonoBehaviour {
+	public float baseDamage = 45;
 	GameObject prefab;
 	public float projTTL = 25;
 	float startTime;
@@ -26,6 +27,20 @@ public class Projectile : MonoBehaviour {
 		GameObject explosion = Instantiate(prefab) as GameObject;
 		//Create explosion at the location where the collision occured
 		explosion.transform.position = transform.position;
+		Collider[] hits = Physics.OverlapSphere (gameObject.transform.position, 5);
+		int i = 0;
+		while (i < hits.Length) {
+			if(hits[i].tag == "Tank"){
+				float distance = Vector3.Distance(gameObject.transform.position, hits[i].gameObject.transform.position);
+				if(distance < 1){
+					distance = 1;
+				}
+				Debug.Log ("Range = " + distance);
+				float damage = baseDamage/Mathf.Pow(distance/2, 2);
+				hits[i].SendMessage ("AddDamage", damage);
+			}
+			i++;
+		}
 		//Destroy the projectile
 		Destroy (gameObject);
 		Debug.Log (transform.position);
