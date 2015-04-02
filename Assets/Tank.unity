@@ -419,7 +419,7 @@ Transform:
   m_PrefabInternal: {fileID: 1418789980}
   m_GameObject: {fileID: 207167472}
   m_LocalRotation: {x: 1.1520229e-07, y: -.707106948, z: -.70710659, w: 1.15202347e-07}
-  m_LocalPosition: {x: -.196999982, y: -3.78999805, z: 1.2207402}
+  m_LocalPosition: {x: .180000007, y: -3.78999996, z: 1.30999994}
   m_LocalScale: {x: 1, y: 1.10599005, z: 1.10599005}
   m_Children: []
   m_Father: {fileID: 343395869}
@@ -1616,10 +1616,11 @@ MonoBehaviour:
   minElevation: -5
   maxPower: 160
   deltaPower: 1
-  power: 20
+  power: 60
   txtPower: {fileID: 1312853838}
   txtSpeed: {fileID: 597374543}
   modifier: 1
+  followcam: 1
 --- !u!54 &1628845355
 Rigidbody:
   m_ObjectHideFlags: 0

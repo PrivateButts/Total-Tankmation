@@ -19,6 +19,7 @@ public class TankController : MonoBehaviour{
 	public Text txtPower;
 	public Text txtSpeed;
 	public float modifier = 1;
+	public bool followcam = true;
 
 	
 

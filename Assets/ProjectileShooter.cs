@@ -35,6 +35,8 @@ public class ProjectileShooter : MonoBehaviour {
 				GameObject projectile = Instantiate(prefab) as GameObject;
 				//Starting location of projectile
 				projectile.transform.position = transform.position + new Vector3(0,0,0);
+				projectile.transform.rotation = transform.rotation;
+				projectile.transform.Rotate (0,180,0);
 				Rigidbody rb = projectile.GetComponent<Rigidbody>();
 				//Initial velocity relative to the empty that is firing it.
 				rb.velocity = transform.rotation * new Vector3(0,0,-TankController.power);

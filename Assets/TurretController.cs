@@ -26,7 +26,6 @@ public class TurretController : MonoBehaviour{
 		transform.Rotate(0, 0, -rotateAmount);
 
 	
-		
 	}
 	
 };

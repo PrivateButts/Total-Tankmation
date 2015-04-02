@@ -7,6 +7,7 @@ public class Projectile : MonoBehaviour {
 	GameObject prefab;
 	public float projTTL = 25;
 	float startTime;
+	public bool followcam = false;
 	void Start () {
 		//grab explosion object from resources
 		startTime = Time.time;
