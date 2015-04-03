@@ -87,7 +87,7 @@ public class TankController : MonoBehaviour{
 
 	}
 
-	void AddDamage(float damage = 1){
+	void AddDamage(float damage){
 		HP -= damage;
 		Debug.Log (HP);
 	

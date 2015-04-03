@@ -2,21 +2,24 @@
 Core GAme
 	Tank Controls
 		Basic Movement - Done
-		Turret Controls - 5/7 - Still need power control
+		Turret Controls - Done
 		Shoots with ballistic Trajectory - Done
 		Tank Models - Rough
-		GUI - Not Started
+		GUI - Rough
 
 
 	World Generation/Destruction
 		Voxel Based destructable Terrain
 		Procedural generation
 
-	Scoring
+	Scoring - Started
 
 
 Stretch Goals
 	AI
 	Economy / More Weapons/ Fuel
 	Defenses
-	Terrain Manipulation Weapons	
+	Terrain Manipulation Weapons
+	Weapon Trails - Done
+	Explosions - Rough
+	Damage Notifications - Rough

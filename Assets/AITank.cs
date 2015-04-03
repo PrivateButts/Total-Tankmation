@@ -25,12 +25,12 @@ public class AITank : MonoBehaviour {
 		damageGameObject.transform.Rotate (0, 180, 0);
 	}
 
-	void AddDamage(float damage = 1){
+	void AddDamage(float damage){
 		HP -= damage;
 		Debug.Log("Damage: " + damage + ", HP Remaining: " + HP);
 		Debug.Log (HP);
 
-		DamageNotif (damage.ToString (), 1F , 0.5F, 1F);
+		DamageNotif (damage.ToString ("F1"), 1F , 0.5F, 1F);
 
 		if (HP <= 0) {
 			DamageNotif("Destroyed", -1F, 5.5F, 1.8F);
