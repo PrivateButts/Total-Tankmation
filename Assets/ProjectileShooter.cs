@@ -10,6 +10,7 @@ public class ProjectileShooter : MonoBehaviour {
 	bool playing;
 	// Use this for initialization
 	GameObject prefab;
+	GameObject prefab2;
 	void Start () {
 		//Initialize LastShot
 		playing = false;
@@ -17,6 +18,7 @@ public class ProjectileShooter : MonoBehaviour {
 		LastShot = Time.time;
 		//preload the projectile
 		prefab = Resources.Load ("projectile") as GameObject;
+		prefab2 = Resources.Load ("projectileTrail") as GameObject;
 	}
 	
 	// Update is called once per frame
@@ -29,13 +31,23 @@ public class ProjectileShooter : MonoBehaviour {
 				shoot.volume = 1;
 				playing = true;
 				SoundTime = Time.time;
-				GameObject Tank = GameObject.Find ("TankHull");
+				GameObject Tank = this.transform.parent.parent.parent.parent.gameObject;
 				TankController TankController = Tank.GetComponent<TankController>();
 				//Start preparing the projectile for launch
 				GameObject projectile = Instantiate(prefab) as GameObject;
 				//Starting location of projectile
 				projectile.transform.position = transform.position + new Vector3(0,0,0);
+				projectile.transform.rotation = transform.rotation;
+				projectile.transform.Rotate (0,180,0);
 				Rigidbody rb = projectile.GetComponent<Rigidbody>();
+				//Initial velocity relative to the empty that is firing it.
+				rb.velocity = transform.rotation * new Vector3(0,0,-TankController.power);
+				projectile = Instantiate(prefab2) as GameObject;
+				//Starting location of projectile
+				projectile.transform.position = transform.position + new Vector3(0,0,0);
+				projectile.transform.rotation = transform.rotation;
+				projectile.transform.Rotate (0,180,0);
+				rb = projectile.GetComponent<Rigidbody>();
 				//Initial velocity relative to the empty that is firing it.
 				rb.velocity = transform.rotation * new Vector3(0,0,-TankController.power);
 				//Update timer for next shot delay
