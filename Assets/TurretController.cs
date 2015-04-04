@@ -11,22 +11,21 @@ public class TurretController : MonoBehaviour{
 	
 	
 	void FixedUpdate(){
-		GameObject Tank = GameObject.Find ("TankHull");
+		GameObject Tank = this.transform.parent.parent.gameObject;
 		TankController TankController = Tank.GetComponent<TankController>();
 
 		float rotateAmount = 0;
 
 		if(Input.GetKey(KeyCode.LeftArrow)){
-			rotateAmount = TankController.turretRate;
+			rotateAmount = TankController.turretRate * TankController.modifier;
 		}
 		if(Input.GetKey(KeyCode.RightArrow)){
-			rotateAmount = -TankController.turretRate;
+			rotateAmount = -TankController.turretRate * TankController.modifier;
 		}
 		
 		transform.Rotate(0, 0, -rotateAmount);
 
 	
-		
 	}
 	
 };
