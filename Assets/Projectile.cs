@@ -35,7 +35,7 @@ public class Projectile : MonoBehaviour {
 		Collider[] hits = Physics.OverlapSphere (gameObject.transform.position, 5);
 		int i = 0;
 		while (i < hits.Length) {
-			if(hits[i].tag == "Tank" || hits[i].tag == "Trail"){
+			if(hits[i].tag == "Tank" || hits[i].tag == "Trail" || hits[i].tag == "PlayerTank"){
 				float distance = Vector3.Distance(gameObject.transform.position, hits[i].gameObject.transform.position);
 				if(distance < 1){
 					distance = 1;

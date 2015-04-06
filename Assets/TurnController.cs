@@ -12,7 +12,9 @@ public class TurnController : MonoBehaviour {
 	public Text txtPower;
 	public Text txtSpeed;
 	public Text txtElevator;
+	public Text txtResult;
 	int player = 0;
+	bool gameover = false;
 	bool controlsactive = true;
 	// Use this for initialization
 	void Start () {
@@ -39,7 +41,7 @@ public class TurnController : MonoBehaviour {
 		tankController[player].elevateAmount = 0;
 		float modifier = 0;
 		//Control lockout is triggered when the current player fires
-		if (controlsactive == false) {
+		if (controlsactive == false && gameover == false) {
 			//Wait until all Weapon taged objects are done, this is currently all projectiles in flight, and all weapon animations
 			if (GameObject.FindWithTag ("Weapon") == null) {
 
@@ -54,19 +56,32 @@ public class TurnController : MonoBehaviour {
 				} else {
 					player++;
 				}
+				//Don't switch to tank if its been destroyed
+				if(tankController[player].destroyed == false){
+					//Once the next player is set, enable camera and audio for that player's camera
+					tankController[player].mycamera.GetComponent<Camera>().enabled = true;
+					tankController[player].mycamera.GetComponent<AudioListener>().enabled = true;
 
-				//Once the next player is set, enable camera and audio for that player's camera
-				tankController[player].mycamera.GetComponent<Camera>().enabled = true;
-				tankController[player].mycamera.GetComponent<AudioListener>().enabled = true;
-
-				//Finally, enable controls
-				controlsactive = true;
+					//Finally, enable controls if the player is alive
+					controlsactive = true;
+				} else {
+					int destroyedplayers = 0;
+					for (int j = 0; j < players.Length; j++){
+						if (tankController[player].destroyed == true)
+							destroyedplayers++;
+					}
+					if (destroyedplayers >= players.Length - 1){
+						tankController[player].mycamera.GetComponent<Camera>().enabled = true;
+						txtResult.text = "Game Has Ended";
+						gameover = true;
+					}
+				}
 			}
 
 
 
 		//If keyboard not locked out, its still a player's turn, allow controls to apply to current player's tank
-		} else {
+		} else if (controlsactive == true) {
 			/******************************************
 			 * 
 			 * 			KEYBOARD CONTROLS

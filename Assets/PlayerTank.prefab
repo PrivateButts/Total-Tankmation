@@ -10,7 +10,6 @@ GameObject:
   - 4: {fileID: 434002}
   - 33: {fileID: 3334008}
   - 23: {fileID: 2334008}
-  - 114: {fileID: 11434008}
   m_Layer: 0
   m_Name: Elevator
   m_TagString: Untagged
@@ -64,7 +63,6 @@ GameObject:
   - 4: {fileID: 434008}
   - 33: {fileID: 3334012}
   - 23: {fileID: 2334012}
-  - 114: {fileID: 11434012}
   m_Layer: 0
   m_Name: Turret
   m_TagString: Untagged
@@ -389,7 +387,7 @@ AudioListener:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 134010}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!82 &8234014
 AudioSource:
   m_ObjectHideFlags: 1
@@ -416,47 +414,47 @@ AudioSource:
   rolloffCustomCurve:
     serializedVersion: 2
     m_Curve:
-    - time: .0192413777
+    - time: .0235517249
       value: 1
       inSlope: -500.200928
       outSlope: -500.200928
       tangentMode: 0
-    - time: .0427931026
+    - time: .0255517252
       value: .5
       inSlope: -125.050232
       outSlope: -125.050232
       tangentMode: 0
-    - time: .0467931032
+    - time: .0295517258
       value: .25
       inSlope: -31.262558
       outSlope: -31.262558
       tangentMode: 0
-    - time: .0547931045
+    - time: .0375517234
       value: .125
       inSlope: -7.8156395
       outSlope: -7.8156395
       tangentMode: 0
-    - time: .0707931072
+    - time: .053551726
       value: .0625
       inSlope: -1.95390987
       outSlope: -1.95390987
       tangentMode: 0
-    - time: .102793105
+    - time: .0855517238
       value: .03125
       inSlope: -.488477468
       outSlope: -.488477468
       tangentMode: 0
-    - time: .166793108
+    - time: .149551734
       value: .015625
       inSlope: -.122119367
       outSlope: -.122119367
       tangentMode: 0
-    - time: .294793129
+    - time: .27755174
       value: .0078125
       inSlope: -.0305298418
       outSlope: -.0305298418
       tangentMode: 0
-    - time: .550793111
+    - time: .533551753
       value: .00390625
       inSlope: -.00763246045
       outSlope: -.00763246045
@@ -471,7 +469,7 @@ AudioSource:
   panLevelCustomCurve:
     serializedVersion: 2
     m_Curve:
-    - time: .0387931019
+    - time: .0603448264
       value: 1
       inSlope: 0
       outSlope: 0
@@ -481,7 +479,7 @@ AudioSource:
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
-    - time: .0387931019
+    - time: .0603448264
       value: 0
       inSlope: 0
       outSlope: 0
@@ -510,19 +508,6 @@ Animator:
   m_ApplyRootMotion: 0
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &11434008
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 134002}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aef9e47e935f56d49a96aa4b693548e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  currentEl: 0
-  elevateAmount: 0
 --- !u!114 &11434010
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -550,24 +535,16 @@ MonoBehaviour:
   HP: 100
   Type: Tank
   playerControlled: 1
-  turret: {fileID: 11434012}
-  elevator: {fileID: 11434008}
+  turret: {fileID: 134008}
+  elevator: {fileID: 134002}
   gun: {fileID: 11434014}
   forwardMoveAmount: 0
   turnAmount: 0
   mycamera: {fileID: 134010}
---- !u!114 &11434012
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 134008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 353c0dfd2dbafb742b25ac2dd7750c14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   rotateAmount: 0
+  currentEl: 0
+  elevateAmount: 0
+  destroyed: 0
 --- !u!114 &11434014
 MonoBehaviour:
   m_ObjectHideFlags: 1
