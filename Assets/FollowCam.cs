@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class FollowCam : MonoBehaviour {
-	Camera cam;
+	/*Camera cam;
 	float start;
 	bool followcam = false;
 	// Use this for initialization
@@ -21,5 +21,5 @@ public class FollowCam : MonoBehaviour {
 		if (Time.time - start > 0.2 && followcam == true) {
 			cam.enabled = true;
 		}
-	}
+	}*/
 }

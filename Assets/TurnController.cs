@@ -95,57 +95,58 @@ public class TurnController : MonoBehaviour {
 			 * 
 			 * ***************************************/
 			//Moved all keyboard controls to one place
-			if (Input.GetKey (KeyCode.LeftShift)) {
+			if (Input.GetAxis("Modifier") > 0) {
 				modifier = .1F;
 			} else {
 				modifier = 1F;
 			}
 			//Tank Hull Controls
-			if(Input.GetKey(KeyCode.W)){
+			//This could be simplified, I originally started with raw inputs, but have switched to allow players to configure from the unity game launcher
+			if(Input.GetAxis("HullMovement") > 0){
 				tankController[player].forwardMoveAmount = tankController[player].forwardSpeed;
 			}
-			if(Input.GetKey(KeyCode.S)){
+			if(Input.GetAxis("HullMovement") < 0){
 				tankController[player].forwardMoveAmount = -tankController[player].forwardSpeed;
 			}
-			if(Input.GetKey(KeyCode.A)){
+			if(Input.GetAxis("HullRotation") > 0){
 				tankController[player].turnAmount = tankController[player].turnSpeed * modifier;
 			}
-			if(Input.GetKey(KeyCode.D)){
+			if(Input.GetAxis("HullRotation") < 0){
 				tankController[player].turnAmount = -tankController[player].turnSpeed * modifier;
 			}
 			//Gun Power Controls
-			if(Input.GetKey(KeyCode.PageUp)){
+			if(Input.GetAxis("Power") > 0){
 				tankController[player].power += tankController[player].deltaPower * modifier;
 				if (tankController[player].power > tankController[player].maxPower){
 					tankController[player].power = tankController[player].maxPower;
 				}
 			}
-			if(Input.GetKey(KeyCode.PageDown)){
+			if(Input.GetAxis("Power") < 0){
 				tankController[player].power -= tankController[player].deltaPower * modifier;
 				if (tankController[player].power < 0){
 					tankController[player].power = 0;
 				}
 			}
 			//Turret Rotation
-			if(Input.GetKey(KeyCode.LeftArrow)){
-				tankController[player].rotateAmount = tankController[player].turretRate * tankController[player].modifier;
+			if(Input.GetAxis("TurretRotation") > 0){
+				tankController[player].rotateAmount = tankController[player].turretRate * modifier;
 			}
-			if(Input.GetKey(KeyCode.RightArrow)){
-				tankController[player].rotateAmount = -tankController[player].turretRate * tankController[player].modifier;
+			if(Input.GetAxis("TurretRotation") < 0){
+				tankController[player].rotateAmount = -tankController[player].turretRate * modifier;
 			}
 			//Elevation
-			if(Input.GetKey(KeyCode.UpArrow)){
+			if(Input.GetAxis("Elevation") > 0){
 				if (tankController[player].currentEl < tankController[player].maxElevation){
-					tankController[player].elevateAmount = tankController[player].elevateRate * tankController[player].modifier;
+					tankController[player].elevateAmount = tankController[player].elevateRate * modifier;
 				}
 			}
-			if(Input.GetKey(KeyCode.DownArrow)){
+			if(Input.GetAxis("Elevation") < 0){
 				if (tankController[player].currentEl > tankController[player].minElevation) {
-					tankController[player].elevateAmount = -tankController[player].elevateRate * tankController[player].modifier;
+					tankController[player].elevateAmount = -tankController[player].elevateRate * modifier;
 				}
 			//FIRE!
 			}
-			if (Input.GetKey (KeyCode.Space)){
+			if (Input.GetAxis("Fire") > 0){
 				tankController[player].gun.Shoot();
 				controlsactive = false;
 			}
