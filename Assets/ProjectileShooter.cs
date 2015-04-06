@@ -24,36 +24,6 @@ public class ProjectileShooter : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		//Spacebar to fire
-		if (Input.GetKey (KeyCode.Space)) {
-			//Check to make sure we haven't fired too recently
-			if(Time.time - LastShot > 1){
-				shoot.Play ();
-				shoot.volume = 1;
-				playing = true;
-				SoundTime = Time.time;
-				GameObject Tank = this.transform.parent.parent.parent.parent.gameObject;
-				TankController TankController = Tank.GetComponent<TankController>();
-				//Start preparing the projectile for launch
-				GameObject projectile = Instantiate(prefab) as GameObject;
-				//Starting location of projectile
-				projectile.transform.position = transform.position + new Vector3(0,0,0);
-				projectile.transform.rotation = transform.rotation;
-				projectile.transform.Rotate (0,180,0);
-				Rigidbody rb = projectile.GetComponent<Rigidbody>();
-				//Initial velocity relative to the empty that is firing it.
-				rb.velocity = transform.rotation * new Vector3(0,0,-TankController.power);
-				projectile = Instantiate(prefab2) as GameObject;
-				//Starting location of projectile
-				projectile.transform.position = transform.position + new Vector3(0,0,0);
-				projectile.transform.rotation = transform.rotation;
-				projectile.transform.Rotate (0,180,0);
-				rb = projectile.GetComponent<Rigidbody>();
-				//Initial velocity relative to the empty that is firing it.
-				rb.velocity = transform.rotation * new Vector3(0,0,-TankController.power);
-				//Update timer for next shot delay
-				LastShot = Time.time;
-			}
-		}
 		if (playing == true) {
 			if (Time.time - SoundTime > 2) {
 				shoot.Stop ();
@@ -62,6 +32,36 @@ public class ProjectileShooter : MonoBehaviour {
 			if (Time.time - SoundTime > 1){
 				shoot.volume -= 1 * Time.deltaTime;
 			}
+		}
+	}
+	public void Shoot(){
+		//Check to make sure we haven't fired too recently
+		if(Time.time - LastShot > 1){
+			shoot.Play ();
+			shoot.volume = 1;
+			playing = true;
+			SoundTime = Time.time;
+			GameObject Tank = this.transform.parent.parent.parent.parent.gameObject;
+			TankController TankController = Tank.GetComponent<TankController>();
+			//Start preparing the projectile for launch
+			GameObject projectile = Instantiate(prefab) as GameObject;
+			//Starting location of projectile
+			projectile.transform.position = transform.position + new Vector3(0,0,0);
+			projectile.transform.rotation = transform.rotation;
+			projectile.transform.Rotate (0,180,0);
+			Rigidbody rb = projectile.GetComponent<Rigidbody>();
+			//Initial velocity relative to the empty that is firing it.
+			rb.velocity = transform.rotation * new Vector3(0,0,-TankController.power);
+			projectile = Instantiate(prefab2) as GameObject;
+			//Starting location of projectile
+			projectile.transform.position = transform.position + new Vector3(0,0,0);
+			projectile.transform.rotation = transform.rotation;
+			projectile.transform.Rotate (0,180,0);
+			rb = projectile.GetComponent<Rigidbody>();
+			//Initial velocity relative to the empty that is firing it.
+			rb.velocity = transform.rotation * new Vector3(0,0,-TankController.power);
+			//Update timer for next shot delay
+			LastShot = Time.time;
 		}
 	}
 }
