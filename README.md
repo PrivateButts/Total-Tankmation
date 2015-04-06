@@ -18,6 +18,8 @@ Core Game
 
 	Scoring - Started
 
+	Basic hotseat game with human players - Done
+
 
 Stretch Goals
 	AI
