@@ -67,13 +67,20 @@ public class TurnController : MonoBehaviour {
 				} else {
 					int destroyedplayers = 0;
 					for (int j = 0; j < players.Length; j++){
-						if (tankController[player].destroyed == true)
+						if (tankController[j].destroyed == true)
 							destroyedplayers++;
 					}
 					if (destroyedplayers >= players.Length - 1){
 						tankController[player].mycamera.GetComponent<Camera>().enabled = true;
-						txtResult.text = "Game Has Ended";
 						gameover = true;
+						if (destroyedplayers == players.Length){
+							txtResult.text = "The game ended in a draw";
+						} else {
+							for (int j = 0; j < players.Length; j++){
+								if (tankController[j].destroyed == false)
+									txtResult.text = "Player " + (j+1).ToString() + " won the game!";
+							}
+						}
 					}
 				}
 			}
