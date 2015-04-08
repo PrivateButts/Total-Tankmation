@@ -9,6 +9,7 @@ TagManager:
   - Weapon
   - TurnController
   - AvailWeapons
+  - KillBox
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
