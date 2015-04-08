@@ -9,15 +9,21 @@ public class ProjectileShooter : MonoBehaviour {
 	float LastShot;
 	bool playing;
 	// Use this for initialization
-	GameObject prefab;
+	GameObject [] Weapons;
 	GameObject prefab2;
+	GameObject currentWeapon;
 	void Start () {
 		//Initialize LastShot
 		playing = false;
 		SoundTime = Time.time;
 		LastShot = Time.time;
 		//preload the projectile
-		prefab = Resources.Load ("projectile") as GameObject;
+		AvailWeapons weaponController = GameObject.FindGameObjectWithTag ("AvailWeapons").GetComponent<AvailWeapons>();
+		Weapons = new GameObject[weaponController.weapon.Length];
+		for (int i=0; i<weaponController.weapon.Length; i++) {
+			Debug.Log (weaponController.weapon[i].name);
+			Weapons[i] = weaponController.weapon[i];
+		}
 		prefab2 = Resources.Load ("projectileTrail") as GameObject;
 	}
 	
@@ -41,10 +47,11 @@ public class ProjectileShooter : MonoBehaviour {
 			shoot.volume = 1;
 			playing = true;
 			SoundTime = Time.time;
+			checkWeapon();
 			GameObject Tank = this.transform.parent.parent.parent.parent.gameObject;
 			TankController TankController = Tank.GetComponent<TankController>();
 			//Start preparing the projectile for launch
-			GameObject projectile = Instantiate(prefab) as GameObject;
+			GameObject projectile = Instantiate(currentWeapon) as GameObject;
 			//Starting location of projectile
 			projectile.transform.position = transform.position + new Vector3(0,0,0);
 			projectile.transform.rotation = transform.rotation;
@@ -54,7 +61,7 @@ public class ProjectileShooter : MonoBehaviour {
 			rb.velocity = transform.rotation * new Vector3(0,0,-TankController.power);
 			projectile = Instantiate(prefab2) as GameObject;
 			//Starting location of projectile
-			projectile.transform.position = transform.position + new Vector3(0,0,0);
+			projectile.transform.position = transform.position + new Vector3(0,0,0.3F);
 			projectile.transform.rotation = transform.rotation;
 			projectile.transform.Rotate (0,180,0);
 			rb = projectile.GetComponent<Rigidbody>();
@@ -62,6 +69,16 @@ public class ProjectileShooter : MonoBehaviour {
 			rb.velocity = transform.rotation * new Vector3(0,0,-TankController.power);
 			//Update timer for next shot delay
 			LastShot = Time.time;
+		}
+	}
+	void checkWeapon(){
+		GameObject controllerOBJ = GameObject.FindGameObjectWithTag ("TurnController");
+		TurnController controller = controllerOBJ.GetComponent<TurnController> ();
+		if (controller.currentWeapon < Weapons.Length) {
+			currentWeapon = Weapons[controller.currentWeapon];
+			Debug.Log ("Firing");
+		} else {
+			Debug.Log ("Error, invalid weapon");
 		}
 	}
 }

@@ -13,7 +13,10 @@ public class TurnController : MonoBehaviour {
 	public Text txtSpeed;
 	public Text txtElevator;
 	public Text txtResult;
+	public Text txtWeapon;
 	public int player = 0;
+	public string[] weapons;
+	public int currentWeapon = 0;
 	bool gameover = false;
 	bool controlsactive = true;
 	// Use this for initialization
@@ -29,6 +32,12 @@ public class TurnController : MonoBehaviour {
 		//Turn on camera and audio for the randomly selected first player
 		tankController[player].mycamera.GetComponent<Camera>().enabled = true;
 		tankController[player].mycamera.GetComponent<AudioListener>().enabled = true;
+		AvailWeapons weaponController = GameObject.FindGameObjectWithTag ("AvailWeapons").GetComponent<AvailWeapons>();
+		weapons = new string[weaponController.weapon.Length];
+		for (int i=0; i < weaponController.weapon.Length; i++) {
+			weapons[i] = weaponController.weapon[i].name;
+		}
+		txtWeapon.text = weapons[currentWeapon];
 	}
 	
 	// Update is called once per frame
@@ -42,9 +51,10 @@ public class TurnController : MonoBehaviour {
 		float modifier = 0;
 		//Control lockout is triggered when the current player fires
 		if (controlsactive == false && gameover == false) {
+			//Debug.Log ("Checking to free controls");
 			//Wait until all Weapon taged objects are done, this is currently all projectiles in flight, and all weapon animations
 			if (GameObject.FindWithTag ("Weapon") == null) {
-
+				Debug.Log ("No Weapon Found");
 				//Once all the objects with the weapon tag have terminated disable camera and audio for the current player's camera
 				tankController[player].mycamera.GetComponent<Camera>().enabled = false;
 				tankController[player].mycamera.GetComponent<AudioListener>().enabled = false;
@@ -149,6 +159,15 @@ public class TurnController : MonoBehaviour {
 			if (Input.GetAxis("Fire") > 0){
 				tankController[player].gun.Shoot();
 				controlsactive = false;
+			}
+
+			if (Input.GetButtonDown("ChangeWeapon")){
+				if(currentWeapon == weapons.Length - 1){
+					currentWeapon = 0;
+				} else {
+					currentWeapon++;
+				}
+				txtWeapon.text = weapons[currentWeapon];
 			}
 
 			//Update active tank based on keys being pressed

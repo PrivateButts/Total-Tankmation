@@ -3,10 +3,13 @@ using System.Collections;
 
 public class SphereExplosion : MonoBehaviour {
 	float created;
+	public float explosionsize = 5;
 	float expansion = .2F;
 	float maxsize = 4.8F;
 	// Use this for initialization
 	void Start () {
+		expansion = explosionsize / 25F;
+		maxsize = explosionsize - 0.2F;
 		created = Time.time;
 	}
 		

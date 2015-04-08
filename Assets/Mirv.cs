@@ -1,29 +1,34 @@
-﻿//What happens when the tank shell hits something
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
-public class Projectile : MonoBehaviour {
+public class Mirv : MonoBehaviour {
 	public float baseDamage = 45;
 	public float damageAOE = 5;
 	GameObject prefab;
 	GameObject prefab2;
-	public float projTTL = 25;
+	public float projTTL = 2;
 	float startTime;
 	public bool followcam = false;
+	public GameObject mirvProjectiles;
+	public float spreadSpeed = 10F;
+
+
+
+	// Use this for initialization
 	void Start () {
-		//grab explosion object from resources
 		startTime = Time.time;
 		prefab = Resources.Load ("Explosionsphere") as GameObject;
 		prefab2 = Resources.Load ("Explosion1") as GameObject;
 	}
-
+	
+	// Update is called once per frame
 	void Update () {
 		//Time to live on projectiles
 		if (Time.time - startTime > projTTL) {
-			Destroy(gameObject);
+			SpawnMirv();
 		}
 	}
+
 
 	void OnTriggerEnter(Collider other){
 		if (other.tag != "KillBox") {
@@ -51,5 +56,23 @@ public class Projectile : MonoBehaviour {
 			//Destroy the projectile
 			Destroy (gameObject);
 		}
+	}
+
+	void SpawnMirv(){
+		float iSpread = 1F;
+		GameObject mirvs = Instantiate(mirvProjectiles) as GameObject;
+		mirvs.transform.position = transform.localPosition + transform.right * iSpread;
+		mirvs.rigidbody.velocity = rigidbody.velocity + transform.right * spreadSpeed;
+		mirvs = Instantiate(mirvProjectiles) as GameObject;
+		mirvs.transform.position = transform.localPosition + transform.right * -iSpread;
+		mirvs.rigidbody.velocity = rigidbody.velocity + transform.right * -spreadSpeed;		
+		mirvs = Instantiate(mirvProjectiles) as GameObject;
+		mirvs.transform.position = transform.localPosition + transform.up * iSpread;
+		mirvs.rigidbody.velocity = rigidbody.velocity + transform.up * spreadSpeed;		
+		mirvs = Instantiate(mirvProjectiles) as GameObject;
+		mirvs.transform.position = transform.localPosition + transform.up * -iSpread;
+		mirvs.rigidbody.velocity = rigidbody.velocity + transform.up * -spreadSpeed;
+		Destroy (gameObject);
+	
 	}
 }

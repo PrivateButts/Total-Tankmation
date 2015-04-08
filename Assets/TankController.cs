@@ -67,7 +67,7 @@ public class TankController : MonoBehaviour{
 			Quaternion notifRot;
 			if(gameObject == turnController.players[turnController.player]){
 				Debug.Log ("Shot self");
-				notifRot = Quaternion.LookRotation(turret.transform.rotation.eulerAngles); // - new Vector3(0,0,0));
+				notifRot = Quaternion.LookRotation(turret.transform.position -(turret.transform.position - turret.transform.up));
 			} else {
 				notifRot = Quaternion.LookRotation(gameObject.transform.position -turnController.players[turnController.player].transform.position);
 				Debug.Log ("Shot other");
