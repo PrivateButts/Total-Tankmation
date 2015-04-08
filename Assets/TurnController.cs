@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class TurnController : MonoBehaviour {
-	GameObject [] players;
+	public GameObject [] players;
 	TankController [] tankController = new TankController[10];
 	int numPlayers;
 	//GUI Configuration
@@ -13,7 +13,7 @@ public class TurnController : MonoBehaviour {
 	public Text txtSpeed;
 	public Text txtElevator;
 	public Text txtResult;
-	int player = 0;
+	public int player = 0;
 	bool gameover = false;
 	bool controlsactive = true;
 	// Use this for initialization

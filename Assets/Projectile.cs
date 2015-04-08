@@ -40,7 +40,6 @@ public class Projectile : MonoBehaviour {
 				if(distance < 1){
 					distance = 1;
 				}
-				Debug.Log ("Range = " + distance);
 				float damage = baseDamage/distance;
 				hits[i].SendMessage ("AddDamage", damage);
 			}
@@ -48,7 +47,6 @@ public class Projectile : MonoBehaviour {
 		}
 		//Destroy the projectile
 		Destroy (gameObject);
-		Debug.Log (transform.position);
 	
 	}
 }

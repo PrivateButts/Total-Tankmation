@@ -18,7 +18,6 @@ public class trailTTL : MonoBehaviour {
 	}
 
 	void AddDamage(float damage){
-		Debug.Log ("Shutdown Emission");
 		gameObject.GetComponent<ParticleSystem> ().emissionRate = 0;
 	}
 }

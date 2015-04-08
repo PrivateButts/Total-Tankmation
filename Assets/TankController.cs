@@ -61,13 +61,23 @@ public class TankController : MonoBehaviour{
 	void AddDamage(float damage){
 		if (HP > 0) {
 			HP -= damage;
-			Debug.Log ("Damage: " + damage + ", HP Remaining: " + HP);
-			Debug.Log (HP);
-		
-			DamageNotif (damage.ToString ("F1"), 1F, 0.5F, 1F);
-		
+
+			GameObject turnControllerObj = GameObject.FindGameObjectWithTag ("TurnController");
+			TurnController turnController = turnControllerObj.GetComponent<TurnController>();
+			Quaternion notifRot;
+			if(gameObject == turnController.players[turnController.player]){
+				Debug.Log ("Shot self");
+				notifRot = Quaternion.LookRotation(turret.transform.rotation.eulerAngles); // - new Vector3(0,0,0));
+			} else {
+				notifRot = Quaternion.LookRotation(gameObject.transform.position -turnController.players[turnController.player].transform.position);
+				Debug.Log ("Shot other");
+			}
+			DamageNotif (damage.ToString ("F1"), 1F, 0F, 1F, notifRot);
+
+
+
 			if (HP <= 0) {
-				DamageNotif ("Destroyed", -1F, 5.5F, 1.8F);
+				DamageNotif ("Destroyed", -1F, 0F, 1F, notifRot);
 				Debug.Log ("Tank Destroyed");
 				destroyed = true;
 				GameObject smoke = Instantiate(prefab) as GameObject;
@@ -78,12 +88,12 @@ public class TankController : MonoBehaviour{
 	
 	}
 
-	void DamageNotif(string damage, float height, float center, float size){
+	void DamageNotif(string damage, float height, float center, float size, Quaternion notifRot){
 		GameObject damageGameObject = (GameObject)Instantiate(Resources.Load ("Text Damage Display"), transform.position + new Vector3 (0, 2, 0), transform.rotation);
 		damageGameObject.GetComponentInChildren<TextMesh>().text = damage;
 		damageGameObject.GetComponentInChildren<TextMesh>().characterSize = size;
 		damageGameObject.transform.position = damageGameObject.transform.position + new Vector3 (center, height, 0F);
-		damageGameObject.transform.Rotate (0, 180, 0);
+		damageGameObject.transform.rotation = notifRot;
 	}
 
 };
