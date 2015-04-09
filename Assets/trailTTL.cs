@@ -20,4 +20,7 @@ public class trailTTL : MonoBehaviour {
 	void AddDamage(float damage){
 		gameObject.GetComponent<ParticleSystem> ().emissionRate = 0;
 	}
+	void OnCollistionEnter(){
+		gameObject.GetComponent<ParticleSystem> ().emissionRate = 0;
+	}
 }

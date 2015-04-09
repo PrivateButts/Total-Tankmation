@@ -606,7 +606,7 @@ Camera:
     height: 1
   near clip plane: .300000012
   far clip plane: 1000
-  field of view: 60
+  field of view: 90
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -805,7 +805,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 434004, guid: 1d283a3ea0732424c89d22e09368a35c, type: 2}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2034014, guid: 1d283a3ea0732424c89d22e09368a35c, type: 2}
+      propertyPath: field of view
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1d283a3ea0732424c89d22e09368a35c, type: 2}
@@ -1182,7 +1186,7 @@ Transform:
   m_Children:
   - {fileID: 194635125}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
 --- !u!114 &444974890
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1878,7 +1882,7 @@ Transform:
   - {fileID: 1666611371}
   - {fileID: 998596721}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
 --- !u!114 &784177067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2145,6 +2149,7 @@ MonoBehaviour:
   - High Explosive
   - Nuke
   currentWeapon: 0
+  starttime: 0
 --- !u!1 &955267115
 GameObject:
   m_ObjectHideFlags: 0
@@ -2780,7 +2785,7 @@ Camera:
     height: 1
   near clip plane: .300000012
   far clip plane: 1000
-  field of view: 60
+  field of view: 90
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -3283,6 +3288,10 @@ Prefab:
     - target: {fileID: 434004, guid: 1d283a3ea0732424c89d22e09368a35c, type: 2}
       propertyPath: m_RootOrder
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2034014, guid: 1d283a3ea0732424c89d22e09368a35c, type: 2}
+      propertyPath: field of view
+      value: 90
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1d283a3ea0732424c89d22e09368a35c, type: 2}

@@ -6,16 +6,16 @@ using System.Collections;
 public class Projectile : MonoBehaviour {
 	public float baseDamage = 45;
 	public float damageAOE = 5;
-	GameObject prefab;
-	GameObject prefab2;
+	GameObject expSphere;
+	GameObject expParticle;
 	public float projTTL = 25;
 	float startTime;
 	public bool followcam = false;
 	void Start () {
 		//grab explosion object from resources
 		startTime = Time.time;
-		prefab = Resources.Load ("Explosionsphere") as GameObject;
-		prefab2 = Resources.Load ("Explosion1") as GameObject;
+		expSphere = Resources.Load ("Explosionsphere") as GameObject;
+		expParticle = Resources.Load ("Explosion1") as GameObject;
 	}
 
 	void Update () {
@@ -28,11 +28,11 @@ public class Projectile : MonoBehaviour {
 	void OnTriggerEnter(Collider other){
 		if (other.tag != "KillBox") {
 			//Create explosion
-			GameObject explosion = Instantiate (prefab) as GameObject;
+			GameObject explosion = Instantiate (expSphere) as GameObject;
 			//Create explosion at the location where the collision occured
 			explosion.transform.position = transform.position;
 			explosion.GetComponent<SphereExplosion> ().explosionsize = damageAOE;
-			explosion = Instantiate (prefab2) as GameObject;
+			explosion = Instantiate (expParticle) as GameObject;
 			//Create explosion at the location where the collision occured
 			explosion.transform.position = transform.position;
 			Collider[] hits = Physics.OverlapSphere (gameObject.transform.position, damageAOE);

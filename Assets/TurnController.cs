@@ -17,6 +17,7 @@ public class TurnController : MonoBehaviour {
 	public int player = 0;
 	public string[] weapons;
 	public int currentWeapon = 0;
+	public float starttime;
 	bool gameover = false;
 	bool controlsactive = true;
 	// Use this for initialization
@@ -53,7 +54,8 @@ public class TurnController : MonoBehaviour {
 		if (controlsactive == false && gameover == false) {
 			//Debug.Log ("Checking to free controls");
 			//Wait until all Weapon taged objects are done, this is currently all projectiles in flight, and all weapon animations
-			if (GameObject.FindWithTag ("Weapon") == null) {
+			GameObject activeWeapon = GameObject.FindWithTag ("Weapon");
+			if ( activeWeapon == null) {
 				Debug.Log ("No Weapon Found");
 				//Once all the objects with the weapon tag have terminated disable camera and audio for the current player's camera
 				tankController[player].mycamera.GetComponent<Camera>().enabled = false;
@@ -92,6 +94,11 @@ public class TurnController : MonoBehaviour {
 							}
 						}
 					}
+				}
+			} else {
+				int temptime = (int)(Time.time * 10F);
+				if (temptime%10 == 0){
+					Debug.Log ("Active Weapon:" + activeWeapon.name);
 				}
 			}
 
@@ -157,6 +164,7 @@ public class TurnController : MonoBehaviour {
 			//FIRE!
 			}
 			if (Input.GetAxis("Fire") > 0){
+				starttime=Time.time;
 				tankController[player].gun.Shoot();
 				controlsactive = false;
 			}

@@ -10,7 +10,7 @@ public class ProjectileShooter : MonoBehaviour {
 	bool playing;
 	// Use this for initialization
 	GameObject [] Weapons;
-	GameObject prefab2;
+	GameObject trail;
 	GameObject currentWeapon;
 	void Start () {
 		//Initialize LastShot
@@ -21,10 +21,10 @@ public class ProjectileShooter : MonoBehaviour {
 		AvailWeapons weaponController = GameObject.FindGameObjectWithTag ("AvailWeapons").GetComponent<AvailWeapons>();
 		Weapons = new GameObject[weaponController.weapon.Length];
 		for (int i=0; i<weaponController.weapon.Length; i++) {
-			Debug.Log (weaponController.weapon[i].name);
+			//Debug.Log (weaponController.weapon[i].name);
 			Weapons[i] = weaponController.weapon[i];
 		}
-		prefab2 = Resources.Load ("projectileTrail") as GameObject;
+		trail = Resources.Load ("projectileTrail") as GameObject;
 	}
 	
 	// Update is called once per frame
@@ -59,14 +59,14 @@ public class ProjectileShooter : MonoBehaviour {
 			Rigidbody rb = projectile.GetComponent<Rigidbody>();
 			//Initial velocity relative to the empty that is firing it.
 			rb.velocity = transform.rotation * new Vector3(0,0,-TankController.power);
-			projectile = Instantiate(prefab2) as GameObject;
+/*			projectile = Instantiate(trail) as GameObject;
 			//Starting location of projectile
 			projectile.transform.position = transform.position + new Vector3(0,0,0.3F);
 			projectile.transform.rotation = transform.rotation;
 			projectile.transform.Rotate (0,180,0);
 			rb = projectile.GetComponent<Rigidbody>();
 			//Initial velocity relative to the empty that is firing it.
-			rb.velocity = transform.rotation * new Vector3(0,0,-TankController.power);
+			rb.velocity = transform.rotation * new Vector3(0,0,-TankController.power); */
 			//Update timer for next shot delay
 			LastShot = Time.time;
 		}

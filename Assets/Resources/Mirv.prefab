@@ -87,10 +87,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseDamage: 45
   damageAOE: 5
-  projTTL: 2
+  TTS: 2.5
+  projTTL: 25
   followcam: 0
   mirvProjectiles: {fileID: 158610}
-  spreadSpeed: 10
+  spreadSpeed: 16
 --- !u!135 &13558610
 SphereCollider:
   m_ObjectHideFlags: 1

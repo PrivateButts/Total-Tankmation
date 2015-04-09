@@ -6,32 +6,44 @@ public class Mirv : MonoBehaviour {
 	public float damageAOE = 5;
 	GameObject prefab;
 	GameObject prefab2;
-	public float projTTL = 2;
+	public float TTS = 2;
+	public float projTTL = 25;
 	float startTime;
 	public bool followcam = false;
 	public GameObject mirvProjectiles;
 	public float spreadSpeed = 10F;
+	GameObject trail;
+	float mirvTime;
 
 
 
 	// Use this for initialization
 	void Start () {
-		startTime = Time.time;
+		mirvTime = Time.time;
+		startTime = GameObject.FindGameObjectWithTag("TurnController").GetComponent<TurnController>().starttime;
 		prefab = Resources.Load ("Explosionsphere") as GameObject;
 		prefab2 = Resources.Load ("Explosion1") as GameObject;
+		trail = Resources.Load ("projectileTrail") as GameObject;
+		GameObject acttrail = Instantiate (trail) as GameObject;
+		acttrail.transform.position = transform.position + new Vector3 (0, 0.0F, 0);
+		acttrail.transform.rotation = transform.rotation;
+		acttrail.rigidbody.velocity = rigidbody.velocity;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		//Time to live on projectiles
 		if (Time.time - startTime > projTTL) {
+			Destroy(gameObject);
+		} else if (Time.time - mirvTime > TTS) {
 			SpawnMirv();
 		}
+
 	}
 
 
 	void OnTriggerEnter(Collider other){
-		if (other.tag != "KillBox") {
+		if (other.tag != "KillBox" && other.tag != "Weapon" && other.tag != "Trail") {
 			//Create explosion
 			GameObject explosion = Instantiate (prefab) as GameObject;
 			//Create explosion at the location where the collision occured
@@ -59,19 +71,19 @@ public class Mirv : MonoBehaviour {
 	}
 
 	void SpawnMirv(){
-		float iSpread = 1F;
+		float iSpread = 0F;
 		GameObject mirvs = Instantiate(mirvProjectiles) as GameObject;
 		mirvs.transform.position = transform.localPosition + transform.right * iSpread;
-		mirvs.rigidbody.velocity = rigidbody.velocity + transform.right * spreadSpeed;
+		mirvs.rigidbody.velocity = rigidbody.velocity + transform.right * spreadSpeed * Random.value;
 		mirvs = Instantiate(mirvProjectiles) as GameObject;
 		mirvs.transform.position = transform.localPosition + transform.right * -iSpread;
-		mirvs.rigidbody.velocity = rigidbody.velocity + transform.right * -spreadSpeed;		
+		mirvs.rigidbody.velocity = rigidbody.velocity + transform.right * -spreadSpeed * Random.value;		
 		mirvs = Instantiate(mirvProjectiles) as GameObject;
 		mirvs.transform.position = transform.localPosition + transform.up * iSpread;
-		mirvs.rigidbody.velocity = rigidbody.velocity + transform.up * spreadSpeed;		
+		mirvs.rigidbody.velocity = rigidbody.velocity + transform.up * spreadSpeed * Random.value;		
 		mirvs = Instantiate(mirvProjectiles) as GameObject;
 		mirvs.transform.position = transform.localPosition + transform.up * -iSpread;
-		mirvs.rigidbody.velocity = rigidbody.velocity + transform.up * -spreadSpeed;
+		mirvs.rigidbody.velocity = rigidbody.velocity + transform.up * -spreadSpeed * Random.value;
 		Destroy (gameObject);
 	
 	}
