@@ -12,6 +12,7 @@ public class ProjectileShooter : MonoBehaviour {
 	GameObject [] Weapons;
 	GameObject trail;
 	GameObject currentWeapon;
+	public float Volume;
 	void Start () {
 		//Initialize LastShot
 		playing = false;
@@ -44,7 +45,7 @@ public class ProjectileShooter : MonoBehaviour {
 		//Check to make sure we haven't fired too recently
 		if(Time.time - LastShot > 1){
 			shoot.Play ();
-			shoot.volume = 1;
+			shoot.volume = Volume;
 			playing = true;
 			SoundTime = Time.time;
 			checkWeapon();
@@ -59,14 +60,6 @@ public class ProjectileShooter : MonoBehaviour {
 			Rigidbody rb = projectile.GetComponent<Rigidbody>();
 			//Initial velocity relative to the empty that is firing it.
 			rb.velocity = transform.rotation * new Vector3(0,0,-TankController.power);
-/*			projectile = Instantiate(trail) as GameObject;
-			//Starting location of projectile
-			projectile.transform.position = transform.position + new Vector3(0,0,0.3F);
-			projectile.transform.rotation = transform.rotation;
-			projectile.transform.Rotate (0,180,0);
-			rb = projectile.GetComponent<Rigidbody>();
-			//Initial velocity relative to the empty that is firing it.
-			rb.velocity = transform.rotation * new Vector3(0,0,-TankController.power); */
 			//Update timer for next shot delay
 			LastShot = Time.time;
 		}

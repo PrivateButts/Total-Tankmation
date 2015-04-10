@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class TurnController : MonoBehaviour {
 	public GameObject [] players;
@@ -20,25 +21,62 @@ public class TurnController : MonoBehaviour {
 	public float starttime;
 	bool gameover = false;
 	bool controlsactive = true;
+	bool AIActive = false;
+	public int currentAI = 0;
+	List<GameObject> AItankList = new List<GameObject>();
+	bool AITurnOver = false;
+
+
+
+
+
+
+
+
 	// Use this for initialization
 	void Start () {
+
+
+		/****************************
+		 * 		Generate Array of player tank controllers	
+		 * **************************/
 		players = GameObject.FindGameObjectsWithTag ("PlayerTank");
 		numPlayers = players.Length;
 		txtPlayers.text = "Number of Players:" + numPlayers.ToString ();
 		for (int i=0; i < numPlayers; i++) {
 			tankController[i] = players[i].GetComponent<TankController>();
 		}
+		//Select a random player to go first
 		player = Random.Range (0, players.Length);
-		Debug.Log (player);
+		//Debug.Log (player);
+
 		//Turn on camera and audio for the randomly selected first player
 		tankController[player].mycamera.GetComponent<Camera>().enabled = true;
 		tankController[player].mycamera.GetComponent<AudioListener>().enabled = true;
+
+
+		/************************************
+		 * 	Generate List of Available Weapons
+		 * *********************************/
 		AvailWeapons weaponController = GameObject.FindGameObjectWithTag ("AvailWeapons").GetComponent<AvailWeapons>();
 		weapons = new string[weaponController.weapon.Length];
 		for (int i=0; i < weaponController.weapon.Length; i++) {
 			weapons[i] = weaponController.weapon[i].name;
 		}
 		txtWeapon.text = weapons[currentWeapon];
+
+
+		/*************************************
+		*	Generate List of AI Tanks
+		**************************************/
+		GameObject [] temp;
+		temp = GameObject.FindGameObjectsWithTag ("Tank");
+		for (int i = 0; i < temp.Length; i++) {
+			if(gameObject != temp[i])
+			{
+				AItankList.Add(temp[i]);
+			}
+		}
 	}
 	
 	// Update is called once per frame
@@ -51,7 +89,7 @@ public class TurnController : MonoBehaviour {
 		tankController[player].elevateAmount = 0;
 		float modifier = 0;
 		//Control lockout is triggered when the current player fires
-		if (controlsactive == false && gameover == false) {
+		if (controlsactive == false && AIActive == false && gameover == false) {
 			//Debug.Log ("Checking to free controls");
 			//Wait until all Weapon taged objects are done, this is currently all projectiles in flight, and all weapon animations
 			GameObject activeWeapon = GameObject.FindWithTag ("Weapon");
@@ -61,40 +99,10 @@ public class TurnController : MonoBehaviour {
 				tankController[player].mycamera.GetComponent<Camera>().enabled = false;
 				tankController[player].mycamera.GetComponent<AudioListener>().enabled = false;
 
+				nextPlayer();
 
 				//Check whether we have reached the higheset numbered player, select next player accordingly
-				if (player == players.Length - 1){
-					player = 0;
-				} else {
-					player++;
-				}
-				//Don't switch to tank if its been destroyed
-				if(tankController[player].destroyed == false){
-					//Once the next player is set, enable camera and audio for that player's camera
-					tankController[player].mycamera.GetComponent<Camera>().enabled = true;
-					tankController[player].mycamera.GetComponent<AudioListener>().enabled = true;
 
-					//Finally, enable controls if the player is alive
-					controlsactive = true;
-				} else {
-					int destroyedplayers = 0;
-					for (int j = 0; j < players.Length; j++){
-						if (tankController[j].destroyed == true)
-							destroyedplayers++;
-					}
-					if (destroyedplayers >= players.Length - 1){
-						tankController[player].mycamera.GetComponent<Camera>().enabled = true;
-						gameover = true;
-						if (destroyedplayers == players.Length){
-							txtResult.text = "The game ended in a draw";
-						} else {
-							for (int j = 0; j < players.Length; j++){
-								if (tankController[j].destroyed == false)
-									txtResult.text = "Player " + (j+1).ToString() + " won the game!";
-							}
-						}
-					}
-				}
 			} else {
 				int temptime = (int)(Time.time * 10F);
 				if (temptime%10 == 0){
@@ -167,6 +175,7 @@ public class TurnController : MonoBehaviour {
 				starttime=Time.time;
 				tankController[player].gun.Shoot();
 				controlsactive = false;
+				AITurnOver = false;
 			}
 
 			if (Input.GetButtonDown("ChangeWeapon")){
@@ -187,6 +196,42 @@ public class TurnController : MonoBehaviour {
 			txtPower.text = "Power: " + tankController[player].power.ToString ("F1");
 			txtSpeed.text =  "Speed: " + (Mathf.Sqrt(Mathf.Pow (tankController[player].rb.velocity.z, 2) + Mathf.Pow (tankController[player].rb.velocity.x, 2))).ToString("F1");
 			txtElevator.text = "Elevation: " + tankController[player].currentEl.ToString ("F1");
+		}
+	}
+
+	void nextPlayer(){
+		if (player >= players.Length - 1){
+			Debug.Log ("Last Player Reached");
+			player = 0;
+		} else {
+			player++;
+		}
+		//Don't switch to tank if its been destroyed
+		if(tankController[player].destroyed == false && AIActive == false){
+			//Once the next player is set, enable camera and audio for that player's camera
+			tankController[player].mycamera.GetComponent<Camera>().enabled = true;
+			tankController[player].mycamera.GetComponent<AudioListener>().enabled = true;
+			
+			//Finally, enable controls if the player is alive
+			controlsactive = true;
+		} else {
+			int destroyedplayers = 0;
+			for (int j = 0; j < players.Length; j++){
+				if (tankController[j].destroyed == true)
+					destroyedplayers++;
+			}
+			if (destroyedplayers >= players.Length - 1){
+				tankController[player].mycamera.GetComponent<Camera>().enabled = true;
+				gameover = true;
+				if (destroyedplayers == players.Length){
+					txtResult.text = "The game ended in a draw";
+				} else {
+					for (int j = 0; j < players.Length; j++){
+						if (tankController[j].destroyed == false)
+							txtResult.text = "Player " + (j+1).ToString() + " won the game!";
+					}
+				}
+			}
 		}
 	}
 }
