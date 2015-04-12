@@ -27,8 +27,8 @@ public class DeformableMesh : MonoBehaviour {
 		Points.Add (new Vector3 (size, -size, size));
 
 		Verts = new List<Vector3> ();
-		Tris = new List<Vector3> ();
-		UVs = new List<Vector3> ();
+		Tris = new List<int> ();
+		UVs = new List<Vector2> ();
 
 		CreateMesh ();
 
@@ -40,9 +40,9 @@ public class DeformableMesh : MonoBehaviour {
 	}
 
 	private void CreateMesh(){
-		GameObject.AddComponent ("MeshFilter");
-		GameObject.AddComponent ("MeshRenderer");
-		GameObject.AddComponent ("MeshCollider");
+		gameObject.AddComponent ("MeshFilter");
+		gameObject.AddComponent ("MeshRenderer");
+		gameObject.AddComponent ("MeshCollider");
 
 		mat = Resources.Load ("Materials/Default") as Material;
 		if (mat == null) {
@@ -236,29 +236,34 @@ public class DeformableMesh : MonoBehaviour {
 			float t2 = w3.y-w1.y;
 
 			float div = s1*t2-s2*t1;
-			float r = div == 0.0f ? 0.0f / div;
+			float r = div == 0.0f ? 0.0f : 1.0f / div;
 
-			Vector3 sdir = new Vector3((t2*x1-t1*x2) * r, (t2 * y1 - t1 * y2) * r
+			Vector3 sdir = new Vector3((t2 * x1 - t1 * x2) * r, (t2 * y1 - t1 * y2) * r, (t2 * z1 - t1 * z2) * r);
+			Vector3 tdir = new Vector3((s1 * x2 - s2 * x1) * r, (s1 * y2 - s2 * y1) * r, (s1 * z2 - s2 * z1) * r);
 
+			tan1[i1] += sdir;
+			tan1[i2] += sdir;
+			tan1[i3] += sdir;
 
+			tan1[i1] += tdir;
+			tan1[i2] += tdir;
+			tan1[i3] += tdir;
 
+		}
 
+		for(long a = 0; a < vertexCount; a++){
+			Vector3 n = normals[a];
+			Vector3 t = tan1[a];
 
+			Vector3.OrthoNormalize(ref n, ref t);
+			tangents[a].x = t.x;
+			tangents[a].y = t.y;
+			tangents[a].z = t.z;
 
+			tangents[a].w = (Vector3.Dot(Vector3.Cross(n,t), tan2[a]) < 0.0f) ? -1.0f : 1.0f;
+		}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		mesh.tangents = tangents;
+	}
 
 }
