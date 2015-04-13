@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class DestructableTerrain : MonoBehaviour {
-	public float Seed, Scale, Deepness;
+	public float Seed, Scale;
 	public Terrain BaseTerrain;
 	private float[,] GeneratedHeightMap;
 	// Use this for initialization
@@ -27,7 +27,7 @@ public class DestructableTerrain : MonoBehaviour {
 		terrain.SetHeights (0, 0, GeneratedHeightMap);
 	}
 
-	public void Crater(int xCoord, int yCoord, int radius){
+	public void Crater(int xCoord, int yCoord, int radius, float Deepness = 150f){
 		TerrainData terrain = BaseTerrain.terrainData;
 		Vector2 center = new Vector2 (0, 0);
 		for (int z = 0; z<2*radius; z++) {
