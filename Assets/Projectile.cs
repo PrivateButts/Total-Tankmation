@@ -49,6 +49,8 @@ public class Projectile : MonoBehaviour {
 				i++;
 			}
 			//Destroy the projectile
+			transform.GetChild (0).GetComponent<ParticleSystem> ().emissionRate = 0;
+			transform.DetachChildren();
 			Destroy (gameObject);
 		}
 	}

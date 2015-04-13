@@ -23,11 +23,12 @@ public class Mirv : MonoBehaviour {
 		startTime = GameObject.FindGameObjectWithTag("TurnController").GetComponent<TurnController>().starttime;
 		prefab = Resources.Load ("Explosionsphere") as GameObject;
 		prefab2 = Resources.Load ("Explosion1") as GameObject;
-		trail = Resources.Load ("projectileTrail") as GameObject;
+		//trail = Resources.Load ("projectileTrail") as GameObject;
+		/*
 		GameObject acttrail = Instantiate (trail) as GameObject;
-		acttrail.transform.position = transform.position + new Vector3 (0, 0.0F, 0);
+		acttrail.transform.position = transform.position;
 		acttrail.transform.rotation = transform.rotation;
-		acttrail.rigidbody.velocity = rigidbody.velocity;
+		acttrail.rigidbody.velocity = rigidbody.velocity;*/
 	}
 	
 	// Update is called once per frame
@@ -66,6 +67,8 @@ public class Mirv : MonoBehaviour {
 				i++;
 			}
 			//Destroy the projectile
+			transform.GetChild (0).GetComponent<ParticleSystem> ().emissionRate = 0;
+			transform.DetachChildren();
 			Destroy (gameObject);
 		}
 	}
@@ -80,10 +83,12 @@ public class Mirv : MonoBehaviour {
 		mirvs.rigidbody.velocity = rigidbody.velocity + transform.right * -spreadSpeed * Random.value;		
 		mirvs = Instantiate(mirvProjectiles) as GameObject;
 		mirvs.transform.position = transform.localPosition + transform.up * iSpread;
-		mirvs.rigidbody.velocity = rigidbody.velocity + transform.up * spreadSpeed * Random.value;		
+		mirvs.rigidbody.velocity = rigidbody.velocity + transform.up * spreadSpeed * Random.value/2;		
 		mirvs = Instantiate(mirvProjectiles) as GameObject;
 		mirvs.transform.position = transform.localPosition + transform.up * -iSpread;
 		mirvs.rigidbody.velocity = rigidbody.velocity + transform.up * -spreadSpeed * Random.value;
+		transform.GetChild (0).GetComponent<ParticleSystem> ().emissionRate = 0;
+		transform.DetachChildren ();
 		Destroy (gameObject);
 	
 	}

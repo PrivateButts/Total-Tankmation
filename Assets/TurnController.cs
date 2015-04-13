@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class TurnController : MonoBehaviour {
 	public GameObject [] players;
-	TankController [] tankController = new TankController[10];
+	public TankController [] tankController = new TankController[10];
 	int numPlayers;
 	//GUI Configuration
 	public Text txtPlayers;
@@ -15,16 +15,19 @@ public class TurnController : MonoBehaviour {
 	public Text txtElevator;
 	public Text txtResult;
 	public Text txtWeapon;
+	public Text txtScore;
 	public int player = 0;
 	public string[] weapons;
 	public int currentWeapon = 0;
 	public float starttime;
-	bool gameover = false;
-	bool controlsactive = true;
-	bool AIActive = false;
+	public bool gameover = false;
+	public bool controlsactive = true;
+	public bool AIActive = false;
 	public int currentAI = 0;
 	List<GameObject> AItankList = new List<GameObject>();
-	bool AITurnOver = false;
+	public bool AITurnOver = true;
+	public bool PlayerTurnOver = false;
+	int lastcamerea;
 
 
 
@@ -53,6 +56,7 @@ public class TurnController : MonoBehaviour {
 		//Turn on camera and audio for the randomly selected first player
 		tankController[player].mycamera.GetComponent<Camera>().enabled = true;
 		tankController[player].mycamera.GetComponent<AudioListener>().enabled = true;
+		lastcamerea = player;
 
 
 		/************************************
@@ -83,37 +87,35 @@ public class TurnController : MonoBehaviour {
 	void Update () {
 		txtPlayer.text = "Current Player: " + (player + 1).ToString ();
 		//Reset all movement control inputs to zero
-		tankController[player].forwardMoveAmount = 0;
-		tankController[player].turnAmount = 0;
-		tankController[player].rotateAmount = 0;
-		tankController[player].elevateAmount = 0;
-		float modifier = 0;
+
+		float modifier;
 		//Control lockout is triggered when the current player fires
 		if (controlsactive == false && AIActive == false && gameover == false) {
 			//Debug.Log ("Checking to free controls");
 			//Wait until all Weapon taged objects are done, this is currently all projectiles in flight, and all weapon animations
-			GameObject activeWeapon = GameObject.FindWithTag ("Weapon");
-			if ( activeWeapon == null) {
+			GameObject [] activeWeapon = GameObject.FindGameObjectsWithTag ("Weapon");
+			if ( activeWeapon.Length == 0) {
 				Debug.Log ("No Weapon Found");
-				//Once all the objects with the weapon tag have terminated disable camera and audio for the current player's camera
-				tankController[player].mycamera.GetComponent<Camera>().enabled = false;
-				tankController[player].mycamera.GetComponent<AudioListener>().enabled = false;
+				nextTurn();
 
-				nextPlayer();
 
 				//Check whether we have reached the higheset numbered player, select next player accordingly
 
 			} else {
 				int temptime = (int)(Time.time * 10F);
 				if (temptime%10 == 0){
-					Debug.Log ("Active Weapon:" + activeWeapon.name);
+					Debug.Log ("Active Weapon:" + activeWeapon[0].name);
 				}
 			}
 
 
 
 		//If keyboard not locked out, its still a player's turn, allow controls to apply to current player's tank
-		} else if (controlsactive == true) {
+		} else if (controlsactive == true && player < players.Length) {
+			tankController[player].forwardMoveAmount = 0;
+			tankController[player].turnAmount = 0;
+			tankController[player].rotateAmount = 0;
+			tankController[player].elevateAmount = 0;
 			/******************************************
 			 * 
 			 * 			KEYBOARD CONTROLS
@@ -175,7 +177,10 @@ public class TurnController : MonoBehaviour {
 				starttime=Time.time;
 				tankController[player].gun.Shoot();
 				controlsactive = false;
-				AITurnOver = false;
+				tankController[player].forwardMoveAmount = 0;
+				tankController[player].turnAmount = 0;
+				tankController[player].rotateAmount = 0;
+				tankController[player].elevateAmount = 0;
 			}
 
 			if (Input.GetButtonDown("ChangeWeapon")){
@@ -188,33 +193,60 @@ public class TurnController : MonoBehaviour {
 			}
 
 			//Update active tank based on keys being pressed
+			if(controlsactive==true){
 			tankController[player].elevator.transform.Rotate (tankController[player].elevateAmount, 0,  0);
 			tankController[player].currentEl += tankController[player].elevateAmount;
 			tankController[player].turret.transform.Rotate(0, 0, -tankController[player].rotateAmount);
-
+			}
 			//Update GUI Elements
 			txtPower.text = "Power: " + tankController[player].power.ToString ("F1");
 			txtSpeed.text =  "Speed: " + (Mathf.Sqrt(Mathf.Pow (tankController[player].rb.velocity.z, 2) + Mathf.Pow (tankController[player].rb.velocity.x, 2))).ToString("F1");
 			txtElevator.text = "Elevation: " + tankController[player].currentEl.ToString ("F1");
+			txtScore.text = "Score: " + tankController[player].score.ToString("F1");
 		}
 	}
 
+	void nextTurn(){
+		//Once all the objects with the weapon tag have terminated disable camera and audio for the current player's camera
+		Debug.Log ("AI turn: " + AITurnOver.ToString() + " Player Turn: " + PlayerTurnOver.ToString());
+		if(AITurnOver == true){
+			Debug.Log ("Trigger Player Turn");
+			nextPlayer();
+		}
+		if(PlayerTurnOver == true){
+			Debug.Log ("Trigger AI Turn");
+			nextAI();
+		}
+	
+	}
+
+	void nextAI(){
+		Debug.Log ("AI Turn");
+		AITurnOver = true;
+		PlayerTurnOver = false;
+	}
+
 	void nextPlayer(){
-		if (player >= players.Length - 1){
-			Debug.Log ("Last Player Reached");
-			player = 0;
+		player++;
+		Debug.Log ("Player: " + player.ToString());
+		if (player >= players.Length) {
+			Debug.Log ("Last Player reached, no turn");
+			player = -1;
+			PlayerTurnOver = true;
+			AITurnOver = false;
+			return;
 		} else {
-			player++;
+			Debug.Log ("Player: " + player.ToString());
 		}
 		//Don't switch to tank if its been destroyed
-		if(tankController[player].destroyed == false && AIActive == false){
-			//Once the next player is set, enable camera and audio for that player's camera
-			tankController[player].mycamera.GetComponent<Camera>().enabled = true;
-			tankController[player].mycamera.GetComponent<AudioListener>().enabled = true;
+		if(tankController[player].destroyed == false && PlayerTurnOver == false){
+			Debug.Log ("Activate Camera on next Player");
+			swapCamera();
 			
 			//Finally, enable controls if the player is alive
 			controlsactive = true;
 		} else {
+			Debug.Log("Attempted to load a dead tank");
 			int destroyedplayers = 0;
 			for (int j = 0; j < players.Length; j++){
 				if (tankController[j].destroyed == true)
@@ -234,4 +266,13 @@ public class TurnController : MonoBehaviour {
 			}
 		}
 	}
+	void swapCamera(){
+		//Once the next player is set, enable camera and audio for that player's camera
+		tankController[lastcamerea].mycamera.GetComponent<Camera>().enabled = false;
+		tankController[lastcamerea].mycamera.GetComponent<AudioListener>().enabled = false;
+		tankController[player].mycamera.GetComponent<Camera>().enabled = true;
+		tankController[player].mycamera.GetComponent<AudioListener>().enabled = true;
+		lastcamerea = player;
+	}
+
 }

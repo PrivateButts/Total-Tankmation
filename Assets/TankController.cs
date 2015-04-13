@@ -31,6 +31,7 @@ public class TankController : MonoBehaviour{
 	public float currentEl = 0;
 	public float elevateAmount = 0;
 	public bool destroyed = false;
+	public float score = 0;
 	GameObject prefab;
 
 	void Start(){
@@ -60,10 +61,17 @@ public class TankController : MonoBehaviour{
 
 	void AddDamage(float damage){
 		if (HP > 0) {
-			HP -= damage;
 
 			GameObject turnControllerObj = GameObject.FindGameObjectWithTag ("TurnController");
 			TurnController turnController = turnControllerObj.GetComponent<TurnController>();
+			if (damage < HP) {
+				Debug.Log ("Player " + turnController.player.ToString() + " Score +" + HP.ToString());
+				turnController.tankController[turnController.player].score += damage;
+			} else {
+				Debug.Log ("Player " + turnController.player.ToString() + " Score +" + damage.ToString());
+				turnController.tankController[turnController.player].score += HP;
+			}
+			HP -= damage;
 			Quaternion notifRot;
 			if(gameObject == turnController.players[turnController.player]){
 				Debug.Log ("Shot self");
