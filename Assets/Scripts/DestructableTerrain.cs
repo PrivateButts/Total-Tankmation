@@ -6,8 +6,6 @@ public class DestructableTerrain : MonoBehaviour {
 	public float Seed, Scale, Deepness;
 	public Terrain BaseTerrain;
 	private float[,] GeneratedHeightMap;
-
-	public int CratX,CratY,CratS;
 	// Use this for initialization
 	void Start () {
 		TerrainData terrain = BaseTerrain.terrainData;
@@ -27,13 +25,9 @@ public class DestructableTerrain : MonoBehaviour {
 		}
 		// Set the new heightmap and clear the placeholder array
 		terrain.SetHeights (0, 0, GeneratedHeightMap);
-		//GeneratedHeightMap = null;
-
-		Crater (CratX, CratY, CratS);
-
 	}
 
-	void Crater(int xCoord, int yCoord, int radius){
+	public void Crater(int xCoord, int yCoord, int radius){
 		TerrainData terrain = BaseTerrain.terrainData;
 		Vector2 center = new Vector2 (0, 0);
 		for (int z = 0; z<2*radius; z++) {
@@ -45,12 +39,5 @@ public class DestructableTerrain : MonoBehaviour {
 		}
 
 		terrain.SetHeights (0,0,GeneratedHeightMap);
-
-
-	}
-
-	void Update(){
-		Start ();
-
 	}
 }
