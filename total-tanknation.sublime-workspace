@@ -3,17 +3,36 @@
 	{
 		"selected_items":
 		[
+			[
+				"Terrain",
+				"TerrainData"
+			],
+			[
+				"Clamp",
+				"Mathf.Clamp(value, min, max)"
+			],
+			[
+				"ter",
+				"TerrainData"
+			],
+			[
+				"Terr",
+				"TerrainLenght"
+			],
+			[
+				"tan",
+				"tan2"
+			]
 		]
 	},
 	"buffers":
 	[
 		{
-			"file": "total-tanknation.sublime-project",
+			"file": "Assets/Scripts/DestructableTerrain.cs",
 			"settings":
 			{
-				"buffer_size": 122,
-				"line_ending": "Windows",
-				"name": "{"
+				"buffer_size": 1428,
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -24,16 +43,24 @@
 	"build_varint": "",
 	"command_palette":
 	{
-		"height": 392.0,
-		"last_filter": "packa",
+		"height": 127.0,
+		"last_filter": "install",
 		"selected_items":
 		[
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"unity",
+				"Set Syntax: Unity C#"
+			],
 			[
 				"packa",
 				"Package Control: Install Package"
 			]
 		],
-		"width": 356.0
+		"width": 416.0
 	},
 	"console":
 	{
@@ -58,10 +85,15 @@
 	],
 	"file_history":
 	[
+		"/D/Users/crash_000.MYCROFT/Dropbox/Projects/Unity/total-tanknation/Assets/Scripts/DeformableMesh.cs",
+		"/D/Users/crash_000.MYCROFT/Dropbox/Projects/Unity/total-tanknation/Assets/DestructableTerrain.cs",
+		"/D/Users/crash_000.MYCROFT/Dropbox/Projects/Unity/total-tanknation/Assets/Scripts/Deformable Terrain.cs",
+		"/D/Users/crash_000.MYCROFT/Dropbox/Projects/Unity/total-tanknation/Assets/FollowCam.cs",
+		"/D/Users/crash_000.MYCROFT/Dropbox/Projects/Unity/total-tanknation/total-tanknation.sublime-project"
 	],
 	"find":
 	{
-		"height": 0.0
+		"height": 23.0
 	},
 	"find_in_files":
 	{
@@ -75,6 +107,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"TerrainData.",
+			"sdir"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -97,25 +131,24 @@
 			[
 				{
 					"buffer": 0,
-					"file": "total-tanknation.sublime-project",
+					"file": "Assets/Scripts/DestructableTerrain.cs",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 122,
+						"buffer_size": 1428,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								122,
-								122
+								468,
+								468
 							]
 						],
 						"settings":
 						{
-							"auto_name": "{",
-							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"syntax": "Packages/C#/C#.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
@@ -130,7 +163,7 @@
 	],
 	"incremental_find":
 	{
-		"height": 0.0
+		"height": 23.0
 	},
 	"input":
 	{
@@ -167,7 +200,7 @@
 	"project": "total-tanknation.sublime-project",
 	"replace":
 	{
-		"height": 0.0
+		"height": 42.0
 	},
 	"save_all_on_build": true,
 	"select_file":
