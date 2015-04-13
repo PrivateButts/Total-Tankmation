@@ -15,6 +15,9 @@ Core Game
 	World Generation/Destruction
 		Voxel Based destructable Terrain - Scratched due to time
 		Procedural generation - Completed in branch
+		Heightmap based terrain destruction - prototyped
+		World populater
+
 
 
 
@@ -31,3 +34,4 @@ Stretch Goals
 	Weapon Trails - Done
 	Explosions - Rough
 	Damage Notifications - Rough
+	Optimization
