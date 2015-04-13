@@ -7,29 +7,30 @@ public class DestructableTerrain : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		TerrainData terrain = BaseTerrain.terrainData;
-		//Randomize the Terrain
+		//Generate a huge array for fun
 		float[,] GeneratedHeightMap = new float[terrain.heightmapWidth, terrain.heightmapWidth];
-		float[,] OldHeightMap = new float[terrain.heightmapWidth, terrain.heightmapWidth];
 		float Noise;
-		OldHeightMap = terrain.GetHeights (0, 0, 513, 513);
+
 		for(int y = 0; y < terrain.heightmapWidth; y++){
 			for(int x = 0; x < terrain.heightmapWidth; x++){
-				//Debug.Log(Mathf.Clamp(Mathf.PerlinNoise(Seed+x, Seed+y), 0, 1));
+				// Make are coords for PerlinNoise
 				float xCoord = Seed + (float)x / (float)terrain.heightmapWidth * Scale;
 				float yCoord = Seed + (float)y / (float)terrain.heightmapWidth * Scale;
 				Noise = Mathf.PerlinNoise(xCoord,yCoord);
+				// Make sure our heightmap doesn't get too tall
 				GeneratedHeightMap[y,x] = Mathf.Clamp(Noise, 0, 1);
 			}
 			int a = 1+1;
 		}
-
+		// Set the new heightmap and clear the placeholder array
 		terrain.SetHeights(0,0,GeneratedHeightMap);
 		GeneratedHeightMap = null;
 
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	void Crater(int x, int y, float size){
+		TerrainData terrain = BaseTerrain.terrainData;
+
+
 	}
 }
