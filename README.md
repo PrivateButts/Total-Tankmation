@@ -13,8 +13,10 @@ Core Game
 
 
 	World Generation/Destruction
-		Voxel Based destructable Terrain
-		Procedural generation
+		Voxel Based destructable Terrain - Scratched due to time
+		Procedural generation - Completed in branch
+
+
 
 	Scoring - Started
 
