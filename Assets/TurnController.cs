@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 public class TurnController : MonoBehaviour {
 	public GameObject [] players;
-	public TankController [] tankController = new TankController[10];
+	public TankController [] tankController = new TankController[200];
 	int numPlayers;
 	//GUI Configuration
 	public Text txtPlayers;
@@ -27,6 +27,14 @@ public class TurnController : MonoBehaviour {
 	List<GameObject> AItankList = new List<GameObject>();
 	public bool AITurnOver = true;
 	public bool PlayerTurnOver = false;
+	//Get objects to spawn for the Player and AI
+	public GameObject playertanktospawn;
+	public GameObject AItanktospawn;
+	//Terrain object
+	public Terrain terrainobj;
+	//Set the spawn area
+	public int spawnrangex = 200;
+	public int spawnrangez = 200;
 	int lastcamerea;
 
 
@@ -38,6 +46,10 @@ public class TurnController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+
+		//Specify how many Players and AI players to spawn
+		spawnTanks (2, 750);
 
 
 		/****************************
@@ -273,6 +285,34 @@ public class TurnController : MonoBehaviour {
 		tankController[player].mycamera.GetComponent<Camera>().enabled = true;
 		tankController[player].mycamera.GetComponent<AudioListener>().enabled = true;
 		lastcamerea = player;
+	}
+
+	//Player and AI spawner function
+	void spawnTanks(int numplayers, int numAIs){
+		//Loop creating Human Players
+		for (int i=0; i<numplayers; i++) {
+			//Random X,Z spawn coordinates inside specified range
+			int x = Random.Range (-spawnrangex, spawnrangex);
+			int	z = Random.Range (-spawnrangez, spawnrangez);
+			//Determine Y coordinate, adjust by -400 based on terrain position, then add 2 to avoid spawning inside terrain
+			int y = Mathf.RoundToInt(terrainobj.SampleHeight(new Vector3(x, 0, z)) - 398);
+			//Spawn the player, set name, set position
+			GameObject temptank = Instantiate(playertanktospawn) as GameObject;
+			temptank.name = "Player " + (i + 1).ToString();
+			temptank.transform.position = new Vector3 (x, y, z);
+		}
+		//Loop creating AI players
+		for (int i=0; i<numAIs; i++) {
+			//Random X,Z spawn coordinates inside specified range
+			int x = Random.Range (-spawnrangex, spawnrangex);
+			int	z = Random.Range (-spawnrangez, spawnrangez);
+			//Determine Y coordinate, adjust by -400 based on terrain position, then add 2 to avoid spawning inside terrain
+			int y = Mathf.RoundToInt(terrainobj.SampleHeight(new Vector3(x, 0, z)) - 398);
+			//Spawn the player, set name, set position
+			GameObject temptank = Instantiate(AItanktospawn) as GameObject;
+			temptank.name = "AI Tank " + (i + 1).ToString();
+			temptank.transform.position = new Vector3 (x, y, z);
+		}
 	}
 
 }
