@@ -23,8 +23,9 @@ public class TurnController : MonoBehaviour {
 	public bool gameover = false;
 	public bool controlsactive = true;
 	public bool AIActive = false;
-	public int currentAI = 0;
+	public int currentAI = -1;
 	List<GameObject> AItankList = new List<GameObject>();
+	public List<TankController> AItankController = new List<TankController>();
 	public bool AITurnOver = true;
 	public bool PlayerTurnOver = false;
 	//Get objects to spawn for the Player and AI
@@ -36,6 +37,9 @@ public class TurnController : MonoBehaviour {
 	public int spawnrangex = 200;
 	public int spawnrangez = 200;
 	int lastcamerea;
+	int rotationDir = 0;
+	public int numberofplayers = 1;
+	public int numberofAIplayers = 1;
 
 
 
@@ -49,7 +53,7 @@ public class TurnController : MonoBehaviour {
 
 
 		//Specify how many Players and AI players to spawn
-		spawnTanks (2, 750);
+		spawnTanks (numberofplayers, numberofAIplayers);
 
 
 		/****************************
@@ -86,13 +90,16 @@ public class TurnController : MonoBehaviour {
 		*	Generate List of AI Tanks
 		**************************************/
 		GameObject [] temp;
-		temp = GameObject.FindGameObjectsWithTag ("Tank");
+		temp = GameObject.FindGameObjectsWithTag ("AITank");
 		for (int i = 0; i < temp.Length; i++) {
-			if(gameObject != temp[i])
+			if(gameObject != temp[i]) //Not sure why I'm doing this
 			{
 				AItankList.Add(temp[i]);
+				AItankController.Add (temp[i].GetComponent<TankController>());
 			}
 		}
+		Debug.Log ("AI Tank list created with " + AItankList.Count + " members");
+		currentAI = -1;
 	}
 	
 	// Update is called once per frame
@@ -106,115 +113,153 @@ public class TurnController : MonoBehaviour {
 			//Debug.Log ("Checking to free controls");
 			//Wait until all Weapon taged objects are done, this is currently all projectiles in flight, and all weapon animations
 			GameObject [] activeWeapon = GameObject.FindGameObjectsWithTag ("Weapon");
-			if ( activeWeapon.Length == 0) {
+			if (activeWeapon.Length == 0) {
 				Debug.Log ("No Weapon Found");
-				nextTurn();
+				nextTurn ();
 
 
 				//Check whether we have reached the higheset numbered player, select next player accordingly
 
 			} else {
 				int temptime = (int)(Time.time * 10F);
-				if (temptime%10 == 0){
-					Debug.Log ("Active Weapon:" + activeWeapon[0].name);
+				if (temptime % 10 == 0) {
+					//Debug.Log ("Active Weapon:" + activeWeapon [0].name);
 				}
 			}
 
 
 
-		//If keyboard not locked out, its still a player's turn, allow controls to apply to current player's tank
+			//If keyboard not locked out, its still a player's turn, allow controls to apply to current player's tank
 		} else if (controlsactive == true && player < players.Length) {
-			tankController[player].forwardMoveAmount = 0;
-			tankController[player].turnAmount = 0;
-			tankController[player].rotateAmount = 0;
-			tankController[player].elevateAmount = 0;
+			tankController [player].forwardMoveAmount = 0;
+			tankController [player].turnAmount = 0;
+			tankController [player].rotateAmount = 0;
+			tankController [player].elevateAmount = 0;
 			/******************************************
 			 * 
 			 * 			KEYBOARD CONTROLS
 			 * 
 			 * ***************************************/
 			//Moved all keyboard controls to one place
-			if (Input.GetAxis("Modifier") > 0) {
+			if (Input.GetAxis ("Modifier") > 0) {
 				modifier = .1F;
 			} else {
 				modifier = 1F;
 			}
 			//Tank Hull Controls
 			//This could be simplified, I originally started with raw inputs, but have switched to allow players to configure from the unity game launcher
-			if(Input.GetAxis("HullMovement") > 0){
-				tankController[player].forwardMoveAmount = tankController[player].forwardSpeed;
+			if (Input.GetAxis ("HullMovement") > 0) {
+				tankController [player].forwardMoveAmount = tankController [player].forwardSpeed;
 			}
-			if(Input.GetAxis("HullMovement") < 0){
-				tankController[player].forwardMoveAmount = -tankController[player].forwardSpeed;
+			if (Input.GetAxis ("HullMovement") < 0) {
+				tankController [player].forwardMoveAmount = -tankController [player].forwardSpeed;
 			}
-			if(Input.GetAxis("HullRotation") > 0){
-				tankController[player].turnAmount = tankController[player].turnSpeed * modifier;
+			if (Input.GetAxis ("HullRotation") > 0) {
+				tankController [player].turnAmount = tankController [player].turnSpeed * modifier;
 			}
-			if(Input.GetAxis("HullRotation") < 0){
-				tankController[player].turnAmount = -tankController[player].turnSpeed * modifier;
+			if (Input.GetAxis ("HullRotation") < 0) {
+				tankController [player].turnAmount = -tankController [player].turnSpeed * modifier;
 			}
 			//Gun Power Controls
-			if(Input.GetAxis("Power") > 0){
-				tankController[player].power += tankController[player].deltaPower * modifier;
-				if (tankController[player].power > tankController[player].maxPower){
-					tankController[player].power = tankController[player].maxPower;
+			if (Input.GetAxis ("Power") > 0) {
+				tankController [player].power += tankController [player].deltaPower * modifier;
+				if (tankController [player].power > tankController [player].maxPower) {
+					tankController [player].power = tankController [player].maxPower;
 				}
 			}
-			if(Input.GetAxis("Power") < 0){
-				tankController[player].power -= tankController[player].deltaPower * modifier;
-				if (tankController[player].power < 0){
-					tankController[player].power = 0;
+			if (Input.GetAxis ("Power") < 0) {
+				tankController [player].power -= tankController [player].deltaPower * modifier;
+				if (tankController [player].power < 0) {
+					tankController [player].power = 0;
 				}
 			}
 			//Turret Rotation
-			if(Input.GetAxis("TurretRotation") > 0){
-				tankController[player].rotateAmount = tankController[player].turretRate * modifier;
+			if (Input.GetAxis ("TurretRotation") > 0) {
+				tankController [player].rotateAmount = tankController [player].turretRate * modifier;
 			}
-			if(Input.GetAxis("TurretRotation") < 0){
-				tankController[player].rotateAmount = -tankController[player].turretRate * modifier;
+			if (Input.GetAxis ("TurretRotation") < 0) {
+				tankController [player].rotateAmount = -tankController [player].turretRate * modifier;
 			}
 			//Elevation
-			if(Input.GetAxis("Elevation") > 0){
-				if (tankController[player].currentEl < tankController[player].maxElevation){
-					tankController[player].elevateAmount = tankController[player].elevateRate * modifier;
+			if (Input.GetAxis ("Elevation") > 0) {
+				if (tankController [player].currentEl < tankController [player].maxElevation) {
+					tankController [player].elevateAmount = tankController [player].elevateRate * modifier;
 				}
 			}
-			if(Input.GetAxis("Elevation") < 0){
-				if (tankController[player].currentEl > tankController[player].minElevation) {
-					tankController[player].elevateAmount = -tankController[player].elevateRate * modifier;
+			if (Input.GetAxis ("Elevation") < 0) {
+				if (tankController [player].currentEl > tankController [player].minElevation) {
+					tankController [player].elevateAmount = -tankController [player].elevateRate * modifier;
 				}
-			//FIRE!
+				//FIRE!
 			}
-			if (Input.GetAxis("Fire") > 0){
-				starttime=Time.time;
-				tankController[player].gun.Shoot();
+			if (Input.GetAxis ("Fire") > 0) {
+				starttime = Time.time;
+				tankController [player].gun.Shoot ();
 				controlsactive = false;
-				tankController[player].forwardMoveAmount = 0;
-				tankController[player].turnAmount = 0;
-				tankController[player].rotateAmount = 0;
-				tankController[player].elevateAmount = 0;
+				tankController [player].forwardMoveAmount = 0;
+				tankController [player].turnAmount = 0;
+				tankController [player].rotateAmount = 0;
+				tankController [player].elevateAmount = 0;
 			}
 
-			if (Input.GetButtonDown("ChangeWeapon")){
-				if(currentWeapon == weapons.Length - 1){
+			if (Input.GetButtonDown ("ChangeWeapon")) {
+				if (currentWeapon == weapons.Length - 1) {
 					currentWeapon = 0;
 				} else {
 					currentWeapon++;
 				}
-				txtWeapon.text = weapons[currentWeapon];
+				txtWeapon.text = weapons [currentWeapon];
 			}
 
 			//Update active tank based on keys being pressed
-			if(controlsactive==true){
-			tankController[player].elevator.transform.Rotate (tankController[player].elevateAmount, 0,  0);
-			tankController[player].currentEl += tankController[player].elevateAmount;
-			tankController[player].turret.transform.Rotate(0, 0, -tankController[player].rotateAmount);
+			if (controlsactive == true) {
+				tankController [player].elevator.transform.Rotate (tankController [player].elevateAmount, 0, 0);
+				tankController [player].currentEl += tankController [player].elevateAmount;
+				tankController [player].turret.transform.Rotate (0, 0, -tankController [player].rotateAmount);
 			}
 			//Update GUI Elements
-			txtPower.text = "Power: " + tankController[player].power.ToString ("F1");
-			txtSpeed.text =  "Speed: " + (Mathf.Sqrt(Mathf.Pow (tankController[player].rb.velocity.z, 2) + Mathf.Pow (tankController[player].rb.velocity.x, 2))).ToString("F1");
-			txtElevator.text = "Elevation: " + tankController[player].currentEl.ToString ("F1");
-			txtScore.text = "Score: " + tankController[player].score.ToString("F1");
+			txtPower.text = "Power: " + tankController [player].power.ToString ("F1");
+			txtSpeed.text = "Speed: " + (Mathf.Sqrt (Mathf.Pow (tankController [player].rb.velocity.z, 2) + Mathf.Pow (tankController [player].rb.velocity.x, 2))).ToString ("F1");
+			txtElevator.text = "Elevation: " + tankController [player].currentEl.ToString ("F1");
+			txtScore.text = "Score: " + tankController [player].score.ToString ("F1");
+		} else if (AIActive == true) {
+			/*********************************************
+			 * 
+			 * What to do while an AI is active
+			 * 
+			 * ********************************************/
+			if(AItankController[currentAI].destroyed == false){
+				//Choose a target 
+				//Will target player tank 0 for testing purposes
+
+				if (rotationDir == 0){
+					float dist = Vector3.Distance(players[0].transform.position, AItankController[currentAI].gun.gameObject.transform.position);
+					AItankController[currentAI].turret.transform.Rotate(0,0,1);
+					if (dist >  Vector3.Distance(players[0].transform.position, AItankController[currentAI].gun.gameObject.transform.position)){
+						Debug.Log ("Positive Rotate");
+						rotationDir = 1;
+					} else {
+						Debug.Log ("Negative Rotate");
+						rotationDir = -1;
+					}
+
+				}
+				float dist2 = Vector3.Distance(players[0].transform.position, AItankController[currentAI].gun.gameObject.transform.position);
+				AItankController[currentAI].turret.transform.Rotate(0,0,rotationDir);
+				Debug.Log (dist2);
+				if (dist2 <  Vector3.Distance(players[0].transform.position, AItankController[currentAI].gun.gameObject.transform.position)){
+					if(AItankController[currentAI].shotDistance > 0){
+						if(AItankController[currentAI].shotDistance > dist2){
+							AItankController[currentAI].power -= Random.Range (0F, 20F);
+						} else {
+							AItankController[currentAI].power += Random.Range (0F, 20F);
+						}
+					}
+					AItankController[currentAI].gun.Shoot ();
+					AIActive = false;
+					rotationDir = 0;
+				}
+			}
 		}
 	}
 
@@ -233,9 +278,19 @@ public class TurnController : MonoBehaviour {
 	}
 
 	void nextAI(){
-		Debug.Log ("AI Turn");
-		AITurnOver = true;
-		PlayerTurnOver = false;
+		currentAI++;
+		Debug.Log("AI Player: " + currentAI);
+		if (currentAI >= AItankList.Count) {
+			Debug.Log ("End AI Turn");
+			currentAI = -1;
+			AITurnOver = true;
+			PlayerTurnOver = false;
+		} else if (AItankController[currentAI].destroyed == true){
+			nextAI ();
+		} else {
+			//activate current AI
+			AIActive = true;
+		}
 	}
 
 	void nextPlayer(){
