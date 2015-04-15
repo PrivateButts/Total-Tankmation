@@ -24,19 +24,24 @@ public class TankController : MonoBehaviour{
 	public GameObject turret;
 	public GameObject elevator;
 	public ProjectileShooter gun;
+	//public GameObject gunobj;
 	public float forwardMoveAmount = 0;
 	public float turnAmount = 0;
 	public GameObject mycamera;
 	public float rotateAmount = 0;
-	public float currentEl = 0;
-	public float elevateAmount = 0;
+	public float currentEl = 40;
+	public float elevateAmount = 40;
 	public bool destroyed = false;
 	public float score = 0;
 	GameObject prefab;
+	public float shotDistance = -1;
 
 	void Start(){
 		prefab = Resources.Load ("Smoke") as GameObject;
 		rb = GetComponent<Rigidbody> ();
+		elevator.transform.Rotate (40, 0, 0);
+		elevateAmount = 40;
+		currentEl = 40;
 
 	}
 
@@ -64,21 +69,27 @@ public class TankController : MonoBehaviour{
 
 			GameObject turnControllerObj = GameObject.FindGameObjectWithTag ("TurnController");
 			TurnController turnController = turnControllerObj.GetComponent<TurnController>();
+			/*
 			if (damage < HP) {
 				Debug.Log ("Player " + turnController.player.ToString() + " Score +" + HP.ToString());
 				turnController.tankController[turnController.player].score += damage;
 			} else {
 				Debug.Log ("Player " + turnController.player.ToString() + " Score +" + damage.ToString());
 				turnController.tankController[turnController.player].score += HP;
-			}
+			}*/
 			HP -= damage;
 			Quaternion notifRot;
-			if(gameObject == turnController.players[turnController.player]){
-				Debug.Log ("Shot self");
-				notifRot = Quaternion.LookRotation(turret.transform.position -(turret.transform.position - turret.transform.up));
+			if(turnController.player >= 0){
+				if(gameObject == turnController.players[turnController.player]){
+					Debug.Log ("Shot self");
+					notifRot = Quaternion.LookRotation(turret.transform.position -(turret.transform.position - turret.transform.up));
+				} else {
+					notifRot = Quaternion.LookRotation(gameObject.transform.position -turnController.players[turnController.player].transform.position);
+					Debug.Log ("Shot other");
+				}
 			} else {
-				notifRot = Quaternion.LookRotation(gameObject.transform.position -turnController.players[turnController.player].transform.position);
-				Debug.Log ("Shot other");
+				notifRot = Quaternion.LookRotation(turret.transform.position -(turret.transform.position - turret.transform.up));
+				Debug.Log ("Shot By AI");
 			}
 			DamageNotif (damage.ToString ("F1"), 1F, 0F, 1F, notifRot);
 

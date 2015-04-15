@@ -54,6 +54,8 @@ public class ProjectileShooter : MonoBehaviour {
 			//Start preparing the projectile for launch
 			GameObject projectile = Instantiate(currentWeapon) as GameObject;
 			//Starting location of projectile
+			Projectile projCont = projectile.GetComponent<Projectile>();
+			projCont.owner = gameObject.transform.parent.parent.parent.parent.gameObject;
 			projectile.transform.position = transform.position + new Vector3(0,0,0);
 			projectile.transform.rotation = transform.rotation;
 			projectile.transform.Rotate (0,180,0);

@@ -11,6 +11,7 @@ public class Projectile : MonoBehaviour {
 	public float projTTL = 25;
 	float startTime;
 	public bool followcam = false;
+	public GameObject owner;
 	void Start () {
 		//grab explosion object from resources
 		startTime = Time.time;
@@ -38,7 +39,7 @@ public class Projectile : MonoBehaviour {
 			Collider[] hits = Physics.OverlapSphere (gameObject.transform.position, damageAOE);
 			int i = 0;
 			while (i < hits.Length) {
-				if (hits [i].tag == "Tank" || hits [i].tag == "Trail" || hits [i].tag == "PlayerTank") {
+				if (hits [i].tag == "AITank" || hits [i].tag == "Trail" || hits [i].tag == "PlayerTank") {
 					float distance = Vector3.Distance (gameObject.transform.position, hits [i].gameObject.transform.position);
 					if (distance < 1) {
 						distance = 1;
@@ -48,6 +49,9 @@ public class Projectile : MonoBehaviour {
 				}
 				i++;
 			}
+			//Tell owner how far it went
+			owner.GetComponent<TankController>().shotDistance = Vector3.Distance(transform.position, owner.transform.position);
+
 			//Destroy the projectile
 			transform.GetChild (0).GetComponent<ParticleSystem> ().emissionRate = 0;
 			transform.DetachChildren();

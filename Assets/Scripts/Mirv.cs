@@ -14,6 +14,7 @@ public class Mirv : MonoBehaviour {
 	public float spreadSpeed = 10F;
 	GameObject trail;
 	float mirvTime;
+	public GameObject owner;
 
 
 
@@ -78,15 +79,19 @@ public class Mirv : MonoBehaviour {
 		GameObject mirvs = Instantiate(mirvProjectiles) as GameObject;
 		mirvs.transform.position = transform.localPosition + transform.right * iSpread;
 		mirvs.rigidbody.velocity = rigidbody.velocity + transform.right * spreadSpeed * Random.value;
+		mirvs.GetComponent<Mirv> ().owner = owner;
 		mirvs = Instantiate(mirvProjectiles) as GameObject;
 		mirvs.transform.position = transform.localPosition + transform.right * -iSpread;
-		mirvs.rigidbody.velocity = rigidbody.velocity + transform.right * -spreadSpeed * Random.value;		
+		mirvs.rigidbody.velocity = rigidbody.velocity + transform.right * -spreadSpeed * Random.value;	
+		mirvs.GetComponent<Mirv> ().owner = owner;
 		mirvs = Instantiate(mirvProjectiles) as GameObject;
 		mirvs.transform.position = transform.localPosition + transform.up * iSpread;
-		mirvs.rigidbody.velocity = rigidbody.velocity + transform.up * spreadSpeed * Random.value/2;		
+		mirvs.rigidbody.velocity = rigidbody.velocity + transform.up * spreadSpeed * Random.value/2;
+		mirvs.GetComponent<Mirv> ().owner = owner;
 		mirvs = Instantiate(mirvProjectiles) as GameObject;
 		mirvs.transform.position = transform.localPosition + transform.up * -iSpread;
 		mirvs.rigidbody.velocity = rigidbody.velocity + transform.up * -spreadSpeed * Random.value;
+		mirvs.GetComponent<Mirv> ().owner = owner;
 		transform.GetChild (0).GetComponent<ParticleSystem> ().emissionRate = 0;
 		transform.DetachChildren ();
 		Destroy (gameObject);

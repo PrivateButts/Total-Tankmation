@@ -613,6 +613,90 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 597374541}
+--- !u!1 &716205568
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 716205573}
+  - 20: {fileID: 716205572}
+  - 124: {fileID: 716205571}
+  - 92: {fileID: 716205570}
+  - 81: {fileID: 716205569}
+  m_Layer: 0
+  m_Name: Camera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!81 &716205569
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 716205568}
+  m_Enabled: 0
+--- !u!92 &716205570
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 716205568}
+  m_Enabled: 1
+--- !u!124 &716205571
+Behaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 716205568}
+  m_Enabled: 1
+--- !u!20 &716205572
+Camera:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 716205568}
+  m_Enabled: 0
+  serializedVersion: 2
+  m_ClearFlags: 1
+  m_BackGroundColor: {r: .192156866, g: .301960796, b: .474509805, a: .0196078438}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: .300000012
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: 0
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_HDR: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: .0219999999
+--- !u!4 &716205573
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 716205568}
+  m_LocalRotation: {x: .135448173, y: 0, z: 0, w: .990784466}
+  m_LocalPosition: {x: 33, y: 1, z: -899}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
 --- !u!1 &943085137
 GameObject:
   m_ObjectHideFlags: 0
@@ -1667,19 +1751,21 @@ MonoBehaviour:
   weapons:
   - High Explosive
   - Nuke
+  - Nuke
   currentWeapon: 0
   starttime: 0
   gameover: 0
   controlsactive: 1
   AIActive: 0
   currentAI: 0
+  AItankController: []
   AITurnOver: 1
   PlayerTurnOver: 0
   playertanktospawn: {fileID: 134004, guid: 1d283a3ea0732424c89d22e09368a35c, type: 2}
   AItanktospawn: {fileID: 147422, guid: 1ef62bb9055ae3a48b6076b8d3915a3c, type: 2}
   terrainobj: {fileID: 157979389}
-  spawnrangex: 200
-  spawnrangez: 200
+  spawnrangex: 50
+  spawnrangez: 50
 --- !u!1 &1059554359
 GameObject:
   m_ObjectHideFlags: 0
@@ -1756,7 +1842,6 @@ GameObject:
   - 224: {fileID: 1275447393}
   - 222: {fileID: 1275447396}
   - 114: {fileID: 1275447395}
-  - 114: {fileID: 1275447394}
   m_Layer: 5
   m_Name: Elevator
   m_TagString: Untagged
@@ -1781,17 +1866,6 @@ RectTransform:
   m_AnchoredPosition: {x: 455, y: 238}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: .5, y: .5}
---- !u!114 &1275447394
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1275447392}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b8f10cad3db34742891bcdb5d8127ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1275447395
 MonoBehaviour:
   m_ObjectHideFlags: 0
