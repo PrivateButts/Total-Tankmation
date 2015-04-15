@@ -38,6 +38,8 @@ public class TurnController : MonoBehaviour {
 	public int spawnrangez = 200;
 	int lastcamerea;
 	int rotationDir = 0;
+	public int numberofplayers = 1;
+	public int numberofAIplayers = 1;
 
 
 
@@ -51,7 +53,7 @@ public class TurnController : MonoBehaviour {
 
 
 		//Specify how many Players and AI players to spawn
-		spawnTanks (1, 6);
+		spawnTanks (numberofplayers, numberofAIplayers);
 
 
 		/****************************
@@ -283,6 +285,8 @@ public class TurnController : MonoBehaviour {
 			currentAI = -1;
 			AITurnOver = true;
 			PlayerTurnOver = false;
+		} else if (AItankController[currentAI].destroyed == true){
+			nextAI ();
 		} else {
 			//activate current AI
 			AIActive = true;
