@@ -545,7 +545,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weapon:
   - {fileID: 135208, guid: b1200cba42f3f304a9f4988976dc2bf7, type: 2}
-  - {fileID: 175798, guid: 695c71fa23203c04f8e07a22fc54e926, type: 2}
+  - {fileID: 179840, guid: 695c71fa23203c04f8e07a22fc54e926, type: 2}
   - {fileID: 158610, guid: 2d6bc9db2aa257f4ca7d3a08c5d0a5ee, type: 2}
 --- !u!1 &597374541
 GameObject:
@@ -1751,7 +1751,7 @@ MonoBehaviour:
   weapons:
   - High Explosive
   - Nuke
-  - Nuke
+  - Mirv
   currentWeapon: 0
   starttime: 0
   gameover: 0
@@ -1766,6 +1766,8 @@ MonoBehaviour:
   terrainobj: {fileID: 157979389}
   spawnrangex: 50
   spawnrangez: 50
+  numberofplayers: 1
+  numberofAIplayers: 1
 --- !u!1 &1059554359
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using System.Collections;
 public class Projectile : MonoBehaviour {
 	public float baseDamage = 45;
 	public float damageAOE = 5;
+	public float rateDropoff = 1;
 	GameObject expSphere;
 	GameObject expParticle;
 	public float projTTL = 25;
@@ -44,7 +45,11 @@ public class Projectile : MonoBehaviour {
 					if (distance < 1) {
 						distance = 1;
 					}
-					float damage = baseDamage / distance;
+					float damage = baseDamage / (distance/rateDropoff);
+					if (damage > baseDamage){
+						damage = baseDamage;
+					}
+
 					hits [i].SendMessage ("AddDamage", damage);
 				}
 				i++;

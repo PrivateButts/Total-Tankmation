@@ -123,7 +123,7 @@ public class TurnController : MonoBehaviour {
 			} else {
 				int temptime = (int)(Time.time * 10F);
 				if (temptime % 10 == 0) {
-					//Debug.Log ("Active Weapon:" + activeWeapon [0].name);
+					Debug.Log ("Active Weapon:" + activeWeapon [0].name);
 				}
 			}
 

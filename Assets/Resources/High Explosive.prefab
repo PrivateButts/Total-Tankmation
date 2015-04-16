@@ -130,8 +130,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseDamage: 45
   damageAOE: 10
+  rateDropoff: 1.20000005
   projTTL: 25
   followcam: 0
+  owner: {fileID: 0}
 --- !u!135 &13526098
 SphereCollider:
   m_ObjectHideFlags: 1
