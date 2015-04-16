@@ -266,13 +266,16 @@ public class TurnController : MonoBehaviour {
 	void nextTurn(){
 		//Once all the objects with the weapon tag have terminated disable camera and audio for the current player's camera
 		Debug.Log ("AI turn: " + AITurnOver.ToString() + " Player Turn: " + PlayerTurnOver.ToString());
-		if(AITurnOver == true){
-			Debug.Log ("Trigger Player Turn");
-			nextPlayer();
-		}
-		if(PlayerTurnOver == true){
-			Debug.Log ("Trigger AI Turn");
-			nextAI();
+		if (gameOver ()) {
+		} else {
+			if (AITurnOver == true) {
+				Debug.Log ("Trigger Player Turn");
+				nextPlayer ();
+			}
+			if (PlayerTurnOver == true) {
+				Debug.Log ("Trigger AI Turn");
+				nextAI ();
+			}
 		}
 	
 	}
@@ -285,7 +288,7 @@ public class TurnController : MonoBehaviour {
 			currentAI = -1;
 			AITurnOver = true;
 			PlayerTurnOver = false;
-		} else if (AItankController[currentAI].destroyed == true){
+		} else if (AItankController [currentAI].destroyed == true) {
 			nextAI ();
 		} else {
 			//activate current AI
@@ -306,31 +309,16 @@ public class TurnController : MonoBehaviour {
 			Debug.Log ("Player: " + player.ToString());
 		}
 		//Don't switch to tank if its been destroyed
-		if(tankController[player].destroyed == false && PlayerTurnOver == false){
+		if (gameOver ()) {
+
+		} else if (tankController [player].destroyed == false && PlayerTurnOver == false) {
 			Debug.Log ("Activate Camera on next Player");
-			swapCamera();
+			swapCamera ();
 			
 			//Finally, enable controls if the player is alive
 			controlsactive = true;
 		} else {
-			Debug.Log("Attempted to load a dead tank");
-			int destroyedplayers = 0;
-			for (int j = 0; j < players.Length; j++){
-				if (tankController[j].destroyed == true)
-					destroyedplayers++;
-			}
-			if (destroyedplayers >= players.Length - 1){
-				tankController[player].mycamera.GetComponent<Camera>().enabled = true;
-				gameover = true;
-				if (destroyedplayers == players.Length){
-					txtResult.text = "The game ended in a draw";
-				} else {
-					for (int j = 0; j < players.Length; j++){
-						if (tankController[j].destroyed == false)
-							txtResult.text = "Player " + (j+1).ToString() + " won the game!";
-					}
-				}
-			}
+			nextPlayer();
 		}
 	}
 	void swapCamera(){
@@ -367,6 +355,37 @@ public class TurnController : MonoBehaviour {
 			GameObject temptank = Instantiate(AItanktospawn) as GameObject;
 			temptank.name = "AI Tank " + (i + 1).ToString();
 			temptank.transform.position = new Vector3 (x, y, z);
+		}
+	}
+
+	bool gameOver(){
+			//Debug.Log("Attempted to load a dead tank");
+		int destroyedplayers = 0;
+		int destroyedAI = 0;
+		for (int j = 0; j < players.Length; j++){
+			if (tankController[j].destroyed == true)
+				destroyedplayers++;
+		}
+		for (int j = 0; j < AItankList.Count; j++){
+			if (AItankController[j].destroyed == true)
+				destroyedAI++;
+		}
+		if (destroyedplayers + destroyedAI >= (players.Length + AItankList.Count) - 1) {
+			tankController [0].mycamera.GetComponent<Camera> ().enabled = true;
+			gameover = true;
+			if (destroyedplayers + destroyedAI == players.Length + AItankList.Count) {
+				txtResult.text = "The game ended in a draw";
+			} else if (destroyedplayers == players.Length - 1) {
+				for (int j = 0; j < players.Length; j++) {
+					if (tankController [j].destroyed == false)
+						txtResult.text = "Player " + (j + 1).ToString () + " won the game!";
+				}
+			} else {
+				txtResult.text = "Humanity has been defeated";
+			}
+			return true;
+		} else {
+			return false;
 		}
 	}
 
