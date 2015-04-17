@@ -35,6 +35,7 @@ public class TankController : MonoBehaviour{
 	public float score = 0;
 	GameObject prefab;
 	public float shotDistance = -1;
+	public int target = -1;
 
 	void Start(){
 		prefab = Resources.Load ("Smoke") as GameObject;
@@ -69,14 +70,25 @@ public class TankController : MonoBehaviour{
 
 			GameObject turnControllerObj = GameObject.FindGameObjectWithTag ("TurnController");
 			TurnController turnController = turnControllerObj.GetComponent<TurnController>();
-			/*
-			if (damage < HP) {
-				Debug.Log ("Player " + turnController.player.ToString() + " Score +" + HP.ToString());
-				turnController.tankController[turnController.player].score += damage;
+			if(turnController.AITurnOver){
+				if (damage < HP) {
+					Debug.Log ("Player " + turnController.player.ToString() + " Score +" + HP.ToString());
+					turnController.tankController[turnController.player].score += damage;
+				} else {
+					Debug.Log ("Player " + turnController.player.ToString() + " Score +" + damage.ToString());
+					turnController.tankController[turnController.player].score += HP;
+				}
 			} else {
-				Debug.Log ("Player " + turnController.player.ToString() + " Score +" + damage.ToString());
-				turnController.tankController[turnController.player].score += HP;
-			}*/
+				if (damage < HP) {
+					Debug.Log ("Player " + turnController.currentAI.ToString() + " Score +" + HP.ToString());
+					turnController.AItankController[turnController.currentAI].score += damage;
+				} else {
+					Debug.Log ("Player " + turnController.currentAI.ToString() + " Score +" + damage.ToString());
+					turnController.AItankController[turnController.currentAI].score += HP;
+				}
+			}
+
+			
 			HP -= damage;
 			Quaternion notifRot;
 			if(turnController.player >= 0){

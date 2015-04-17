@@ -532,7 +532,7 @@ MonoBehaviour:
   power: 60
   modifier: 1
   followcam: 1
-  HP: 100
+  HP: 1
   Type: Tank
   playerControlled: 1
   turret: {fileID: 134008}
@@ -546,6 +546,7 @@ MonoBehaviour:
   elevateAmount: 0
   destroyed: 0
   score: 0
+  shotDistance: -1
 --- !u!114 &11434014
 MonoBehaviour:
   m_ObjectHideFlags: 1
