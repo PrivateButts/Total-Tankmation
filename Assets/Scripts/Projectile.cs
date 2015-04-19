@@ -14,7 +14,9 @@ public class Projectile : MonoBehaviour {
 	public bool followcam = false;
 	public GameObject owner;
 	public float emissionRate = 20;
+	public bool alive;
 	void Start () {
+		alive = true;
 		//grab explosion object from resources
 		startTime = Time.time;
 		expSphere = Resources.Load ("Explosionsphere") as GameObject;
@@ -39,6 +41,7 @@ public class Projectile : MonoBehaviour {
 			explosion = Instantiate (expParticle) as GameObject;
 			//Create explosion at the location where the collision occured
 			explosion.transform.position = transform.position;
+			explosion.GetComponent<ParticleSystem>().startSpeed = damageAOE;
 			Collider[] hits = Physics.OverlapSphere (gameObject.transform.position, damageAOE);
 			int i = 0;
 			while (i < hits.Length) {

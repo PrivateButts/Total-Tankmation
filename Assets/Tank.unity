@@ -687,6 +687,7 @@ MonoBehaviour:
   spawnrangez: 50
   numberofplayers: 2
   numberofAIplayers: 0
+  timeFired: 0
 --- !u!1 &1059554359
 GameObject:
   m_ObjectHideFlags: 0

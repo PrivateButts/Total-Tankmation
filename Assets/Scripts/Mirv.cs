@@ -15,11 +15,14 @@ public class Mirv : MonoBehaviour {
 	GameObject trail;
 	float mirvTime;
 	public GameObject owner;
+	public int mirvCount = 4;
+	public bool alive;
 
 
 
 	// Use this for initialization
 	void Start () {
+		alive = true;
 		mirvTime = Time.time;
 		startTime = GameObject.FindGameObjectWithTag("TurnController").GetComponent<TurnController>().starttime;
 		prefab = Resources.Load ("Explosionsphere") as GameObject;
@@ -76,37 +79,15 @@ public class Mirv : MonoBehaviour {
 
 	void SpawnMirv(){
 		float iSpread = 0.1F;
-		GameObject mirvs = Instantiate(mirvProjectiles) as GameObject;
-		mirvs.transform.position = transform.localPosition + transform.right * iSpread;
-		mirvs.rigidbody.velocity = rigidbody.velocity + transform.right * spreadSpeed * Random.value;
-		if (mirvs.GetComponent<Mirv> ()) {
-			mirvs.GetComponent<Mirv> ().owner = owner;
-		} else {
-			mirvs.GetComponent<Projectile> ().owner = owner;
-		}
-		mirvs = Instantiate(mirvProjectiles) as GameObject;
-		mirvs.transform.position = transform.localPosition + transform.right * -iSpread;
-		mirvs.rigidbody.velocity = rigidbody.velocity + transform.right * -spreadSpeed * Random.value;	
-		if (mirvs.GetComponent<Mirv> ()) {
-			mirvs.GetComponent<Mirv> ().owner = owner;
-		} else {
-			mirvs.GetComponent<Projectile> ().owner = owner;
-		}
-		mirvs = Instantiate(mirvProjectiles) as GameObject;
-		mirvs.transform.position = transform.localPosition + transform.forward * iSpread;
-		mirvs.rigidbody.velocity = rigidbody.velocity + transform.forward * spreadSpeed * Random.value;
-		if (mirvs.GetComponent<Mirv> ()) {
-			mirvs.GetComponent<Mirv> ().owner = owner;
-		} else {
-			mirvs.GetComponent<Projectile> ().owner = owner;
-		}
-		mirvs = Instantiate(mirvProjectiles) as GameObject;
-		mirvs.transform.position = transform.localPosition + transform.forward * -iSpread;
-		mirvs.rigidbody.velocity = rigidbody.velocity + transform.forward * -spreadSpeed * Random.value;
-		if (mirvs.GetComponent<Mirv> ()) {
-			mirvs.GetComponent<Mirv> ().owner = owner;
-		} else {
-			mirvs.GetComponent<Projectile> ().owner = owner;
+		for (int i = 0; i<mirvCount; i++) {
+			GameObject mirvs = Instantiate (mirvProjectiles) as GameObject;
+			mirvs.transform.position = transform.localPosition + transform.right * iSpread;
+			mirvs.rigidbody.velocity = rigidbody.velocity + new Vector3(Random.value, Random.value, Random.value) * spreadSpeed * Random.value;
+			if (mirvs.GetComponent<Mirv> ()) {
+				mirvs.GetComponent<Mirv> ().owner = owner;
+			} else {
+				mirvs.GetComponent<Projectile> ().owner = owner;
+			}
 		}
 		transform.GetChild (0).GetComponent<ParticleSystem> ().emissionRate = 0;
 		transform.DetachChildren ();

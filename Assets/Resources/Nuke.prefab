@@ -13,7 +13,8 @@ GameObject:
   - 23: {fileID: 2379842}
   - 54: {fileID: 5479842}
   - 114: {fileID: 11479840}
-  m_Layer: 0
+  - 114: {fileID: 11423060}
+  m_Layer: 9
   m_Name: Nuke
   m_TagString: Weapon
   m_Icon: {fileID: 0}
@@ -32,7 +33,7 @@ GameObject:
   - 199: {fileID: 19979842}
   - 114: {fileID: 11479842}
   - 135: {fileID: 13579842}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: projectileTrail
   m_TagString: Trail
   m_Icon: {fileID: 0}
@@ -106,6 +107,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &11423060
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 179840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75adc1bd60add664bbc34e52795d6324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startTime: 0
+  failSafeTTL: 15
 --- !u!114 &11479840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -123,6 +137,8 @@ MonoBehaviour:
   projTTL: 25
   followcam: 0
   owner: {fileID: 0}
+  emissionRate: 20
+  alive: 0
 --- !u!114 &11479842
 MonoBehaviour:
   m_ObjectHideFlags: 1

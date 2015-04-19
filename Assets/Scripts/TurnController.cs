@@ -42,6 +42,7 @@ public class TurnController : MonoBehaviour {
 	public int numberofplayers = 1;
 	public int numberofAIplayers = 1;
 	bool skyCamActive = false;
+	public float timeFired;
 
 
 
@@ -138,7 +139,16 @@ public class TurnController : MonoBehaviour {
 			} else {
 				int temptime = (int)(Time.time * 10F);
 				if (temptime % 10 == 0) {
-					//Debug.Log ("Active Weapon:" + activeWeapon [0].name);
+					Debug.Log ("Active Weapon:" + activeWeapon [0].name);
+					Debug.Log (activeWeapon[0]);
+				}
+				/*if(Time.time - activeWeapon[0].GetComponent<projTTL>().startTime > activeWeapon[0].GetComponent<projTTL>().failSafeTTL){
+					Debug.Log ("Soft Error Correcting");
+					DestroyObject(activeWeapon[0]);
+				}*/
+				else if(Time.time - timeFired > 30){
+					Debug.Log ("Hard Error Correcting");
+					DestroyObject(activeWeapon[0]);
 				}
 			}
 
@@ -210,6 +220,7 @@ public class TurnController : MonoBehaviour {
 				//FIRE!
 			}
 			if (Input.GetAxis ("Fire") > 0) {
+				timeFired = Time.time;
 				starttime = Time.time;
 				tankController [player].gun.Shoot ();
 				controlsactive = false;
@@ -490,9 +501,10 @@ public class TurnController : MonoBehaviour {
 				dispResult += "The game ended in a draw";
 			} else if (destroyedplayers == players.Length - 1) {
 				for (int j = 0; j < players.Length; j++) {
-					if (tankController [j].destroyed == false)
+					if (tankController [j].destroyed == false){
 						tankController[j].score += 500;
-						dispResult += "Player " + (j + 1).ToString () + " has survived the round! +500 points";
+						dispResult += "Player " + (j).ToString () + " has survived the round! +500 points";
+					}
 				}
 			} else {
 				dispResult += "Humanity has been defeated";
