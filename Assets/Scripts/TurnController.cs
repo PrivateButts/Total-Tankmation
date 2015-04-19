@@ -37,10 +37,11 @@ public class TurnController : MonoBehaviour {
 	//Set the spawn area
 	public int spawnrangex = 200;
 	public int spawnrangez = 200;
-	int lastcamerea;
+	int lastcamera;
 	int rotationDir = 0;
 	public int numberofplayers = 1;
 	public int numberofAIplayers = 1;
+	bool skyCamActive = false;
 
 
 
@@ -73,7 +74,7 @@ public class TurnController : MonoBehaviour {
 		//Turn on camera and audio for the randomly selected first player
 		tankController[player].mycamera.GetComponent<Camera>().enabled = true;
 		tankController[player].mycamera.GetComponent<AudioListener>().enabled = true;
-		lastcamerea = player;
+		lastcamera = numberofAIplayers + player;
 
 
 		/************************************
@@ -226,6 +227,46 @@ public class TurnController : MonoBehaviour {
 				}
 			}
 
+			if (Input.GetButtonDown ("ChangeCamera")) {
+				if(tankController[player].cameraPref == 1){
+					swapCameraToSky(numberofAIplayers + player);
+					tankController[player].cameraPref = 2;
+					tankController[player].mySkyCam.transform.LookAt(tankController[player].turret.transform);
+					tankController[player].mySkyCam.transform.Rotate (tankController[player].cameraAngle, 0, 0);
+				} else {
+					swapCamera(numberofAIplayers + player);
+					tankController[player].cameraPref = 1;
+				}
+			}
+			if (Input.GetButton ("RotateLeft") && tankController[player].cameraPref == 2){
+				Debug.Log ("Move Camera");
+				tankController[player].mySkyCam.transform.LookAt(tankController[player].turret.transform);
+				tankController[player].mySkyCam.transform.Translate (Vector3.right * Time.deltaTime * -40);
+				tankController[player].mySkyCam.transform.LookAt(tankController[player].turret.transform);
+				tankController[player].mySkyCam.transform.Rotate (tankController[player].cameraAngle, 0, 0);
+			}
+			if (Input.GetButton ("RotateRight") && tankController[player].cameraPref == 2){
+				Debug.Log ("Move Camera");
+				tankController[player].mySkyCam.transform.LookAt(tankController[player].turret.transform);
+				tankController[player].mySkyCam.transform.Translate (Vector3.right * Time.deltaTime * 40);
+				tankController[player].mySkyCam.transform.LookAt(tankController[player].turret.transform);
+				tankController[player].mySkyCam.transform.Rotate (tankController[player].cameraAngle, 0, 0);
+			}
+			if (Input.GetButton ("RotateUp")  && tankController[player].cameraPref == 2){
+				Debug.Log (tankController[player].mySkyCam);
+				Debug.Log (tankController[player].cameraAngle);
+				tankController[player].cameraAngle += Time.deltaTime * 40;
+				tankController[player].mySkyCam.transform.LookAt(tankController[player].turret.transform);
+				tankController[player].mySkyCam.transform.Rotate (tankController[player].cameraAngle, 0, 0);
+			}
+			if (Input.GetButton ("RotateDown")  && tankController[player].cameraPref == 2){
+				Debug.Log (tankController[player].mySkyCam);
+				Debug.Log (tankController[player].cameraAngle);
+				tankController[player].cameraAngle += Time.deltaTime * -40;
+				tankController[player].mySkyCam.transform.LookAt(tankController[player].turret.transform);
+				tankController[player].mySkyCam.transform.Rotate (tankController[player].cameraAngle, 0, 0);
+			}
+
 			//Update active tank based on keys being pressed
 			if (controlsactive == true) {
 				tankController [player].elevator.transform.Rotate (tankController [player].elevateAmount, 0, 0);
@@ -333,6 +374,7 @@ public class TurnController : MonoBehaviour {
 			nextAI ();
 		} else {
 			//activate current AI
+			swapCameraToSky(currentAI);
 			AIActive = true;
 		}
 	}
@@ -354,7 +396,11 @@ public class TurnController : MonoBehaviour {
 
 		} else if (tankController [player].destroyed == false && PlayerTurnOver == false) {
 			Debug.Log ("Activate Camera on next Player");
-			swapCamera ();
+			if(tankController[player].cameraPref == 1){
+			swapCamera (numberofAIplayers + player);
+			} else {
+				swapCameraToSky(numberofAIplayers + player);
+			}
 			
 			//Finally, enable controls if the player is alive
 			controlsactive = true;
@@ -362,14 +408,39 @@ public class TurnController : MonoBehaviour {
 			nextPlayer();
 		}
 	}
-	void swapCamera(){
+	void swapCamera(int nextCamera){
 		//Once the next player is set, enable camera and audio for that player's camera
-		tankController[lastcamerea].mycamera.GetComponent<Camera>().enabled = false;
-		tankController[lastcamerea].mycamera.GetComponent<AudioListener>().enabled = false;
-		tankController[player].mycamera.GetComponent<Camera>().enabled = true;
-		tankController[player].mycamera.GetComponent<AudioListener>().enabled = true;
-		lastcamerea = player;
+		if(skyCamActive == true) {
+			AllTankConroller [lastcamera].mySkyCam.GetComponent<Camera> ().enabled = false;
+			AllTankConroller [lastcamera].mySkyCam.GetComponent<AudioListener> ().enabled = false;
+			skyCamActive = false;
+		} else {
+			AllTankConroller[lastcamera].mycamera.GetComponent<Camera>().enabled = false;
+			AllTankConroller[lastcamera].mycamera.GetComponent<AudioListener>().enabled = false;
+		}
+		AllTankConroller[nextCamera].mycamera.GetComponent<Camera>().enabled = true;
+		AllTankConroller[nextCamera].mycamera.GetComponent<AudioListener>().enabled = true;
+
+		lastcamera = nextCamera;
 	}
+
+	void swapCameraToSky(int nextCamera){
+		if (skyCamActive == true) {
+			AllTankConroller [lastcamera].mySkyCam.GetComponent<Camera> ().enabled = false;
+			AllTankConroller [lastcamera].mySkyCam.GetComponent<AudioListener> ().enabled = false;
+			skyCamActive = false;
+		} else {
+			AllTankConroller[lastcamera].mycamera.GetComponent<Camera>().enabled = false;
+			AllTankConroller[lastcamera].mycamera.GetComponent<AudioListener>().enabled = false;
+		}
+		skyCamActive = true;
+		AllTankConroller [nextCamera].mySkyCam.GetComponent<Camera> ().enabled = true;
+		AllTankConroller [nextCamera].mySkyCam.GetComponent<AudioListener> ().enabled = true;
+		lastcamera = nextCamera;
+
+	
+	}
+
 
 	//Player and AI spawner function
 	void spawnTanks(int numplayers, int numAIs){

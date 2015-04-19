@@ -28,6 +28,7 @@ public class TankController : MonoBehaviour{
 	public float forwardMoveAmount = 0;
 	public float turnAmount = 0;
 	public GameObject mycamera;
+	public GameObject mySkyCam;
 	public float rotateAmount = 0;
 	public float currentEl = 40;
 	public float elevateAmount = 40;
@@ -37,6 +38,8 @@ public class TankController : MonoBehaviour{
 	public float shotDistance = -1;
 	public int target = -1;
 	public int currentWeapon = 0;
+	public int cameraPref = 1;
+	public float cameraAngle = 0;
 
 	void Start(){
 		prefab = Resources.Load ("Smoke") as GameObject;
