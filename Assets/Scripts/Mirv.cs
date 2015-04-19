@@ -24,7 +24,7 @@ public class Mirv : MonoBehaviour {
 	void Start () {
 		alive = true;
 		mirvTime = Time.time;
-		startTime = GameObject.FindGameObjectWithTag("TurnController").GetComponent<TurnController>().starttime;
+		startTime = GameObject.FindGameObjectWithTag("TurnController").GetComponent<TurnController>().timeFired;
 		prefab = Resources.Load ("Explosionsphere") as GameObject;
 		prefab2 = Resources.Load ("Explosion1") as GameObject;
 		//trail = Resources.Load ("projectileTrail") as GameObject;

@@ -5,10 +5,11 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class TankController : MonoBehaviour{
+
+	//Settings that define the tank's characteristics
 	public float maxSpeed = 5;
 	public float forwardSpeed = 20;
 	public float turnSpeed  = 2;
-	public Rigidbody rb;
 	public float elevateRate = 1;
 	public float turretRate = 1;
 	public float maxElevation = 70;
@@ -20,21 +21,31 @@ public class TankController : MonoBehaviour{
 	public bool followcam = true;
 	public float HP = 100;
 	public string Type = "Tank";
-	public bool playerControlled = true;
+	//public bool playerControlled = true;
+
+	public Rigidbody rb;
+	//References to related game Objects
 	public GameObject turret;
 	public GameObject elevator;
-	public ProjectileShooter gun;
-	//public GameObject gunobj;
-	public float forwardMoveAmount = 0;
-	public float turnAmount = 0;
 	public GameObject mycamera;
 	public GameObject mySkyCam;
+	GameObject prefSmoke;
+	//Gun Controller
+	public ProjectileShooter gun;
+
+
+	public float forwardMoveAmount = 0;
+	public float turnAmount = 0;
+
 	public float rotateAmount = 0;
 	public float currentEl = 40;
 	public float elevateAmount = 40;
-	public bool destroyed = false;
+
+
+
+	//Variables to store information about the tank's state needed by turn controller
 	public float score = 0;
-	GameObject prefab;
+	public bool destroyed = false;
 	public float shotDistance = -1;
 	public int target = -1;
 	public int currentWeapon = 0;
@@ -42,12 +53,20 @@ public class TankController : MonoBehaviour{
 	public float cameraAngle = 0;
 
 	void Start(){
-		prefab = Resources.Load ("Smoke") as GameObject;
+		//Prepare prefab
+		prefSmoke = Resources.Load ("Smoke") as GameObject;
+
+		//Get own rigid body
 		rb = GetComponent<Rigidbody> ();
+
+		//Randomize starting turret elevation
 		float initialel = Random.Range (15F, 45F);
 		elevator.transform.Rotate (initialel, 0, 0);
 		elevateAmount = initialel;
 		currentEl = initialel;
+
+		//Randomize initial direction of the tank
+		transform.Rotate(0, Random.Range (0, 360), 0);
 
 	}
 
@@ -56,6 +75,7 @@ public class TankController : MonoBehaviour{
 	void FixedUpdate(){
 		rb.maxAngularVelocity = maxSpeed;
 
+		//Move as instructed by turn controller
 		transform.Rotate(0, -turnAmount, 0);
 		rb.AddRelativeForce(0,0,-forwardMoveAmount);
 
@@ -70,11 +90,14 @@ public class TankController : MonoBehaviour{
 
 	}
 
-	void AddDamage(float damage){
-		if (HP > 0) {
 
+	//Process incoming damage notificaiton
+	void AddDamage(float damage){
+		//Make sure you still have HP left to damage
+		if (HP > 0) {
 			GameObject turnControllerObj = GameObject.FindGameObjectWithTag ("TurnController");
 			TurnController turnController = turnControllerObj.GetComponent<TurnController>();
+			//Apply damage to the correct player/AI's score, limiting score to health remaining
 			if(turnController.AITurnOver){
 				if (damage < HP) {
 					Debug.Log ("Player " + turnController.player.ToString() + " Score +" + HP.ToString());
@@ -93,8 +116,10 @@ public class TankController : MonoBehaviour{
 				}
 			}
 
-			
+			//Actually inflict damage
 			HP -= damage;
+
+			//Display damage notification popup
 			Quaternion notifRot;
 			if(turnController.player >= 0){
 				if(gameObject == turnController.players[turnController.player]){
@@ -108,15 +133,15 @@ public class TankController : MonoBehaviour{
 				notifRot = Quaternion.LookRotation(turret.transform.position -(turret.transform.position - turret.transform.up));
 				Debug.Log ("Shot By AI");
 			}
-			DamageNotif (damage.ToString ("F1"), 1F, 0F, 1F, notifRot);
+			DamageNotif (damage.ToString ("F1"), 1F, 0F, 2F, notifRot);
 
 
-
+			//If HP has been reduced to below 0, tank destroyed, notify and set status
 			if (HP <= 0) {
-				DamageNotif ("Destroyed", -1F, 0F, 1F, notifRot);
+				DamageNotif ("Destroyed", -1F, 0F, 2F, notifRot);
 				Debug.Log ("Tank Destroyed");
 				destroyed = true;
-				GameObject smoke = Instantiate(prefab) as GameObject;
+				GameObject smoke = Instantiate(prefSmoke) as GameObject;
 				smoke.transform.position = transform.position;
 				//Destroy (gameObject);
 			}
@@ -124,6 +149,7 @@ public class TankController : MonoBehaviour{
 	
 	}
 
+	//Actual spawner of notification
 	void DamageNotif(string damage, float height, float center, float size, Quaternion notifRot){
 		GameObject damageGameObject = (GameObject)Instantiate(Resources.Load ("Text Damage Display"), transform.position + new Vector3 (0, 2, 0), transform.rotation);
 		damageGameObject.GetComponentInChildren<TextMesh>().text = damage;

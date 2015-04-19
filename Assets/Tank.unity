@@ -549,6 +549,7 @@ MonoBehaviour:
   - {fileID: 158610, guid: 2d6bc9db2aa257f4ca7d3a08c5d0a5ee, type: 2}
   - {fileID: 129550, guid: 459e2a5a925e40c4084507436a26cf43, type: 2}
   - {fileID: 128972, guid: 03d6e2e25da4ada4b8eb03749a45c176, type: 2}
+  - {fileID: 168240, guid: 94e01a53b3438904a8047571fa10781e, type: 2}
 --- !u!1 &597374541
 GameObject:
   m_ObjectHideFlags: 0
@@ -655,8 +656,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44b94f1672e73a14a84fd0295c2c1717, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players: []
-  tankController: []
   txtPlayers: {fileID: 42583724}
   txtPlayer: {fileID: 1059554360}
   txtPower: {fileID: 1312853838}
@@ -665,29 +664,29 @@ MonoBehaviour:
   txtResult: {fileID: 1869607100}
   txtWeapon: {fileID: 1662566017}
   txtScore: {fileID: 310417907}
-  player: 0
   weapons:
   - High Explosive
   - Nuke
   - Mirv
-  currentWeapon: 0
-  starttime: 0
   gameover: 0
   controlsactive: 1
   AIActive: 0
-  currentAI: 0
-  AItankController: []
-  AllTankConroller: []
   AITurnOver: 1
   PlayerTurnOver: 0
+  player: 0
+  currentAI: 0
+  players: []
+  tankController: []
+  AItankController: []
+  AllTankConroller: []
+  timeFired: 0
   playertanktospawn: {fileID: 134004, guid: 1d283a3ea0732424c89d22e09368a35c, type: 2}
-  AItanktospawn: {fileID: 147422, guid: 1ef62bb9055ae3a48b6076b8d3915a3c, type: 2}
-  terrainobj: {fileID: 157979389}
+  AItanktospawn: {fileID: 134004, guid: 1d283a3ea0732424c89d22e09368a35c, type: 2}
+  numberofplayers: 2
+  numberofAIplayers: 2
   spawnrangex: 50
   spawnrangez: 50
-  numberofplayers: 2
-  numberofAIplayers: 0
-  timeFired: 0
+  terrainobj: {fileID: 157979389}
 --- !u!1 &1059554359
 GameObject:
   m_ObjectHideFlags: 0

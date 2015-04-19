@@ -4,12 +4,16 @@ using UnityEngine;
 using System.Collections;
 
 public class Projectile : MonoBehaviour {
+	//Characteristics of the weapon
 	public float baseDamage = 45;
 	public float damageAOE = 5;
 	public float rateDropoff = 1;
+	public float projTTL = 25;
+
+	//Explosion effects
 	GameObject expSphere;
 	GameObject expParticle;
-	public float projTTL = 25;
+
 	float startTime;
 	public bool followcam = false;
 	public GameObject owner;

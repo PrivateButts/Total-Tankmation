@@ -4,9 +4,6 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 
 public class TurnController : MonoBehaviour {
-	public GameObject [] players;
-	public List<TankController> tankController = new List<TankController>();
-	int numPlayers;
 	//GUI Configuration
 	public Text txtPlayers;
 	public Text txtPlayer;
@@ -16,33 +13,53 @@ public class TurnController : MonoBehaviour {
 	public Text txtResult;
 	public Text txtWeapon;
 	public Text txtScore;
-	public int player = 0;
+
+
+	//Weapon stuff
 	public string[] weapons;
-	public int currentWeapon = 0;
-	public float starttime;
+
+
+	//Turn processing
 	public bool gameover = false;
 	public bool controlsactive = true;
 	public bool AIActive = false;
-	public int currentAI = -1;
-	List<GameObject> AItankList = new List<GameObject>();
-	public List<TankController> AItankController = new List<TankController>();
-	public List<TankController> AllTankConroller = new List<TankController>();
 	public bool AITurnOver = true;
 	public bool PlayerTurnOver = false;
-	//Get objects to spawn for the Player and AI
+
+
+	//Tank and Controller related
+	public int player = 0;
+	public int currentAI = -1;
+	public GameObject [] players; //TODO: Convert this to a list for consistance
+	int numPlayers;
+	List<GameObject> AItankList = new List<GameObject>();
+	public List<TankController> tankController = new List<TankController>();
+	public List<TankController> AItankController = new List<TankController>();
+	public List<TankController> AllTankConroller = new List<TankController>(); //TODO: get rid of the need to have multiple lists of controllers
+	public float timeFired;
+
+
+	//Spawing Controls
 	public GameObject playertanktospawn;
 	public GameObject AItanktospawn;
-	//Terrain object
-	public Terrain terrainobj;
+	//How many Players/AI to spawn
+	public int numberofplayers = 1;
+	public int numberofAIplayers = 1;
 	//Set the spawn area
 	public int spawnrangex = 200;
 	public int spawnrangez = 200;
+
+
+	//Terrain object
+	public Terrain terrainobj;
+
+
+	//Camera settings
 	int lastcamera;
 	int rotationDir = 0;
-	public int numberofplayers = 1;
-	public int numberofAIplayers = 1;
 	bool skyCamActive = false;
-	public float timeFired;
+
+
 
 
 
@@ -86,7 +103,7 @@ public class TurnController : MonoBehaviour {
 		for (int i=0; i < weaponController.weapon.Length; i++) {
 			weapons[i] = weaponController.weapon[i].name;
 		}
-		txtWeapon.text = weapons[currentWeapon];
+		txtWeapon.text = weapons[0];
 
 
 		/*************************************
@@ -138,9 +155,10 @@ public class TurnController : MonoBehaviour {
 
 			} else {
 				int temptime = (int)(Time.time * 10F);
-				if (temptime % 10 == 0) {
+				if (temptime % 20 == 0) {
 					Debug.Log ("Active Weapon:" + activeWeapon [0].name);
 					Debug.Log (activeWeapon[0]);
+					Debug.Log (Time.time - timeFired);
 				}
 				/*if(Time.time - activeWeapon[0].GetComponent<projTTL>().startTime > activeWeapon[0].GetComponent<projTTL>().failSafeTTL){
 					Debug.Log ("Soft Error Correcting");
@@ -156,6 +174,12 @@ public class TurnController : MonoBehaviour {
 
 			//If keyboard not locked out, its still a player's turn, allow controls to apply to current player's tank
 		} else if (controlsactive == true && player < players.Length) {
+			/******************************************
+			 * 
+			 * Controls enabled, let the player do stuff
+			 * 
+			 * ***************************************/
+
 			//Debug.Log (player);
 			//Debug.Log (tankController.Count);
 			tankController [player].forwardMoveAmount = 0;
@@ -221,7 +245,6 @@ public class TurnController : MonoBehaviour {
 			}
 			if (Input.GetAxis ("Fire") > 0) {
 				timeFired = Time.time;
-				starttime = Time.time;
 				tankController [player].gun.Shoot ();
 				controlsactive = false;
 				tankController [player].forwardMoveAmount = 0;
@@ -238,6 +261,12 @@ public class TurnController : MonoBehaviour {
 				}
 			}
 
+
+			/***************************************
+			 * 
+			 * 			Camera Controls
+			 * 
+			 * ***************************************/
 			if (Input.GetButtonDown ("ChangeCamera")) {
 				if(tankController[player].cameraPref == 1){
 					swapCameraToSky(numberofAIplayers + player);
@@ -290,6 +319,10 @@ public class TurnController : MonoBehaviour {
 			txtElevator.text = "Elevation: " + tankController [player].currentEl.ToString ("F1");
 			txtScore.text = "Score: " + tankController [player].score.ToString ("F1");
 			txtWeapon.text = weapons [tankController[player].currentWeapon];
+
+
+
+
 		} else if (AIActive == true) {
 			/*********************************************
 			 * 
@@ -319,7 +352,7 @@ public class TurnController : MonoBehaviour {
 					}
 				}
 
-
+				//Decide which way to rotate to aim at target if not already decided
 				if (rotationDir == 0) {
 					float dist = Vector3.Distance (AllTankConroller [AItankController [currentAI].target].gameObject.transform.position, AItankController [currentAI].gun.gameObject.transform.position);
 					AItankController [currentAI].turret.transform.Rotate (0, 0, 1);
@@ -330,19 +363,33 @@ public class TurnController : MonoBehaviour {
 						Debug.Log ("Negative Rotate");
 						rotationDir = -1;
 					}
-
 				}
+
+				//Save the current distance to target
 				float dist2 = Vector3.Distance (AllTankConroller [AItankController [currentAI].target].gameObject.transform.position, AItankController [currentAI].gun.gameObject.transform.position);
+
+				//Rotate towards target
 				AItankController [currentAI].turret.transform.Rotate (0, 0, rotationDir);
 				//Debug.Log (dist2);
+
+				//If the distance got longer, you were already at the closest rotation.
 				if (dist2 < Vector3.Distance (AllTankConroller [AItankController [currentAI].target].gameObject.transform.position, AItankController [currentAI].gun.gameObject.transform.position)) {
+
+					//If the AI has already fired, it should adjust its power
 					if (AItankController [currentAI].shotDistance > 0) {
+						//If the previous shot fell short
 						if (AItankController [currentAI].shotDistance > dist2) {
+							//Increase power
 							AItankController [currentAI].power -= Random.Range (0F, 20F);
+
+						//If the previous shot went long
 						} else {
+							//Decrease power
 							AItankController [currentAI].power += Random.Range (0F, 20F);
 						}
 					}
+
+					//Fire
 					AItankController [currentAI].gun.Shoot ();
 					AIActive = false;
 					rotationDir = 0;
@@ -356,9 +403,11 @@ public class TurnController : MonoBehaviour {
 		}
 	}
 
+	//Turn swap function, doesn't matter what the game state is, this should work.
 	void nextTurn(){
-		//Once all the objects with the weapon tag have terminated disable camera and audio for the current player's camera
 		Debug.Log ("AI turn: " + AITurnOver.ToString() + " Player Turn: " + PlayerTurnOver.ToString());
+
+		//Check to make sure the game isn't over before letting anyone take a turn
 		if (gameOver ()) {
 		} else {
 			if (AITurnOver == true) {
@@ -376,13 +425,22 @@ public class TurnController : MonoBehaviour {
 	void nextAI(){
 		currentAI++;
 		Debug.Log("AI Player: " + currentAI);
+		//Check to see if we are past the last AI tank
 		if (currentAI >= AItankList.Count) {
 			Debug.Log ("End AI Turn");
+
+			//Prepare AI index for next time
 			currentAI = -1;
+
+			//Update turn statuses
+
 			AITurnOver = true;
 			PlayerTurnOver = false;
+
 		} else if (AItankController [currentAI].destroyed == true) {
+			//Call next AI if the current one is already dead
 			nextAI ();
+
 		} else {
 			//activate current AI
 			swapCameraToSky(currentAI);
@@ -393,19 +451,32 @@ public class TurnController : MonoBehaviour {
 	void nextPlayer(){
 		player++;
 		Debug.Log ("Player: " + player.ToString());
+		//Check to see if we are past the last player
 		if (player >= players.Length) {
 			Debug.Log ("Last Player reached, no turn");
+
+			//Move player so its ready for the start of the next turn
 			player = -1;
+
+			//Update turn states
 			PlayerTurnOver = true;
 			AITurnOver = false;
+
+			//Back to game loop, which will call nextTurn
 			return;
 		} else {
 			Debug.Log ("Player: " + player.ToString());
 		}
-		//Don't switch to tank if its been destroyed
+
+
+		//Check to see if game is over before proceeding to the player turn
 		if (gameOver ()) {
 
 		} else if (tankController [player].destroyed == false && PlayerTurnOver == false) {
+			//Checked to make sure the player about to be activated isn't dead
+
+
+			//Swap camera to the prefered view on the next player
 			Debug.Log ("Activate Camera on next Player");
 			if(tankController[player].cameraPref == 1){
 			swapCamera (numberofAIplayers + player);
@@ -416,9 +487,12 @@ public class TurnController : MonoBehaviour {
 			//Finally, enable controls if the player is alive
 			controlsactive = true;
 		} else {
+			//If the player was dead, go to next player
 			nextPlayer();
 		}
 	}
+
+	//Swap to the sky cam of the designated tank
 	void swapCamera(int nextCamera){
 		//Once the next player is set, enable camera and audio for that player's camera
 		if(skyCamActive == true) {
@@ -435,6 +509,7 @@ public class TurnController : MonoBehaviour {
 		lastcamera = nextCamera;
 	}
 
+	//Swap to the close in camera of the designated tank
 	void swapCameraToSky(int nextCamera){
 		if (skyCamActive == true) {
 			AllTankConroller [lastcamera].mySkyCam.GetComponent<Camera> ().enabled = false;
@@ -478,11 +553,13 @@ public class TurnController : MonoBehaviour {
 			GameObject temptank = Instantiate(AItanktospawn) as GameObject;
 			temptank.name = "AI Tank " + (i).ToString();
 			temptank.transform.position = new Vector3 (x, y, z);
+			temptank.tag = ("AITank");
 		}
 	}
 
+	//Function that checks to see if the game should be over
 	bool gameOver(){
-			//Debug.Log("Attempted to load a dead tank");
+		//Count dead AI and dead players
 		int destroyedplayers = 0;
 		int destroyedAI = 0;
 		for (int j = 0; j < players.Length; j++){
@@ -493,6 +570,9 @@ public class TurnController : MonoBehaviour {
 			if (AItankController[j].destroyed == true)
 				destroyedAI++;
 		}
+
+
+		//If they add up to within 1 of the total, game is over
 		if (destroyedplayers + destroyedAI >= (players.Length + AItankList.Count) - 1) {
 			tankController [0].mycamera.GetComponent<Camera> ().enabled = true;
 			gameover = true;
@@ -519,8 +599,10 @@ public class TurnController : MonoBehaviour {
 				dispResult = dispResult + "\n" + AItankList[i].name + "\t\t" + AItankController[i].score.ToString();
 			}
 			txtResult.text = dispResult;
+			//Return true that the game is over
 			return true;
 		} else {
+			//Return false if 2 or more entities are still alive
 			return false;
 		}
 	}
