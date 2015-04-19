@@ -219,12 +219,11 @@ public class TurnController : MonoBehaviour {
 			}
 
 			if (Input.GetButtonDown ("ChangeWeapon")) {
-				if (currentWeapon == weapons.Length - 1) {
-					currentWeapon = 0;
+				if (tankController[player].currentWeapon == weapons.Length - 1) {
+					tankController[player].currentWeapon = 0;
 				} else {
-					currentWeapon++;
+					tankController[player].currentWeapon++;
 				}
-				txtWeapon.text = weapons [currentWeapon];
 			}
 
 			//Update active tank based on keys being pressed
@@ -238,41 +237,41 @@ public class TurnController : MonoBehaviour {
 			txtSpeed.text = "Speed: " + (Mathf.Sqrt (Mathf.Pow (tankController [player].rb.velocity.z, 2) + Mathf.Pow (tankController [player].rb.velocity.x, 2))).ToString ("F1");
 			txtElevator.text = "Elevation: " + tankController [player].currentEl.ToString ("F1");
 			txtScore.text = "Score: " + tankController [player].score.ToString ("F1");
+			txtWeapon.text = weapons [tankController[player].currentWeapon];
 		} else if (AIActive == true) {
 			/*********************************************
 			 * 
 			 * What to do while an AI is active
 			 * 
 			 * ********************************************/
-			if(AItankController[currentAI].destroyed == false){
+			if (AItankController [currentAI].destroyed == false) {
 				//Choose a target 
 				//If no target, or target destroyed, pick new target
 				//Debug.Log ("AI Turn Loop");
-				if((AItankController[currentAI].target == -1) || (AllTankConroller[AItankController[currentAI].target].destroyed == true)){
+				if ((AItankController [currentAI].target == -1) || (AllTankConroller [AItankController [currentAI].target].destroyed == true)) {
 					Debug.Log ("Need New Target");
-					AItankController[currentAI].target = -1;
-					while (AItankController[currentAI].target == -1){
-						Debug.Log ("Old Target: " + AItankController[currentAI].target.ToString());
-						AItankController[currentAI].target = Random.Range (0, (AllTankConroller.Count));
-						Debug.Log("Choosing a target");
-						Debug.Log ("New Target: " + AItankController[currentAI].target.ToString());
+					AItankController [currentAI].target = -1;
+					while (AItankController[currentAI].target == -1) {
+						Debug.Log ("Old Target: " + AItankController [currentAI].target.ToString ());
+						AItankController [currentAI].target = Random.Range (0, (AllTankConroller.Count));
+						Debug.Log ("Choosing a target");
+						Debug.Log ("New Target: " + AItankController [currentAI].target.ToString ());
 
-						if(AllTankConroller[AItankController[currentAI].target].gameObject.name == AItankList[currentAI].name){
+						if (AllTankConroller [AItankController [currentAI].target].gameObject.name == AItankList [currentAI].name) {
 							Debug.Log ("AI Tank Targeted Self");
-							AItankController[currentAI].target = -1; 
-						}
-						if(AllTankConroller[AItankController[currentAI].target].destroyed == true){
+							AItankController [currentAI].target = -1; 
+						} else if (AllTankConroller [AItankController [currentAI].target].destroyed == true) {
 							Debug.Log ("New Target Already Destroyed");
-							AItankController[currentAI].target = -1; 
+							AItankController [currentAI].target = -1; 
 						}
 					}
 				}
 
 
-				if (rotationDir == 0){
-					float dist = Vector3.Distance(AllTankConroller[AItankController[currentAI].target].gameObject.transform.position, AItankController[currentAI].gun.gameObject.transform.position);
-					AItankController[currentAI].turret.transform.Rotate(0,0,1);
-					if (dist >  Vector3.Distance(AllTankConroller[AItankController[currentAI].target].gameObject.transform.position, AItankController[currentAI].gun.gameObject.transform.position)){
+				if (rotationDir == 0) {
+					float dist = Vector3.Distance (AllTankConroller [AItankController [currentAI].target].gameObject.transform.position, AItankController [currentAI].gun.gameObject.transform.position);
+					AItankController [currentAI].turret.transform.Rotate (0, 0, 1);
+					if (dist > Vector3.Distance (AllTankConroller [AItankController [currentAI].target].gameObject.transform.position, AItankController [currentAI].gun.gameObject.transform.position)) {
 						Debug.Log ("Positive Rotate");
 						rotationDir = 1;
 					} else {
@@ -281,22 +280,27 @@ public class TurnController : MonoBehaviour {
 					}
 
 				}
-				float dist2 = Vector3.Distance(AllTankConroller[AItankController[currentAI].target].gameObject.transform.position, AItankController[currentAI].gun.gameObject.transform.position);
-				AItankController[currentAI].turret.transform.Rotate(0,0,rotationDir);
+				float dist2 = Vector3.Distance (AllTankConroller [AItankController [currentAI].target].gameObject.transform.position, AItankController [currentAI].gun.gameObject.transform.position);
+				AItankController [currentAI].turret.transform.Rotate (0, 0, rotationDir);
 				//Debug.Log (dist2);
-				if (dist2 <  Vector3.Distance(AllTankConroller[AItankController[currentAI].target].gameObject.transform.position, AItankController[currentAI].gun.gameObject.transform.position)){
-					if(AItankController[currentAI].shotDistance > 0){
-						if(AItankController[currentAI].shotDistance > dist2){
-							AItankController[currentAI].power -= Random.Range (0F, 20F);
+				if (dist2 < Vector3.Distance (AllTankConroller [AItankController [currentAI].target].gameObject.transform.position, AItankController [currentAI].gun.gameObject.transform.position)) {
+					if (AItankController [currentAI].shotDistance > 0) {
+						if (AItankController [currentAI].shotDistance > dist2) {
+							AItankController [currentAI].power -= Random.Range (0F, 20F);
 						} else {
-							AItankController[currentAI].power += Random.Range (0F, 20F);
+							AItankController [currentAI].power += Random.Range (0F, 20F);
 						}
 					}
-					AItankController[currentAI].gun.Shoot ();
+					AItankController [currentAI].gun.Shoot ();
 					AIActive = false;
 					rotationDir = 0;
 				}
 			}
+		} else if (gameover == true) {
+			if (Input.GetKeyDown (KeyCode.Return)) {  
+				Application.LoadLevel (0);  
+			}  
+
 		}
 	}
 
@@ -410,17 +414,17 @@ public class TurnController : MonoBehaviour {
 		if (destroyedplayers + destroyedAI >= (players.Length + AItankList.Count) - 1) {
 			tankController [0].mycamera.GetComponent<Camera> ().enabled = true;
 			gameover = true;
-			string dispResult = "";
+			string dispResult = "Press Enter to Start a new game\n";
 			if (destroyedplayers + destroyedAI == players.Length + AItankList.Count) {
-				dispResult = "The game ended in a draw";
+				dispResult += "The game ended in a draw";
 			} else if (destroyedplayers == players.Length - 1) {
 				for (int j = 0; j < players.Length; j++) {
 					if (tankController [j].destroyed == false)
 						tankController[j].score += 500;
-						dispResult = "Player " + (j + 1).ToString () + " has survived the round! +500 points";
+						dispResult += "Player " + (j + 1).ToString () + " has survived the round! +500 points";
 				}
 			} else {
-				dispResult = "Humanity has been defeated";
+				dispResult += "Humanity has been defeated";
 			}
 			dispResult = dispResult + "\n\nName\t\tScore";
 			for( int i = 0; i < (players.Length); i++){

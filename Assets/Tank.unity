@@ -170,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Seed: 9.92000008
-  Scale: 0
+  Scale: .779999971
   BaseTerrain: {fileID: 157979389}
 --- !u!154 &157979388
 TerrainCollider:
@@ -547,6 +547,8 @@ MonoBehaviour:
   - {fileID: 135208, guid: b1200cba42f3f304a9f4988976dc2bf7, type: 2}
   - {fileID: 179840, guid: 695c71fa23203c04f8e07a22fc54e926, type: 2}
   - {fileID: 158610, guid: 2d6bc9db2aa257f4ca7d3a08c5d0a5ee, type: 2}
+  - {fileID: 129550, guid: 459e2a5a925e40c4084507436a26cf43, type: 2}
+  - {fileID: 128972, guid: 03d6e2e25da4ada4b8eb03749a45c176, type: 2}
 --- !u!1 &597374541
 GameObject:
   m_ObjectHideFlags: 0
@@ -767,8 +769,8 @@ MonoBehaviour:
   terrainobj: {fileID: 157979389}
   spawnrangex: 50
   spawnrangez: 50
-  numberofplayers: 1
-  numberofAIplayers: 5
+  numberofplayers: 2
+  numberofAIplayers: 0
 --- !u!1 &1059554359
 GameObject:
   m_ObjectHideFlags: 0

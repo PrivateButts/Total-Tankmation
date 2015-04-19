@@ -13,11 +13,13 @@ public class Projectile : MonoBehaviour {
 	float startTime;
 	public bool followcam = false;
 	public GameObject owner;
+	public float emissionRate = 20;
 	void Start () {
 		//grab explosion object from resources
 		startTime = Time.time;
 		expSphere = Resources.Load ("Explosionsphere") as GameObject;
 		expParticle = Resources.Load ("Explosion1") as GameObject;
+		transform.GetChild (0).GetComponent<ParticleSystem> ().emissionRate = emissionRate;
 	}
 
 	void Update () {
@@ -28,7 +30,7 @@ public class Projectile : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other){
-		if (other.tag != "KillBox") {
+		if (other.tag != "KillBox" && other.tag != "Weapon" && other.tag != "Trail") {
 			//Create explosion
 			GameObject explosion = Instantiate (expSphere) as GameObject;
 			//Create explosion at the location where the collision occured

@@ -36,13 +36,15 @@ public class TankController : MonoBehaviour{
 	GameObject prefab;
 	public float shotDistance = -1;
 	public int target = -1;
+	public int currentWeapon = 0;
 
 	void Start(){
 		prefab = Resources.Load ("Smoke") as GameObject;
 		rb = GetComponent<Rigidbody> ();
-		elevator.transform.Rotate (40, 0, 0);
-		elevateAmount = 40;
-		currentEl = 40;
+		float initialel = Random.Range (15F, 45F);
+		elevator.transform.Rotate (initialel, 0, 0);
+		elevateAmount = initialel;
+		currentEl = initialel;
 
 	}
 
