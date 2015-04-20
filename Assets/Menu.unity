@@ -168,10 +168,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4adb9cadd42519945bc3d73d11944c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FirstTransTime: 3
-  SecondTransTime: 3
+  FirstTrans: 0
+  SecondTrans: 0
+  FirstTransTime: 1
+  SecondTransTime: 1.5
   TransStart: {x: 0, y: 1, z: 0}
-  TransMiddle: {x: 0, y: 1, z: -26}
+  TransMiddle: {x: 0, y: 1, z: 0}
   TransEnd: {x: 0, y: 1, z: -26}
   TransRStart: {x: 0, y: 0, z: 0, w: 1}
   TransREnd: {x: 0, y: .956304729, z: 0, w: .292371809}
