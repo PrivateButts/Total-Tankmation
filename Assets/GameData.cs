@@ -2,14 +2,16 @@
 using System.Collections;
 
 public class GameData : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-	
+	// This keeps the Object in the scene unless explictly destroyed
+	void Awake() {
+		DontDestroyOnLoad(transform.gameObject);
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
+
+	// This is were all the logic for setting a loaded level with the data in this object
+	void OnLevelWasLoaded(int Level){
+		// Main Game
+		if (Level == 1) {
+			// Spawn Tanks
+		}
 	}
 }
