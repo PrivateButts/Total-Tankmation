@@ -12,6 +12,7 @@ public class AITank : MonoBehaviour {
 	float startTurnTime;
 	public float turnLength = 10;
 
+
 	// Use this for initialization
 	void Start () {
 		GameObject [] temp;

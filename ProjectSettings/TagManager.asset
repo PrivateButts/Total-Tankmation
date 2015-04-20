@@ -3,13 +3,15 @@
 --- !u!78 &1
 TagManager:
   tags:
-  - Tank
+  - AITank
   - Trail
   - PlayerTank
   - Weapon
   - TurnController
   - AvailWeapons
   - KillBox
+  - 
+  - Tank
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

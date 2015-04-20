@@ -11,6 +11,7 @@ GameObject:
   - 198: {fileID: 19837820}
   - 199: {fileID: 19908534}
   - 114: {fileID: 11468898}
+  - 114: {fileID: 11441678}
   m_Layer: 0
   m_Name: Explosion1
   m_TagString: Weapon
@@ -30,6 +31,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
+--- !u!114 &11441678
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 135806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75adc1bd60add664bbc34e52795d6324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startTime: 0
+  failSafeTTL: 15
 --- !u!114 &11468898
 MonoBehaviour:
   m_ObjectHideFlags: 1

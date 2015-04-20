@@ -14,13 +14,17 @@ public class Mirv : MonoBehaviour {
 	public float spreadSpeed = 10F;
 	GameObject trail;
 	float mirvTime;
+	public GameObject owner;
+	public int mirvCount = 4;
+	public bool alive;
 
 
 
 	// Use this for initialization
 	void Start () {
+		alive = true;
 		mirvTime = Time.time;
-		startTime = GameObject.FindGameObjectWithTag("TurnController").GetComponent<TurnController>().starttime;
+		startTime = GameObject.FindGameObjectWithTag("TurnController").GetComponent<TurnController>().timeFired;
 		prefab = Resources.Load ("Explosionsphere") as GameObject;
 		prefab2 = Resources.Load ("Explosion1") as GameObject;
 		//trail = Resources.Load ("projectileTrail") as GameObject;
@@ -56,7 +60,7 @@ public class Mirv : MonoBehaviour {
 			Collider[] hits = Physics.OverlapSphere (gameObject.transform.position, damageAOE);
 			int i = 0;
 			while (i < hits.Length) {
-				if (hits [i].tag == "Tank" || hits [i].tag == "Trail" || hits [i].tag == "PlayerTank") {
+				if (hits [i].tag == "AITank" || hits [i].tag == "Trail" || hits [i].tag == "PlayerTank") {
 					float distance = Vector3.Distance (gameObject.transform.position, hits [i].gameObject.transform.position);
 					if (distance < 1) {
 						distance = 1;
@@ -74,19 +78,17 @@ public class Mirv : MonoBehaviour {
 	}
 
 	void SpawnMirv(){
-		float iSpread = 0F;
-		GameObject mirvs = Instantiate(mirvProjectiles) as GameObject;
-		mirvs.transform.position = transform.localPosition + transform.right * iSpread;
-		mirvs.rigidbody.velocity = rigidbody.velocity + transform.right * spreadSpeed * Random.value;
-		mirvs = Instantiate(mirvProjectiles) as GameObject;
-		mirvs.transform.position = transform.localPosition + transform.right * -iSpread;
-		mirvs.rigidbody.velocity = rigidbody.velocity + transform.right * -spreadSpeed * Random.value;		
-		mirvs = Instantiate(mirvProjectiles) as GameObject;
-		mirvs.transform.position = transform.localPosition + transform.up * iSpread;
-		mirvs.rigidbody.velocity = rigidbody.velocity + transform.up * spreadSpeed * Random.value/2;		
-		mirvs = Instantiate(mirvProjectiles) as GameObject;
-		mirvs.transform.position = transform.localPosition + transform.up * -iSpread;
-		mirvs.rigidbody.velocity = rigidbody.velocity + transform.up * -spreadSpeed * Random.value;
+		float iSpread = 0.1F;
+		for (int i = 0; i<mirvCount; i++) {
+			GameObject mirvs = Instantiate (mirvProjectiles) as GameObject;
+			mirvs.transform.position = transform.localPosition + transform.right * iSpread;
+			mirvs.rigidbody.velocity = rigidbody.velocity + new Vector3(Random.value, Random.value, Random.value) * spreadSpeed * Random.value;
+			if (mirvs.GetComponent<Mirv> ()) {
+				mirvs.GetComponent<Mirv> ().owner = owner;
+			} else {
+				mirvs.GetComponent<Projectile> ().owner = owner;
+			}
+		}
 		transform.GetChild (0).GetComponent<ParticleSystem> ().emissionRate = 0;
 		transform.DetachChildren ();
 		Destroy (gameObject);

@@ -12,6 +12,7 @@ GameObject:
   - 23: {fileID: 2362330}
   - 95: {fileID: 9511774}
   - 114: {fileID: 11408274}
+  - 114: {fileID: 11432252}
   m_Layer: 0
   m_Name: Explosionsphere
   m_TagString: Weapon
@@ -84,6 +85,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a95137ba9e383b94b90c79831a2832dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionsize: 5
+--- !u!114 &11432252
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 192756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75adc1bd60add664bbc34e52795d6324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startTime: 0
+  failSafeTTL: 3
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
