@@ -18,14 +18,10 @@ public class GameData : MonoBehaviour {
 	}
 
 
-	// These functions handle the menu transistion, pulling user data, and switching scenes
+	// Menu Transition
 	public void OnPlayButtonClicked(){
 		TimerStart = Time.time;
 		FirstTrans = true;
-	}
-
-	public void OnGoButtonClicked(){
-
 	}
 
 	void Update(){
@@ -38,14 +34,21 @@ public class GameData : MonoBehaviour {
 				SecondTrans = true;
 			}
 		}else if (SecondTrans) {
-			if (Camera.position != TransEnd) {
-				Camera.position = Vector3.Lerp (TransStart, TransMiddle, (Time.time - TimerStart) / FirstTransTime);
-				Camera.rotation = Quaternion.Lerp(TransRStart, TransREnd, (Time.time - TimerStart) / FirstTransTime);
+			if (Camera.rotation != TransREnd) {
+				Camera.position = Vector3.Lerp (TransMiddle, TransEnd, (Time.time - TimerStart) / SecondTransTime);
+				Camera.rotation = Quaternion.Lerp(TransRStart, TransREnd, (Time.time - TimerStart) / SecondTransTime);
 			} else {
 				SecondTrans = false;
 			}
 		}
 	}
+
+	// Grabbing Data and Switching Scenes
+	public void OnGoButtonClicked(){
+
+	}
+
+
 
 
 	// This is were all the logic for setting a loaded level with the data in this object
