@@ -168,8 +168,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4adb9cadd42519945bc3d73d11944c03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayersIn: {fileID: 0}
-  AIsIn: {fileID: 0}
+  PlayersIn: {fileID: 421468787}
+  AIsIn: {fileID: 2043207451}
   Players: 0
   AIs: 0
 --- !u!4 &90956437
@@ -375,7 +375,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 172262029}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 7.75710021e-07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1375586132}
@@ -383,7 +383,7 @@ RectTransform:
   m_RootOrder: 5
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 7.78999996, y: 7.09000015}
+  m_AnchoredPosition: {x: 7.79004955, y: -1}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &172262031
@@ -497,7 +497,7 @@ RectTransform:
   m_RootOrder: 3
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: -23.7999992, y: 34.5}
+  m_AnchoredPosition: {x: -33, y: 32}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &335243315
@@ -1095,14 +1095,14 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 725819382}
   m_LocalRotation: {x: 0, y: -1.02927025e-07, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -1.53780002e-06}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 460928208}
   m_RootOrder: 1
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: -23, y: 63.4000015}
+  m_AnchoredPosition: {x: -33, y: 64.5}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &725819384
@@ -1406,14 +1406,14 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1141097437}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 5.7423e-07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 460928208}
   m_RootOrder: 0
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: -.100000001, y: 89.9199982}
+  m_AnchoredPosition: {x: 7.79002142, y: 94.5}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1141097439
@@ -1473,16 +1473,16 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1306074678}
   m_LocalRotation: {x: 0, y: -1.02927025e-07, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -1.06231425e-06}
-  m_LocalScale: {x: .200000003, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -1.17759998e-06}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 421468786}
   m_Father: {fileID: 460928208}
   m_RootOrder: 2
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 73.9999924, y: 66.9800034}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 69.7950287, y: 64.5}
+  m_SizeDelta: {x: 36, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &1306074680
 MonoBehaviour:
@@ -1556,7 +1556,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -2376,16 +2376,16 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2127959252}
   m_LocalRotation: {x: 0, y: -1.02927025e-07, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0}
-  m_LocalScale: {x: .199999973, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 1.53300005e-06}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2043207453}
   m_Father: {fileID: 460928208}
   m_RootOrder: 4
   m_AnchorMin: {x: .5, y: .5}
   m_AnchorMax: {x: .5, y: .5}
-  m_AnchoredPosition: {x: 74.0000153, y: 38}
-  m_SizeDelta: {x: 160, y: 30}
+  m_AnchoredPosition: {x: 69.790062, y: 32}
+  m_SizeDelta: {x: 36, y: 30}
   m_Pivot: {x: .5, y: .5}
 --- !u!114 &2127959254
 MonoBehaviour:
@@ -2459,7 +2459,7 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

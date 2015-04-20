@@ -10,13 +10,15 @@ public class GameData : MonoBehaviour {
 	// This keeps the Object in the scene unless explictly destroyed
 	void Awake() {
 		DontDestroyOnLoad(transform.gameObject);
-
 	}
 
 	
 	// Grabbing Data and Switching Scenes
 	public void OnGoButtonClicked(){
+		Players = int.Parse(PlayersIn.text);
+		AIs = int.Parse(AIsIn.text);
 
+		Application.LoadLevel (1);
 	}
 
 
