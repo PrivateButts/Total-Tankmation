@@ -26,7 +26,9 @@ public class GameData : MonoBehaviour {
 	void OnLevelWasLoaded(int Level){
 		// Main Game
 		if (Level == 1) {
-			// Spawn Tanks
+			TurnController TC = GameObject.FindGameObjectWithTag("TurnController").GetComponent<TurnController>();
+			TC.numberofplayers = Players;
+			TC.numberofAIplayers = AIs;
 		}
 	}
 }
