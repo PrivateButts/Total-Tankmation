@@ -360,7 +360,7 @@ public class TurnController : MonoBehaviour {
 						Debug.Log ("Positive Rotate");
 						rotationDir = 1;
 					} else {
-						Debug.Log ("Negative Rotate");
+						Debug.Log ("Negative Rotate"); 
 						rotationDir = -1;
 					}
 				}
@@ -393,6 +393,7 @@ public class TurnController : MonoBehaviour {
 					AItankController [currentAI].gun.Shoot ();
 					AIActive = false;
 					rotationDir = 0;
+					timeFired = Time.time;
 				}
 			}
 		} else if (gameover == true) {

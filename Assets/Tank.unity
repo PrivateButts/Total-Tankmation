@@ -682,8 +682,8 @@ MonoBehaviour:
   timeFired: 0
   playertanktospawn: {fileID: 134004, guid: 1d283a3ea0732424c89d22e09368a35c, type: 2}
   AItanktospawn: {fileID: 134004, guid: 1d283a3ea0732424c89d22e09368a35c, type: 2}
-  numberofplayers: 2
-  numberofAIplayers: 2
+  numberofplayers: 5
+  numberofAIplayers: 0
   spawnrangex: 50
   spawnrangez: 50
   terrainobj: {fileID: 157979389}
