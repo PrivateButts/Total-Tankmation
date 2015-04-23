@@ -171,6 +171,9 @@ MonoBehaviour:
   AIsIn: {fileID: 2043207451}
   Players: 0
   AIs: 0
+  Seed: 11.5299997
+  Scale: 0
+  MinHeight: 0
 --- !u!4 &90956437
 Transform:
   m_ObjectHideFlags: 0

@@ -614,6 +614,7 @@ public class TurnController : MonoBehaviour {
 			}
 			txtResult.text = dispResult;
 			//Return true that the game is over
+			_gameData.Seed += 10;
 			return true;
 		} else {
 			//Return false if 2 or more entities are still alive

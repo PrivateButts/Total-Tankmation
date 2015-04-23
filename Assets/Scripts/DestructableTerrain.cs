@@ -6,8 +6,13 @@ public class DestructableTerrain : MonoBehaviour {
 	public float Seed, Scale, MinHeight;
 	public Terrain BaseTerrain;
 	private float[,] GeneratedHeightMap;
+	public GameData _gameData;
 	// Use this for initialization
 	void Start () {
+		_gameData = GameObject.FindGameObjectWithTag ("GameData").GetComponent<GameData> ();
+		Seed = _gameData.Seed;
+		Scale = _gameData.Scale;
+		MinHeight = _gameData.MinHeight;
 		TerrainData terrain = BaseTerrain.terrainData;
 		//Generate a huge array for fun
 		GeneratedHeightMap = new float[terrain.heightmapWidth, terrain.heightmapWidth];

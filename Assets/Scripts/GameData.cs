@@ -7,6 +7,7 @@ public class GameData : MonoBehaviour {
 	public List<PlayerData> tanks = new List<PlayerData>();
 	public Text PlayersIn, AIsIn;
 	public int Players, AIs;
+	public float Seed, Scale, MinHeight;
 
 
 	// This keeps the Object in the scene unless explictly destroyed
