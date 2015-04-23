@@ -74,7 +74,7 @@ public class GameData : MonoBehaviour {
 		return NameList [Random.Range (0, 199)];
 	}
 
-	public struct PlayerData{
+	public class PlayerData{
 		public bool IsAI; 
 		public string Name; 
 		public float Score; 

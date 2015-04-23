@@ -10,7 +10,7 @@ TagManager:
   - TurnController
   - AvailWeapons
   - KillBox
-  - 
+  - GameData
   - Tank
   - 
   Builtin Layer 0: Default
