@@ -18,6 +18,12 @@ public class GameData : MonoBehaviour {
 		Players = int.Parse(PlayersIn.text);
 		AIs = int.Parse(AIsIn.text);
 
+		if (Players < 0 || AIs < 0) {
+			// Show Error Message
+			Debug.LogError("Can not have negative players or AIs");
+			return;
+		}
+
 		Application.LoadLevel (1);
 	}
 
