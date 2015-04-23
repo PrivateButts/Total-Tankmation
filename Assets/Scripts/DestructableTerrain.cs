@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 public class DestructableTerrain : MonoBehaviour {
-	public float Seed, Scale;
+	public float Seed, Scale, MinHeight;
 	public Terrain BaseTerrain;
 	private float[,] GeneratedHeightMap;
 	// Use this for initialization
@@ -20,7 +20,7 @@ public class DestructableTerrain : MonoBehaviour {
 				float yCoord = Seed + (float)y / (float)terrain.heightmapWidth * Scale;
 				Noise = Mathf.PerlinNoise (xCoord, yCoord);
 				// Make sure our heightmap doesn't get too tall
-				GeneratedHeightMap [y, x] = Mathf.Clamp (Noise, 0, 1);
+				GeneratedHeightMap [y, x] = Mathf.Clamp (Noise, MinHeight, 1);
 			}
 		}
 		// Set the new heightmap and clear the placeholder array
