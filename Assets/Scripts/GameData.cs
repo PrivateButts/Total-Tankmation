@@ -27,6 +27,13 @@ public class GameData : MonoBehaviour {
 		Application.LoadLevel (1);
 	}
 
+	void Update(){
+
+		if(Input.GetKeyUp(KeyCode.Escape)){
+			Application.Quit ();
+		}
+	}
+
 
 	// This is were all the logic for setting a loaded level with the data in this object
 	void OnLevelWasLoaded(int Level){
