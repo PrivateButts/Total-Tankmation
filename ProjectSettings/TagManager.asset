@@ -12,6 +12,7 @@ TagManager:
   - KillBox
   - GameData
   - Tank
+  - Terrain
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

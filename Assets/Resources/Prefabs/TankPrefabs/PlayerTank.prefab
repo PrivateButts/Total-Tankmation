@@ -647,6 +647,7 @@ MonoBehaviour:
   currentWeapon: 0
   cameraPref: 1
   cameraAngle: -15
+  fuel: 10
 --- !u!114 &11434014
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -61,9 +61,10 @@ public class Projectile : MonoBehaviour {
 
 					hits [i].SendMessage ("AddDamage", damage);
 				}
-				//if (hits[i].tag == "Terrain"){
-				//	hits[i].gameObject.GetComponent<DestructableTerrain>().Crater (Mathf.RoundToInt(transform.position.x), Mathf.RoundToInt(transform.position.y), Mathf.RoundToInt(damageAOE), 150F);
-				//}
+				if (hits[i].tag == "Terrain"){
+					Debug.Log("Attemping to deform terrain");
+					hits[i].gameObject.GetComponent<DestructableTerrain>().Crater ((Mathf.RoundToInt(transform.position.x + 1000)/513), Mathf.RoundToInt((transform.position.z + 1000)/513), Mathf.RoundToInt(damageAOE), 150F);
+				}
 				i++;
 			}
 			//Tell owner how far it went

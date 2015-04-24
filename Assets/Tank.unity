@@ -153,7 +153,7 @@ GameObject:
   - 114: {fileID: 157979387}
   m_Layer: 0
   m_Name: Terrain
-  m_TagString: Untagged
+  m_TagString: Terrain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -693,6 +693,7 @@ MonoBehaviour:
   spawnrangez: 50
   terrainobj: {fileID: 157979389}
   _gameData: {fileID: 0}
+  fuelUseRate: .100000001
 --- !u!1 &1059554359
 GameObject:
   m_ObjectHideFlags: 0

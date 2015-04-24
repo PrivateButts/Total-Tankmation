@@ -408,11 +408,11 @@ public class TurnController : MonoBehaviour {
 		}
 		//Update GUI
 		if (AITurnOver) {
-			Debug.Log("Update GUI Player");
+			//Debug.Log("Update GUI Player");
 			txtPlayer.text = "Current Player: " + _gameData.tanks [player].Name;
 			updateGUI(player + numberofAIplayers);
 		} else if (PlayerTurnOver) {
-			Debug.Log("Update GUI AI");
+			//Debug.Log("Update GUI AI");
 			txtPlayer.text = "Current Player: AI - " + _gameData.tanks [currentAI + numberofplayers].Name;
 			updateGUI(currentAI);
 		}
