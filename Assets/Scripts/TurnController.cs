@@ -13,6 +13,7 @@ public class TurnController : MonoBehaviour {
 	public Text txtResult;
 	public Text txtWeapon;
 	public Text txtScore;
+	public Text txtFuel;
 
 
 	//Weapon stuff
@@ -61,6 +62,7 @@ public class TurnController : MonoBehaviour {
 
 	//
 	public GameData _gameData;
+	public float fuelUseRate = 0.1F;
 
 
 
@@ -202,17 +204,21 @@ public class TurnController : MonoBehaviour {
 			}
 			//Tank Hull Controls
 			//This could be simplified, I originally started with raw inputs, but have switched to allow players to configure from the unity game launcher
-			if (Input.GetAxis ("HullMovement") > 0) {
+			if (Input.GetAxis ("HullMovement") > 0 && AllTankConroller[numberofAIplayers + player].fuel > 0) {
 				tankController [player].forwardMoveAmount = tankController [player].forwardSpeed;
+				AllTankConroller[numberofAIplayers + player].fuel -= fuelUseRate;
 			}
-			if (Input.GetAxis ("HullMovement") < 0) {
+			if (Input.GetAxis ("HullMovement") < 0 && AllTankConroller[numberofAIplayers + player].fuel > 0) {
 				tankController [player].forwardMoveAmount = -tankController [player].forwardSpeed;
+				AllTankConroller[numberofAIplayers + player].fuel -= fuelUseRate;
 			}
 			if (Input.GetAxis ("HullRotation") > 0) {
 				tankController [player].turnAmount = tankController [player].turnSpeed * modifier;
+				//AllTankConroller[numberofAIplayers + player].fuel -= fuelUseRate;
 			}
 			if (Input.GetAxis ("HullRotation") < 0) {
 				tankController [player].turnAmount = -tankController [player].turnSpeed * modifier;
+				//AllTankConroller[numberofAIplayers + player].fuel -= fuelUseRate;
 			}
 			//Gun Power Controls
 			if (Input.GetAxis ("Power") > 0) {
@@ -495,6 +501,7 @@ public class TurnController : MonoBehaviour {
 			}
 			
 			//Finally, enable controls if the player is alive
+			AllTankConroller[numberofAIplayers + player].fuel = 10;
 			controlsactive = true;
 		} else {
 			//If the player was dead, go to next player
@@ -604,12 +611,12 @@ public class TurnController : MonoBehaviour {
 			dispResult = dispResult + "\n\nName\t\tScore";
 			for( int i = 0; i < (players.Length); i++){
 				Debug.Log (i);
-				dispResult = dispResult + "\n" + players[i].name + "\t\t" + tankController[i].score.ToString();
+				dispResult = dispResult + "\n" + players[i].name + "\t\t" + tankController[i].score.ToString("F1");
 				_gameData.tanks[i].Score = tankController[i].score;
 			}
 			for( int i = 0; i < (AItankList.Count); i++){
 				Debug.Log (i);
-				dispResult = dispResult + "\n" + AItankList[i].name + "\t\t" + AItankController[i].score.ToString();
+				dispResult = dispResult + "\n" + AItankList[i].name + "\t\t" + AItankController[i].score.ToString("F1");
 				_gameData.tanks[numberofplayers + i].Score = AItankController[i].score;
 			}
 			txtResult.text = dispResult;
@@ -631,6 +638,7 @@ public class TurnController : MonoBehaviour {
 		txtElevator.text = "Elevation: " + AllTankConroller [displayIndex].currentEl.ToString ("F1");
 		txtScore.text = "Score: " + AllTankConroller [displayIndex].score.ToString ("F1");
 		txtWeapon.text = weapons [AllTankConroller[displayIndex].currentWeapon];
+		txtFuel.text = "Fuel: " + AllTankConroller [displayIndex].fuel.ToString ("F1");
 	}
 
 }

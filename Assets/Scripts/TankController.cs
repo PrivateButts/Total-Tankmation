@@ -51,6 +51,7 @@ public class TankController : MonoBehaviour{
 	public int currentWeapon = 0;
 	public int cameraPref = 1;
 	public float cameraAngle = 0;
+	public float fuel = 100;
 
 	void Start(){
 		//Prepare prefab
