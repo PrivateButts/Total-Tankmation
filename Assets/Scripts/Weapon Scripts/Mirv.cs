@@ -82,7 +82,7 @@ public class Mirv : MonoBehaviour {
 		for (int i = 0; i<mirvCount; i++) {
 			GameObject mirvs = Instantiate (mirvProjectiles) as GameObject;
 			mirvs.transform.position = transform.localPosition + transform.right * iSpread;
-			mirvs.rigidbody.velocity = rigidbody.velocity + new Vector3(Random.value, Random.value, Random.value) * spreadSpeed * Random.value;
+			mirvs.rigidbody.velocity = rigidbody.velocity + new Vector3(Random.Range (-1, 1), Random.Range (-1, 1), Random.Range (-1, 1)) * spreadSpeed;
 			if (mirvs.GetComponent<Mirv> ()) {
 				mirvs.GetComponent<Mirv> ().owner = owner;
 			} else {

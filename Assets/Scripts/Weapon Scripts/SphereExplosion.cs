@@ -6,11 +6,17 @@ public class SphereExplosion : MonoBehaviour {
 	public float explosionsize = 5;
 	float expansion = .2F;
 	float maxsize = 4.8F;
+
+	public AudioSource expSFX;
+
 	// Use this for initialization
 	void Start () {
 		expansion = explosionsize / 25F;
 		maxsize = explosionsize - 0.2F;
 		created = Time.time;
+		expSFX.time = 0;
+		expSFX.Play ();
+
 	}
 		
 	// Update is called once per frame

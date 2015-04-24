@@ -124,7 +124,7 @@ MonoBehaviour:
   projTTL: 25
   followcam: 0
   mirvProjectiles: {fileID: 158610}
-  spreadSpeed: 32
+  spreadSpeed: 16
   owner: {fileID: 0}
   mirvCount: 4
   alive: 0

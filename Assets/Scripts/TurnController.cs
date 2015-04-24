@@ -404,7 +404,7 @@ public class TurnController : MonoBehaviour {
 		if (AITurnOver) {
 			Debug.Log("Update GUI Player");
 			txtPlayer.text = "Current Player: " + _gameData.tanks [player].Name;
-			updateGUI(player + numberofplayers);
+			updateGUI(player + numberofAIplayers);
 		} else if (PlayerTurnOver) {
 			Debug.Log("Update GUI AI");
 			txtPlayer.text = "Current Player: AI - " + _gameData.tanks [currentAI + numberofplayers].Name;
@@ -623,6 +623,9 @@ public class TurnController : MonoBehaviour {
 	}
 	void updateGUI(int displayIndex){
 		//Update GUI Elements
+		if (displayIndex < 0) {
+			displayIndex = 0;
+		}
 		txtPower.text = "Power: " + AllTankConroller [displayIndex].power.ToString ("F1");
 		txtSpeed.text = "Speed: " + (Mathf.Sqrt (Mathf.Pow (AllTankConroller [displayIndex].rb.velocity.z, 2) + Mathf.Pow (AllTankConroller [displayIndex].rb.velocity.x, 2))).ToString ("F1");
 		txtElevator.text = "Elevation: " + AllTankConroller [displayIndex].currentEl.ToString ("F1");

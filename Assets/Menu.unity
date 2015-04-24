@@ -172,8 +172,8 @@ MonoBehaviour:
   Players: 0
   AIs: 0
   Seed: 11.5299997
-  Scale: 0
-  MinHeight: 0
+  Scale: 2.79999995
+  MinHeight: .620000005
 --- !u!4 &90956437
 Transform:
   m_ObjectHideFlags: 0
