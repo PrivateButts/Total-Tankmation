@@ -14,6 +14,7 @@ public class TurnController : MonoBehaviour {
 	public Text txtWeapon;
 	public Text txtScore;
 	public Text txtFuel;
+	public Text txtHealth;
 
 
 	//Weapon stuff
@@ -409,7 +410,11 @@ public class TurnController : MonoBehaviour {
 		//Update GUI
 		if (AITurnOver) {
 			//Debug.Log("Update GUI Player");
-			txtPlayer.text = "Current Player: " + _gameData.tanks [player].Name;
+			if(player < 0){
+				txtPlayer.text = "Current Player: " + _gameData.tanks [0].Name;
+			} else {
+				txtPlayer.text = "Current Player: " + _gameData.tanks [player].Name;
+			}
 			updateGUI(player + numberofAIplayers);
 		} else if (PlayerTurnOver) {
 			//Debug.Log("Update GUI AI");
@@ -639,6 +644,7 @@ public class TurnController : MonoBehaviour {
 		txtScore.text = "Score: " + AllTankConroller [displayIndex].score.ToString ("F1");
 		txtWeapon.text = weapons [AllTankConroller[displayIndex].currentWeapon];
 		txtFuel.text = "Fuel: " + AllTankConroller [displayIndex].fuel.ToString ("F1");
+		txtHealth.text = "Health: " + AllTankConroller [displayIndex].HP.ToString ("F0");
 	}
 
 }

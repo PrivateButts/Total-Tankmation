@@ -99,24 +99,29 @@ public class TankController : MonoBehaviour{
 			GameObject turnControllerObj = GameObject.FindGameObjectWithTag ("TurnController");
 			TurnController turnController = turnControllerObj.GetComponent<TurnController>();
 			//Apply damage to the correct player/AI's score, limiting score to health remaining
-			if(turnController.AITurnOver){
-				if (damage < HP) {
-					Debug.Log ("Player " + turnController.player.ToString() + " Score +" + HP.ToString());
-					turnController.tankController[turnController.player].score += damage;
-				} else {
-					Debug.Log ("Player " + turnController.player.ToString() + " Score +" + damage.ToString());
-					turnController.tankController[turnController.player].score += HP;
-				}
+			if(damage < 0){
+				Debug.Log ("Shot self");
+				damage = damage * -1;
 			} else {
-				if (damage < HP) {
-					Debug.Log ("Player " + turnController.currentAI.ToString() + " Score +" + HP.ToString());
-					turnController.AItankController[turnController.currentAI].score += damage;
+				if(turnController.AITurnOver){
+					if (damage < HP) {
+						Debug.Log ("Player " + turnController.player.ToString() + " Score +" + HP.ToString());
+						turnController.tankController[turnController.player].score += damage;
+					} else {
+						Debug.Log ("Player " + turnController.player.ToString() + " Score +" + damage.ToString());
+						turnController.tankController[turnController.player].score += HP;
+					}
 				} else {
-					Debug.Log ("Player " + turnController.currentAI.ToString() + " Score +" + damage.ToString());
-					turnController.AItankController[turnController.currentAI].score += HP;
+					if (damage < HP) {
+						Debug.Log ("Player " + turnController.currentAI.ToString() + " Score +" + HP.ToString());
+						turnController.AItankController[turnController.currentAI].score += damage;
+					} else {
+						Debug.Log ("Player " + turnController.currentAI.ToString() + " Score +" + damage.ToString());
+						turnController.AItankController[turnController.currentAI].score += HP;
+					}
 				}
-			}
 
+			}
 			//Actually inflict damage
 			HP -= damage;
 
