@@ -66,7 +66,11 @@ public class Mirv : MonoBehaviour {
 						distance = 1;
 					}
 					float damage = baseDamage / distance;
-					hits [i].SendMessage ("AddDamage", damage);
+					if(hits[i].gameObject == owner.gameObject){
+						hits [i].SendMessage ("AddDamage", -damage);
+					} else {
+						hits [i].SendMessage ("AddDamage", damage);
+					}
 				}
 				i++;
 			}
