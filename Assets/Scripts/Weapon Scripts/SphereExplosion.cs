@@ -4,7 +4,7 @@ using System.Collections;
 public class SphereExplosion : MonoBehaviour {
 	float created;
 	public float explosionsize = 5;
-	float expansion = .2F;
+	public float expansion = .2F;
 	float maxsize = 4.8F;
 
 	public AudioSource expSFX;
@@ -21,11 +21,8 @@ public class SphereExplosion : MonoBehaviour {
 		
 	// Update is called once per frame
 	void Update () {
-		if (gameObject.transform.localScale.y < maxsize) {
-			gameObject.transform.localScale += new Vector3 (expansion, expansion, expansion);
-		}
-		if (Time.time - created > 2) {
+		transform.localScale = Vector3.Lerp (new Vector3 (1f, 1f, 1f), new Vector3 (maxsize, maxsize, maxsize), Time.time - created);
+		if(Time.time > created + 2){
 			Destroy(gameObject);
-		}
 	}
 }
