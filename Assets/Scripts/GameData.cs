@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class GameData : MonoBehaviour {
 	public List<PlayerData> tanks = new List<PlayerData>();
 	public Text PlayersIn, AIsIn;
+	public InputField SeedBtn;
 	public int Players, AIs;
 	public float Seed, Scale, MinHeight;
 
@@ -13,6 +14,9 @@ public class GameData : MonoBehaviour {
 	// This keeps the Object in the scene unless explictly destroyed
 	void Awake() {
 		DontDestroyOnLoad(transform.gameObject);
+
+		Seed = Random.Range (0f, 9999f);
+		SeedBtn.text = Seed.ToString();
 	}
 
 	
