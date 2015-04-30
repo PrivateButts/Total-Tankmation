@@ -32,8 +32,10 @@ public class DestructableTerrain : MonoBehaviour {
 		terrain.SetHeights (0, 0, GeneratedHeightMap);
 	}
 
-	public void Crater(int xCoord, int yCoord, int radius, float Deepness = 150f){
+	public void Crater(int xWorld, int yWorld, int radius, float Deepness = 150f){
 		TerrainData terrain = BaseTerrain.terrainData;
+		int xCoord = Mathf.RoundToInt((xWorld+terrain.size.x/2)/terrain.size.x*terrain.heightmapWidth);
+		int yCoord = Mathf.RoundToInt((yWorld+terrain.size.y/2)/terrain.size.y*terrain.heightmapWidth);
 		Vector2 center = new Vector2 (0, 0);
 		for (int z = 0; z<2*radius; z++) {
 			for (int x = 0; x<2*radius; x++) {
@@ -42,7 +44,7 @@ public class DestructableTerrain : MonoBehaviour {
 				GeneratedHeightMap[yCoord+Mathf.RoundToInt(wanted.y),xCoord+Mathf.RoundToInt(wanted.x)] = float.IsNaN(height) ? GeneratedHeightMap[yCoord+Mathf.RoundToInt(wanted.y),xCoord+Mathf.RoundToInt(wanted.x)] : GeneratedHeightMap[yCoord+Mathf.RoundToInt(wanted.y),Mathf.RoundToInt(xCoord+wanted.x)]+(height/Deepness);
 			}
 		}
-
+		
 		terrain.SetHeights (0,0,GeneratedHeightMap);
 	}
 }
