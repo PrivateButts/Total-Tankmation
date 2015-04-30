@@ -66,7 +66,7 @@ public class Projectile : MonoBehaviour {
 				}
 				if (hits[i].tag == "Terrain"){
 					Debug.Log("Attemping to deform terrain");
-					hits[i].gameObject.GetComponent<DestructableTerrain>().Crater (Mathf.RoundToInt(explosion.transform.position.x), Mathf.RoundToInt(explosion.transform.position.z), Mathf.RoundToInt(damageAOE), 150F);
+					hits[i].gameObject.GetComponent<DestructableTerrain>().Crater (Mathf.RoundToInt(explosion.transform.position.x), Mathf.RoundToInt(explosion.transform.position.z), Mathf.RoundToInt(damageAOE), 1000f);
 				}
 				i++;
 			}
