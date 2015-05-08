@@ -616,7 +616,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxSpeed: 5
-  forwardSpeed: 15
+  forwardSpeed: 9.80000019
   turnSpeed: 1
   elevateRate: 1
   turretRate: 1
@@ -647,7 +647,7 @@ MonoBehaviour:
   currentWeapon: 0
   cameraPref: 1
   cameraAngle: -15
-  fuel: 10
+  fuel: 30
 --- !u!114 &11434014
 MonoBehaviour:
   m_ObjectHideFlags: 1

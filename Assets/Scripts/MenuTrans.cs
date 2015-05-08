@@ -4,10 +4,10 @@ using System.Collections;
 public class MenuTrans : MonoBehaviour {
 	// Transition Varbs
 	private float TimerStart;
-	private bool FirstTrans, SecondTrans, ToHelpTrans, FromHelpTrans;
+	private bool FirstTrans, SecondTrans, ToHelpTrans, FromHelpTrans, ToCreditsTrans, FromCreditsTrans;
 	
 	public float FirstTransTime, SecondTransTime, HelpTransTime;
-	public Vector3 TransStart, TransMiddle, TransEnd, HelpLoc;
+	public Vector3 TransStart, TransMiddle, TransEnd, HelpLoc, CreditLoc;
 	public Quaternion TransRStart, TransREnd, HelpRot;
 	public Transform Camera;
 
@@ -15,6 +15,15 @@ public class MenuTrans : MonoBehaviour {
 	public void OnPlayButtonClicked(){
 		TimerStart = Time.time;
 		FirstTrans = true;
+	}
+
+	public void OnCreditsButtonClicked(){
+		TimerStart = Time.time;
+		ToCreditsTrans = true;
+	}
+	public void OnCreditsBackClicked(){
+		TimerStart = Time.time;
+		FromCreditsTrans = true;
 	}
 
 	public void OnHelpClicked(){
@@ -42,6 +51,20 @@ public class MenuTrans : MonoBehaviour {
 				Camera.rotation = Quaternion.Lerp (TransRStart, TransREnd, (Time.time - TimerStart) / SecondTransTime);
 			} else {
 				SecondTrans = false;
+			}
+		} else if (ToCreditsTrans) {
+			if (Camera.position != CreditLoc) {
+				Camera.position = Vector3.Lerp (TransStart, CreditLoc, (Time.time - TimerStart) / HelpTransTime);
+				Camera.rotation = Quaternion.Lerp (TransRStart, HelpRot, (Time.time - TimerStart) / HelpTransTime);
+			} else {
+				ToCreditsTrans = false;
+			}
+		} else if (FromCreditsTrans) {
+			if (Camera.position != TransStart) {
+				Camera.position = Vector3.Lerp (CreditLoc, TransStart, (Time.time - TimerStart) / HelpTransTime);
+				Camera.rotation = Quaternion.Lerp (HelpRot, TransRStart, (Time.time - TimerStart) / HelpTransTime);
+			} else {
+				FromCreditsTrans = false;
 			}
 		} else if (ToHelpTrans) {
 			if (Camera.position != HelpLoc) {

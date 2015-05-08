@@ -506,7 +506,7 @@ public class TurnController : MonoBehaviour {
 			}
 			
 			//Finally, enable controls if the player is alive
-			AllTankConroller[numberofAIplayers + player].fuel = 10;
+			AllTankConroller[numberofAIplayers + player].fuel = 30;
 			controlsactive = true;
 		} else {
 			//If the player was dead, go to next player
