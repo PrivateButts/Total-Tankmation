@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+//Not currently used
+
 public class FollowCam : MonoBehaviour {
 	/*Camera cam;
 	float start;

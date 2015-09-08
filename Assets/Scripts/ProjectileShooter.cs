@@ -13,7 +13,7 @@ public class ProjectileShooter : MonoBehaviour {
 
 	//Globals to import into from other objects
 	GameObject [] Weapons;
-	GameObject Trail;
+	//GameObject Trail;
 	GameObject CurrentWeapon;
 	GameObject Tank;
 	TankController TankController;
@@ -31,14 +31,14 @@ public class ProjectileShooter : MonoBehaviour {
 
 		//Load the available weapons into the scripts weapons variable for later use.
 		AvailWeapons weaponController = GameObject.FindGameObjectWithTag ("AvailWeapons").GetComponent<AvailWeapons>();
-		Weapons = new GameObject[weaponController.weapon.Length];
-		for (int i=0; i<weaponController.weapon.Length; i++) {
-			//Debug.Log (weaponController.weapon[i].name);
-			Weapons[i] = weaponController.weapon[i];
+		Weapons = new GameObject[weaponController.Weapon.Length];
+		for (int i=0; i<weaponController.Weapon.Length; i++) {
+			//Debug.Log (weaponController.Weapon[i].name);
+			Weapons[i] = weaponController.Weapon[i];
 		}
 
         //Preload asset
-		Trail = Resources.Load ("projectileTrail") as GameObject;
+		//Trail = Resources.Load ("projectileTrail") as GameObject;
 	}
 	
 
@@ -78,9 +78,9 @@ public class ProjectileShooter : MonoBehaviour {
 			//If the proj doesn't have a projectile component, use Mirv instead
             if (projCont == null){
 				Mirv projCont2 = projectile.GetComponent<Mirv>();
-				projCont2.owner = Tank;
+				projCont2.Owner = Tank;
 			} else {
-			projCont.owner = Tank;
+			projCont.Owner = Tank;
 			}
 
             //Projectile has been created, start setting the projectile in motion

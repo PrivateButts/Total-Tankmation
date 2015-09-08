@@ -98,9 +98,9 @@ public class TurnController : MonoBehaviour {
 		 * 	Generate List of Available Weapons
 		 * *********************************/
 		AvailWeapons weaponController = GameObject.FindGameObjectWithTag ("AvailWeapons").GetComponent<AvailWeapons>();
-		weapons = new string[weaponController.weapon.Length];
-		for (int i=0; i < weaponController.weapon.Length; i++) {
-			weapons[i] = weaponController.weapon[i].name;
+		weapons = new string[weaponController.Weapon.Length];
+		for (int i=0; i < weaponController.Weapon.Length; i++) {
+			weapons[i] = weaponController.Weapon[i].name;
 		}
 		txtWeapon.text = weapons[0];
 
@@ -405,14 +405,14 @@ public class TurnController : MonoBehaviour {
 		if (AITurnOver) {
 			//Debug.Log("Update GUI Player");
 			if(player < 0){
-				txtPlayer.text = "Current Player: " + _gameData.tanks [0].Name;
+				txtPlayer.text = "Current Player: " + _gameData.Tanks [0].Name;
 			} else {
-				txtPlayer.text = "Current Player: " + _gameData.tanks [player].Name;
+				txtPlayer.text = "Current Player: " + _gameData.Tanks [player].Name;
 			}
 			updateGUI(player + numberofAIplayers);
 		} else if (PlayerTurnOver) {
 			//Debug.Log("Update GUI AI");
-			txtPlayer.text = "Current Player: AI - " + _gameData.tanks [currentAI + numberofplayers].Name;
+			txtPlayer.text = "Current Player: AI - " + _gameData.Tanks [currentAI + numberofplayers].Name;
 			updateGUI(currentAI);
 		}
 
@@ -561,8 +561,8 @@ public class TurnController : MonoBehaviour {
 			int y = Mathf.RoundToInt(terrainobj.SampleHeight(new Vector3(x, 0, z)) - 398);
 			//Spawn the player, set name, set position
 			GameObject temptank = Instantiate(playertanktospawn) as GameObject;
-			temptank.name = _gameData.tanks[i].Name;
-			temptank.GetComponent<TankController>().Score = _gameData.tanks[i].Score;
+			temptank.name = _gameData.Tanks[i].Name;
+			temptank.GetComponent<TankController>().Score = _gameData.Tanks[i].Score;
 			temptank.transform.position = new Vector3 (x, y, z);
 		}
 		//Loop creating AI players
@@ -574,8 +574,8 @@ public class TurnController : MonoBehaviour {
 			int y = Mathf.RoundToInt(terrainobj.SampleHeight(new Vector3(x, 0, z)) - 398);
 			//Spawn the player, set name, set position
 			GameObject temptank = Instantiate(AItanktospawn) as GameObject;
-			temptank.name = "AI - " + _gameData.tanks[numplayers + i].Name;
-			temptank.GetComponent<TankController>().Score = _gameData.tanks[numplayers + i].Score;
+			temptank.name = "AI - " + _gameData.Tanks[numplayers + i].Name;
+			temptank.GetComponent<TankController>().Score = _gameData.Tanks[numplayers + i].Score;
 			temptank.transform.position = new Vector3 (x, y, z);
 			temptank.tag = ("AITank");
 		}
@@ -610,7 +610,7 @@ public class TurnController : MonoBehaviour {
 				for (int j = 0; j < players.Length; j++) {
 					if (tankController [j].Destroyed == false){
 						tankController[j].Score += 500;
-						dispResult += _gameData.tanks[j].Name + " has survived the round! +500 points";
+						dispResult += _gameData.Tanks[j].Name + " has survived the round! +500 points";
 					}
 				}
 			} else {
@@ -620,12 +620,12 @@ public class TurnController : MonoBehaviour {
 			for( int i = 0; i < (players.Length); i++){
 				Debug.Log (i);
 				dispResult = dispResult + "\n" + players[i].name + "\t\t" + tankController[i].Score.ToString("F1");
-				_gameData.tanks[i].Score = tankController[i].Score;
+				_gameData.Tanks[i].Score = tankController[i].Score;
 			}
 			for( int i = 0; i < (AItankList.Count); i++){
 				Debug.Log (i);
 				dispResult = dispResult + "\n" + AItankList[i].name + "\t\t" + AItankController[i].Score.ToString("F1");
-				_gameData.tanks[numberofplayers + i].Score = AItankController[i].Score;
+				_gameData.Tanks[numberofplayers + i].Score = AItankController[i].Score;
 			}
 			txtResult.text = dispResult;
 			//Return true that the game is over
