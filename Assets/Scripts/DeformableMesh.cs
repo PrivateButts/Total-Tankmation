@@ -40,9 +40,9 @@ public class DeformableMesh : MonoBehaviour {
 	}
 
 	private void CreateMesh(){
-		gameObject.AddComponent ("MeshFilter");
-		gameObject.AddComponent ("MeshRenderer");
-		gameObject.AddComponent ("MeshCollider");
+		gameObject.AddComponent <MeshFilter>();
+		gameObject.AddComponent <MeshRenderer>();
+		gameObject.AddComponent <MeshCollider>();
 
 		mat = Resources.Load ("Materials/Default") as Material;
 		if (mat == null) {
@@ -192,7 +192,7 @@ public class DeformableMesh : MonoBehaviour {
 		RecalculateTangents (mesh);
 		meshcollider.sharedMesh = null;
 		meshcollider.sharedMesh = mesh;
-		renderer.material = mat;
+		GetComponent<Renderer>().material = mat;
 		mesh.Optimize ();
 	}
 

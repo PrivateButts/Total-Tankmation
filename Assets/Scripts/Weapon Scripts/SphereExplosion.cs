@@ -20,7 +20,7 @@ public class SphereExplosion : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
-		Material mat = gameObject.renderer.material;
+		Material mat = gameObject.GetComponent<Renderer>().material;
 		transform.localScale = Vector3.Lerp (new Vector3 (1f, 1f, 1f), new Vector3 (maxsize, maxsize, maxsize), Time.time - created);
 		if (Time.time > created + .25f) {
 			if(mat.GetFloat("_ClipRange") <=0){
