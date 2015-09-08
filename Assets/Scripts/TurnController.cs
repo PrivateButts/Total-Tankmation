@@ -65,15 +65,8 @@ public class TurnController : MonoBehaviour {
 	public GameData _gameData;
 	public float fuelUseRate = 0.1F;
 
-
-
-
-
-
-
-
-
-	// Use this for initialization
+   
+    // Use this for initialization
 	void Start () {
 
 		_gameData = GameObject.FindGameObjectWithTag ("GameData").GetComponent<GameData> ();
@@ -96,8 +89,8 @@ public class TurnController : MonoBehaviour {
 		//Debug.Log (player);
 
 		//Turn on camera and audio for the randomly selected first player
-		tankController[player].mycamera.GetComponent<Camera>().enabled = true;
-		tankController[player].mycamera.GetComponent<AudioListener>().enabled = true;
+		tankController[player].Mycamera.GetComponent<Camera>().enabled = true;
+		tankController[player].Mycamera.GetComponent<AudioListener>().enabled = true;
 		lastcamera = numberofAIplayers + player;
 
 
@@ -140,6 +133,7 @@ public class TurnController : MonoBehaviour {
 			//Debug.Log (i);
 		}
 	}
+
 	
 	// Update is called once per frame
 	void Update () {
@@ -188,10 +182,10 @@ public class TurnController : MonoBehaviour {
 
 			//Debug.Log (player);
 			//Debug.Log (tankController.Count);
-			tankController [player].forwardMoveAmount = 0;
-			tankController [player].turnAmount = 0;
-			tankController [player].rotateAmount = 0;
-			tankController [player].elevateAmount = 0;
+			tankController [player].ForwardMoveAmount = 0;
+			tankController [player].TurnAmount = 0;
+			tankController [player].RotateAmount = 0;
+			tankController [player].ElevateAmount = 0;
 			/******************************************
 			 * 
 			 * 			KEYBOARD CONTROLS
@@ -205,69 +199,69 @@ public class TurnController : MonoBehaviour {
 			}
 			//Tank Hull Controls
 			//This could be simplified, I originally started with raw inputs, but have switched to allow players to configure from the unity game launcher
-			if (Input.GetAxis ("HullMovement") > 0 && AllTankConroller[numberofAIplayers + player].fuel > 0) {
-				tankController [player].forwardMoveAmount = tankController [player].forwardSpeed;
-				AllTankConroller[numberofAIplayers + player].fuel -= fuelUseRate;
+			if (Input.GetAxis ("HullMovement") > 0 && AllTankConroller[numberofAIplayers + player].Fuel > 0) {
+				tankController [player].ForwardMoveAmount = tankController [player].ForwardSpeed;
+				AllTankConroller[numberofAIplayers + player].Fuel -= fuelUseRate;
 			}
-			if (Input.GetAxis ("HullMovement") < 0 && AllTankConroller[numberofAIplayers + player].fuel > 0) {
-				tankController [player].forwardMoveAmount = -tankController [player].forwardSpeed;
-				AllTankConroller[numberofAIplayers + player].fuel -= fuelUseRate;
+			if (Input.GetAxis ("HullMovement") < 0 && AllTankConroller[numberofAIplayers + player].Fuel > 0) {
+				tankController [player].ForwardMoveAmount = -tankController [player].ForwardSpeed;
+				AllTankConroller[numberofAIplayers + player].Fuel -= fuelUseRate;
 			}
 			if (Input.GetAxis ("HullRotation") > 0) {
-				tankController [player].turnAmount = tankController [player].turnSpeed * modifier;
+				tankController [player].TurnAmount = tankController [player].TurnSpeed * modifier;
 				//AllTankConroller[numberofAIplayers + player].fuel -= fuelUseRate;
 			}
 			if (Input.GetAxis ("HullRotation") < 0) {
-				tankController [player].turnAmount = -tankController [player].turnSpeed * modifier;
+				tankController [player].TurnAmount = -tankController [player].TurnSpeed * modifier;
 				//AllTankConroller[numberofAIplayers + player].fuel -= fuelUseRate;
 			}
 			//Gun Power Controls
 			if (Input.GetAxis ("Power") > 0) {
-				tankController [player].power += tankController [player].deltaPower * modifier;
-				if (tankController [player].power > tankController [player].maxPower) {
-					tankController [player].power = tankController [player].maxPower;
+				tankController [player].Power += tankController [player].DeltaPower * modifier;
+				if (tankController [player].Power > tankController [player].MaxPower) {
+					tankController [player].Power = tankController [player].MaxPower;
 				}
 			}
 			if (Input.GetAxis ("Power") < 0) {
-				tankController [player].power -= tankController [player].deltaPower * modifier;
-				if (tankController [player].power < 0) {
-					tankController [player].power = 0;
+				tankController [player].Power -= tankController [player].DeltaPower * modifier;
+				if (tankController [player].Power < 0) {
+					tankController [player].Power = 0;
 				}
 			}
 			//Turret Rotation
 			if (Input.GetAxis ("TurretRotation") > 0) {
-				tankController [player].rotateAmount = tankController [player].turretRate * modifier;
+				tankController [player].RotateAmount = tankController [player].TurretRate * modifier;
 			}
 			if (Input.GetAxis ("TurretRotation") < 0) {
-				tankController [player].rotateAmount = -tankController [player].turretRate * modifier;
+				tankController [player].RotateAmount = -tankController [player].TurretRate * modifier;
 			}
 			//Elevation
 			if (Input.GetAxis ("Elevation") > 0) {
-				if (tankController [player].currentEl < tankController [player].maxElevation) {
-					tankController [player].elevateAmount = tankController [player].elevateRate * modifier;
+				if (tankController [player].CurrentEl < tankController [player].MaxElevation) {
+					tankController [player].ElevateAmount = tankController [player].ElevateRate * modifier;
 				}
 			}
 			if (Input.GetAxis ("Elevation") < 0) {
-				if (tankController [player].currentEl > tankController [player].minElevation) {
-					tankController [player].elevateAmount = -tankController [player].elevateRate * modifier;
+				if (tankController [player].CurrentEl > tankController [player].MinElevation) {
+					tankController [player].ElevateAmount = -tankController [player].ElevateRate * modifier;
 				}
 				//FIRE!
 			}
 			if (Input.GetAxis ("Fire") > 0) {
 				timeFired = Time.time;
-				tankController [player].gun.Shoot ();
+				tankController [player].Gun.Shoot ();
 				controlsactive = false;
-				tankController [player].forwardMoveAmount = 0;
-				tankController [player].turnAmount = 0;
-				tankController [player].rotateAmount = 0;
-				tankController [player].elevateAmount = 0;
+				tankController [player].ForwardMoveAmount = 0;
+				tankController [player].TurnAmount = 0;
+				tankController [player].RotateAmount = 0;
+				tankController [player].ElevateAmount = 0;
 			}
 
 			if (Input.GetButtonDown ("ChangeWeapon")) {
-				if (tankController[player].currentWeapon == weapons.Length - 1) {
-					tankController[player].currentWeapon = 0;
+				if (tankController[player].CurrentWeapon == weapons.Length - 1) {
+					tankController[player].CurrentWeapon = 0;
 				} else {
-					tankController[player].currentWeapon++;
+					tankController[player].CurrentWeapon++;
 				}
 			}
 
@@ -278,50 +272,50 @@ public class TurnController : MonoBehaviour {
 			 * 
 			 * ***************************************/
 			if (Input.GetButtonDown ("ChangeCamera")) {
-				if(tankController[player].cameraPref == 1){
+				if(tankController[player].CameraPref == 1){
 					swapCameraToSky(numberofAIplayers + player);
-					tankController[player].cameraPref = 2;
-					tankController[player].mySkyCam.transform.LookAt(tankController[player].turret.transform);
-					tankController[player].mySkyCam.transform.Rotate (tankController[player].cameraAngle, 0, 0);
+					tankController[player].CameraPref = 2;
+					tankController[player].MySkyCam.transform.LookAt(tankController[player].Turret.transform);
+					tankController[player].MySkyCam.transform.Rotate (tankController[player].CameraAngle, 0, 0);
 				} else {
 					swapCamera(numberofAIplayers + player);
-					tankController[player].cameraPref = 1;
+					tankController[player].CameraPref = 1;
 				}
 			}
-			if (Input.GetButton ("RotateLeft") && tankController[player].cameraPref == 2){
+			if (Input.GetButton ("RotateLeft") && tankController[player].CameraPref == 2){
 				Debug.Log ("Move Camera");
-				tankController[player].mySkyCam.transform.LookAt(tankController[player].turret.transform);
-				tankController[player].mySkyCam.transform.Translate (Vector3.right * Time.deltaTime * -40);
-				tankController[player].mySkyCam.transform.LookAt(tankController[player].turret.transform);
-				tankController[player].mySkyCam.transform.Rotate (tankController[player].cameraAngle, 0, 0);
+				tankController[player].MySkyCam.transform.LookAt(tankController[player].Turret.transform);
+				tankController[player].MySkyCam.transform.Translate (Vector3.right * Time.deltaTime * -40);
+				tankController[player].MySkyCam.transform.LookAt(tankController[player].Turret.transform);
+				tankController[player].MySkyCam.transform.Rotate (tankController[player].CameraAngle, 0, 0);
 			}
-			if (Input.GetButton ("RotateRight") && tankController[player].cameraPref == 2){
+			if (Input.GetButton ("RotateRight") && tankController[player].CameraPref == 2){
 				Debug.Log ("Move Camera");
-				tankController[player].mySkyCam.transform.LookAt(tankController[player].turret.transform);
-				tankController[player].mySkyCam.transform.Translate (Vector3.right * Time.deltaTime * 40);
-				tankController[player].mySkyCam.transform.LookAt(tankController[player].turret.transform);
-				tankController[player].mySkyCam.transform.Rotate (tankController[player].cameraAngle, 0, 0);
+				tankController[player].MySkyCam.transform.LookAt(tankController[player].Turret.transform);
+				tankController[player].MySkyCam.transform.Translate (Vector3.right * Time.deltaTime * 40);
+				tankController[player].MySkyCam.transform.LookAt(tankController[player].Turret.transform);
+				tankController[player].MySkyCam.transform.Rotate (tankController[player].CameraAngle, 0, 0);
 			}
-			if (Input.GetButton ("RotateUp")  && tankController[player].cameraPref == 2){
-				Debug.Log (tankController[player].mySkyCam);
-				Debug.Log (tankController[player].cameraAngle);
-				tankController[player].cameraAngle += Time.deltaTime * 40;
-				tankController[player].mySkyCam.transform.LookAt(tankController[player].turret.transform);
-				tankController[player].mySkyCam.transform.Rotate (tankController[player].cameraAngle, 0, 0);
+			if (Input.GetButton ("RotateUp")  && tankController[player].CameraPref == 2){
+				Debug.Log (tankController[player].MySkyCam);
+				Debug.Log (tankController[player].CameraAngle);
+				tankController[player].CameraAngle += Time.deltaTime * 40;
+				tankController[player].MySkyCam.transform.LookAt(tankController[player].Turret.transform);
+				tankController[player].MySkyCam.transform.Rotate (tankController[player].CameraAngle, 0, 0);
 			}
-			if (Input.GetButton ("RotateDown")  && tankController[player].cameraPref == 2){
-				Debug.Log (tankController[player].mySkyCam);
-				Debug.Log (tankController[player].cameraAngle);
-				tankController[player].cameraAngle += Time.deltaTime * -40;
-				tankController[player].mySkyCam.transform.LookAt(tankController[player].turret.transform);
-				tankController[player].mySkyCam.transform.Rotate (tankController[player].cameraAngle, 0, 0);
+			if (Input.GetButton ("RotateDown")  && tankController[player].CameraPref == 2){
+				Debug.Log (tankController[player].MySkyCam);
+				Debug.Log (tankController[player].CameraAngle);
+				tankController[player].CameraAngle += Time.deltaTime * -40;
+				tankController[player].MySkyCam.transform.LookAt(tankController[player].Turret.transform);
+				tankController[player].MySkyCam.transform.Rotate (tankController[player].CameraAngle, 0, 0);
 			}
 
 			//Update active tank based on keys being pressed
 			if (controlsactive == true) {
-				tankController [player].elevator.transform.Rotate (tankController [player].elevateAmount, 0, 0);
-				tankController [player].currentEl += tankController [player].elevateAmount;
-				tankController [player].turret.transform.Rotate (0, 0, -tankController [player].rotateAmount);
+				tankController [player].Elevator.transform.Rotate (tankController [player].ElevateAmount, 0, 0);
+				tankController [player].CurrentEl += tankController [player].ElevateAmount;
+				tankController [player].Turret.transform.Rotate (0, 0, -tankController [player].RotateAmount);
 			}
 
 
@@ -334,34 +328,34 @@ public class TurnController : MonoBehaviour {
 			 * What to do while an AI is active
 			 * 
 			 * ********************************************/
-			if (AItankController [currentAI].destroyed == false) {
+			if (AItankController [currentAI].Destroyed == false) {
 				//Choose a target 
 				//If no target, or target destroyed, pick new target
 				//Debug.Log ("AI Turn Loop");
-				if ((AItankController [currentAI].target == -1) || (AllTankConroller [AItankController [currentAI].target].destroyed == true)) {
+				if ((AItankController [currentAI].Target == -1) || (AllTankConroller [AItankController [currentAI].Target].Destroyed == true)) {
 					Debug.Log ("Need New Target");
-					AItankController [currentAI].target = -1;
-					while (AItankController[currentAI].target == -1) {
-						Debug.Log ("Old Target: " + AItankController [currentAI].target.ToString ());
-						AItankController [currentAI].target = Random.Range (0, (AllTankConroller.Count));
+					AItankController [currentAI].Target = -1;
+					while (AItankController[currentAI].Target == -1) {
+						Debug.Log ("Old Target: " + AItankController [currentAI].Target.ToString ());
+						AItankController [currentAI].Target = Random.Range (0, (AllTankConroller.Count));
 						Debug.Log ("Choosing a target");
-						Debug.Log ("New Target: " + AItankController [currentAI].target.ToString ());
+						Debug.Log ("New Target: " + AItankController [currentAI].Target.ToString ());
 
-						if (AllTankConroller [AItankController [currentAI].target].gameObject.name == AItankList [currentAI].name) {
+						if (AllTankConroller [AItankController [currentAI].Target].gameObject.name == AItankList [currentAI].name) {
 							Debug.Log ("AI Tank Targeted Self");
-							AItankController [currentAI].target = -1; 
-						} else if (AllTankConroller [AItankController [currentAI].target].destroyed == true) {
+							AItankController [currentAI].Target = -1; 
+						} else if (AllTankConroller [AItankController [currentAI].Target].Destroyed == true) {
 							Debug.Log ("New Target Already Destroyed");
-							AItankController [currentAI].target = -1; 
+							AItankController [currentAI].Target = -1; 
 						}
 					}
 				}
 
 				//Decide which way to rotate to aim at target if not already decided
 				if (rotationDir == 0) {
-					float dist = Vector3.Distance (AllTankConroller [AItankController [currentAI].target].gameObject.transform.position, AItankController [currentAI].gun.gameObject.transform.position);
-					AItankController [currentAI].turret.transform.Rotate (0, 0, 1);
-					if (dist > Vector3.Distance (AllTankConroller [AItankController [currentAI].target].gameObject.transform.position, AItankController [currentAI].gun.gameObject.transform.position)) {
+					float dist = Vector3.Distance (AllTankConroller [AItankController [currentAI].Target].gameObject.transform.position, AItankController [currentAI].Gun.gameObject.transform.position);
+					AItankController [currentAI].Turret.transform.Rotate (0, 0, 1);
+					if (dist > Vector3.Distance (AllTankConroller [AItankController [currentAI].Target].gameObject.transform.position, AItankController [currentAI].Gun.gameObject.transform.position)) {
 						Debug.Log ("Positive Rotate");
 						rotationDir = 1;
 					} else {
@@ -371,31 +365,31 @@ public class TurnController : MonoBehaviour {
 				}
 
 				//Save the current distance to target
-				float dist2 = Vector3.Distance (AllTankConroller [AItankController [currentAI].target].gameObject.transform.position, AItankController [currentAI].gun.gameObject.transform.position);
+				float dist2 = Vector3.Distance (AllTankConroller [AItankController [currentAI].Target].gameObject.transform.position, AItankController [currentAI].Gun.gameObject.transform.position);
 
 				//Rotate towards target
-				AItankController [currentAI].turret.transform.Rotate (0, 0, rotationDir);
+				AItankController [currentAI].Turret.transform.Rotate (0, 0, rotationDir);
 				//Debug.Log (dist2);
 
 				//If the distance got longer, you were already at the closest rotation.
-				if (dist2 < Vector3.Distance (AllTankConroller [AItankController [currentAI].target].gameObject.transform.position, AItankController [currentAI].gun.gameObject.transform.position)) {
+				if (dist2 < Vector3.Distance (AllTankConroller [AItankController [currentAI].Target].gameObject.transform.position, AItankController [currentAI].Gun.gameObject.transform.position)) {
 
 					//If the AI has already fired, it should adjust its power
-					if (AItankController [currentAI].shotDistance > 0) {
+					if (AItankController [currentAI].ShotDistance > 0) {
 						//If the previous shot fell short
-						if (AItankController [currentAI].shotDistance > dist2) {
+						if (AItankController [currentAI].ShotDistance > dist2) {
 							//Increase power
-							AItankController [currentAI].power -= Random.Range (0F, 20F);
+							AItankController [currentAI].Power -= Random.Range (0F, 20F);
 
 						//If the previous shot went long
 						} else {
 							//Decrease power
-							AItankController [currentAI].power += Random.Range (0F, 20F);
+							AItankController [currentAI].Power += Random.Range (0F, 20F);
 						}
 					}
 
 					//Fire
-					AItankController [currentAI].gun.Shoot ();
+					AItankController [currentAI].Gun.Shoot ();
 					AIActive = false;
 					rotationDir = 0;
 					timeFired = Time.time;
@@ -424,6 +418,7 @@ public class TurnController : MonoBehaviour {
 
 	}
 
+
 	//Turn swap function, doesn't matter what the game state is, this should work.
 	void nextTurn(){
 		Debug.Log ("AI turn: " + AITurnOver.ToString() + " Player Turn: " + PlayerTurnOver.ToString());
@@ -443,6 +438,7 @@ public class TurnController : MonoBehaviour {
 	
 	}
 
+
 	void nextAI(){
 		currentAI++;
 		Debug.Log("AI Player: " + currentAI);
@@ -458,7 +454,7 @@ public class TurnController : MonoBehaviour {
 			AITurnOver = true;
 			PlayerTurnOver = false;
 
-		} else if (AItankController [currentAI].destroyed == true) {
+		} else if (AItankController [currentAI].Destroyed == true) {
 			//Call next AI if the current one is already dead
 			nextAI ();
 
@@ -468,6 +464,7 @@ public class TurnController : MonoBehaviour {
 			AIActive = true;
 		}
 	}
+
 
 	void nextPlayer(){
 		player++;
@@ -493,20 +490,20 @@ public class TurnController : MonoBehaviour {
 		//Check to see if game is over before proceeding to the player turn
 		if (gameOver ()) {
 
-		} else if (tankController [player].destroyed == false && PlayerTurnOver == false) {
+		} else if (tankController [player].Destroyed == false && PlayerTurnOver == false) {
 			//Checked to make sure the player about to be activated isn't dead
 
 
 			//Swap camera to the prefered view on the next player
 			Debug.Log ("Activate Camera on next Player");
-			if(tankController[player].cameraPref == 1){
+			if(tankController[player].CameraPref == 1){
 			swapCamera (numberofAIplayers + player);
 			} else {
 				swapCameraToSky(numberofAIplayers + player);
 			}
 			
 			//Finally, enable controls if the player is alive
-			AllTankConroller[numberofAIplayers + player].fuel = 30;
+			AllTankConroller[numberofAIplayers + player].Fuel = 30;
 			controlsactive = true;
 		} else {
 			//If the player was dead, go to next player
@@ -514,36 +511,39 @@ public class TurnController : MonoBehaviour {
 		}
 	}
 
+
 	//Swap to the sky cam of the designated tank
 	void swapCamera(int nextCamera){
 		//Once the next player is set, enable camera and audio for that player's camera
 		if(skyCamActive == true) {
-			AllTankConroller [lastcamera].mySkyCam.GetComponent<Camera> ().enabled = false;
-			AllTankConroller [lastcamera].mySkyCam.GetComponent<AudioListener> ().enabled = false;
+			AllTankConroller [lastcamera].MySkyCam.GetComponent<Camera> ().enabled = false;
+			AllTankConroller [lastcamera].MySkyCam.GetComponent<AudioListener> ().enabled = false;
 			skyCamActive = false;
 		} else {
-			AllTankConroller[lastcamera].mycamera.GetComponent<Camera>().enabled = false;
-			AllTankConroller[lastcamera].mycamera.GetComponent<AudioListener>().enabled = false;
+			AllTankConroller[lastcamera].Mycamera.GetComponent<Camera>().enabled = false;
+			AllTankConroller[lastcamera].Mycamera.GetComponent<AudioListener>().enabled = false;
 		}
-		AllTankConroller[nextCamera].mycamera.GetComponent<Camera>().enabled = true;
-		AllTankConroller[nextCamera].mycamera.GetComponent<AudioListener>().enabled = true;
+		AllTankConroller[nextCamera].Mycamera.GetComponent<Camera>().enabled = true;
+		AllTankConroller[nextCamera].Mycamera.GetComponent<AudioListener>().enabled = true;
 
 		lastcamera = nextCamera;
 	}
 
+
 	//Swap to the close in camera of the designated tank
 	void swapCameraToSky(int nextCamera){
 		if (skyCamActive == true) {
-			AllTankConroller [lastcamera].mySkyCam.GetComponent<Camera> ().enabled = false;
-			AllTankConroller [lastcamera].mySkyCam.GetComponent<AudioListener> ().enabled = false;
+			AllTankConroller [lastcamera].MySkyCam.GetComponent<Camera> ().enabled = false;
+			AllTankConroller [lastcamera].MySkyCam.GetComponent<AudioListener> ().enabled = false;
 			skyCamActive = false;
 		} else {
-			AllTankConroller[lastcamera].mycamera.GetComponent<Camera>().enabled = false;
-			AllTankConroller[lastcamera].mycamera.GetComponent<AudioListener>().enabled = false;
+			AllTankConroller[lastcamera].Mycamera.GetComponent<Camera>().enabled = false;
+			AllTankConroller[lastcamera].Mycamera.GetComponent<AudioListener>().enabled = false;
 		}
+
 		skyCamActive = true;
-		AllTankConroller [nextCamera].mySkyCam.GetComponent<Camera> ().enabled = true;
-		AllTankConroller [nextCamera].mySkyCam.GetComponent<AudioListener> ().enabled = true;
+		AllTankConroller [nextCamera].MySkyCam.GetComponent<Camera> ().enabled = true;
+		AllTankConroller [nextCamera].MySkyCam.GetComponent<AudioListener> ().enabled = true;
 		lastcamera = nextCamera;
 
 	
@@ -553,7 +553,7 @@ public class TurnController : MonoBehaviour {
 	//Player and AI spawner function
 	void spawnTanks(int numplayers, int numAIs){
 		//Loop creating Human Players
-		for (int i=0; i<numplayers; i++) {
+		for (int i=0; i<numplayers; i++){
 			//Random X,Z spawn coordinates inside specified range
 			int x = Random.Range (-spawnrangex, spawnrangex);
 			int	z = Random.Range (-spawnrangez, spawnrangez);
@@ -562,7 +562,7 @@ public class TurnController : MonoBehaviour {
 			//Spawn the player, set name, set position
 			GameObject temptank = Instantiate(playertanktospawn) as GameObject;
 			temptank.name = _gameData.tanks[i].Name;
-			temptank.GetComponent<TankController>().score = _gameData.tanks[i].Score;
+			temptank.GetComponent<TankController>().Score = _gameData.tanks[i].Score;
 			temptank.transform.position = new Vector3 (x, y, z);
 		}
 		//Loop creating AI players
@@ -575,38 +575,41 @@ public class TurnController : MonoBehaviour {
 			//Spawn the player, set name, set position
 			GameObject temptank = Instantiate(AItanktospawn) as GameObject;
 			temptank.name = "AI - " + _gameData.tanks[numplayers + i].Name;
-			temptank.GetComponent<TankController>().score = _gameData.tanks[numplayers + i].Score;
+			temptank.GetComponent<TankController>().Score = _gameData.tanks[numplayers + i].Score;
 			temptank.transform.position = new Vector3 (x, y, z);
 			temptank.tag = ("AITank");
 		}
 	}
+
 
 	//Function that checks to see if the game should be over
 	bool gameOver(){
 		//Count dead AI and dead players
 		int destroyedplayers = 0;
 		int destroyedAI = 0;
+
 		for (int j = 0; j < players.Length; j++){
-			if (tankController[j].destroyed == true)
+			if (tankController[j].Destroyed == true)
 				destroyedplayers++;
 		}
+
 		for (int j = 0; j < AItankList.Count; j++){
-			if (AItankController[j].destroyed == true)
+			if (AItankController[j].Destroyed == true)
 				destroyedAI++;
 		}
 
 
 		//If they add up to within 1 of the total, game is over
 		if (destroyedplayers + destroyedAI >= (players.Length + AItankList.Count) - 1) {
-			tankController [0].mycamera.GetComponent<Camera> ().enabled = true;
+			tankController [0].Mycamera.GetComponent<Camera> ().enabled = true;
 			gameover = true;
 			string dispResult = "Press Enter to Start a new game\n";
 			if (destroyedplayers + destroyedAI == players.Length + AItankList.Count) {
 				dispResult += "The game ended in a draw";
 			} else if (destroyedplayers == players.Length - 1) {
 				for (int j = 0; j < players.Length; j++) {
-					if (tankController [j].destroyed == false){
-						tankController[j].score += 500;
+					if (tankController [j].Destroyed == false){
+						tankController[j].Score += 500;
 						dispResult += _gameData.tanks[j].Name + " has survived the round! +500 points";
 					}
 				}
@@ -616,13 +619,13 @@ public class TurnController : MonoBehaviour {
 			dispResult = dispResult + "\n\nName\t\tScore";
 			for( int i = 0; i < (players.Length); i++){
 				Debug.Log (i);
-				dispResult = dispResult + "\n" + players[i].name + "\t\t" + tankController[i].score.ToString("F1");
-				_gameData.tanks[i].Score = tankController[i].score;
+				dispResult = dispResult + "\n" + players[i].name + "\t\t" + tankController[i].Score.ToString("F1");
+				_gameData.tanks[i].Score = tankController[i].Score;
 			}
 			for( int i = 0; i < (AItankList.Count); i++){
 				Debug.Log (i);
-				dispResult = dispResult + "\n" + AItankList[i].name + "\t\t" + AItankController[i].score.ToString("F1");
-				_gameData.tanks[numberofplayers + i].Score = AItankController[i].score;
+				dispResult = dispResult + "\n" + AItankList[i].name + "\t\t" + AItankController[i].Score.ToString("F1");
+				_gameData.tanks[numberofplayers + i].Score = AItankController[i].Score;
 			}
 			txtResult.text = dispResult;
 			//Return true that the game is over
@@ -633,17 +636,19 @@ public class TurnController : MonoBehaviour {
 			return false;
 		}
 	}
+
+
 	void updateGUI(int displayIndex){
 		//Update GUI Elements
 		if (displayIndex < 0) {
 			displayIndex = 0;
 		}
-		txtPower.text = "Power: " + AllTankConroller [displayIndex].power.ToString ("F1");
-		txtSpeed.text = "Speed: " + (Mathf.Sqrt (Mathf.Pow (AllTankConroller [displayIndex].rb.velocity.z, 2) + Mathf.Pow (AllTankConroller [displayIndex].rb.velocity.x, 2))).ToString ("F1");
-		txtElevator.text = "Elevation: " + AllTankConroller [displayIndex].currentEl.ToString ("F1");
-		txtScore.text = "Score: " + AllTankConroller [displayIndex].score.ToString ("F1");
-		txtWeapon.text = weapons [AllTankConroller[displayIndex].currentWeapon];
-		txtFuel.text = "Fuel: " + AllTankConroller [displayIndex].fuel.ToString ("F1");
+		txtPower.text = "Power: " + AllTankConroller [displayIndex].Power.ToString ("F1");
+		txtSpeed.text = "Speed: " + (Mathf.Sqrt (Mathf.Pow (AllTankConroller [displayIndex].Rb.velocity.z, 2) + Mathf.Pow (AllTankConroller [displayIndex].Rb.velocity.x, 2))).ToString ("F1");
+		txtElevator.text = "Elevation: " + AllTankConroller [displayIndex].CurrentEl.ToString ("F1");
+		txtScore.text = "Score: " + AllTankConroller [displayIndex].Score.ToString ("F1");
+		txtWeapon.text = weapons [AllTankConroller[displayIndex].CurrentWeapon];
+		txtFuel.text = "Fuel: " + AllTankConroller [displayIndex].Fuel.ToString ("F1");
 		txtHealth.text = "Health: " + AllTankConroller [displayIndex].HP.ToString ("F0");
 	}
 

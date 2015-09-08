@@ -7,64 +7,64 @@ using UnityEngine.UI;
 public class TankController : MonoBehaviour{
 
 	//Settings that define the tank's characteristics
-	public float maxSpeed = 5;
-	public float forwardSpeed = 20;
-	public float turnSpeed  = 2;
-	public float elevateRate = 1;
-	public float turretRate = 1;
-	public float maxElevation = 70;
-	public float minElevation = -5;
-	public float maxPower = 120;
-	public float deltaPower = 2;
-	public float power = 20;
-	public float modifier = 1;
-	public bool followcam = true;
+	public float MaxSpeed = 5;
+	public float ForwardSpeed = 20;
+	public float TurnSpeed  = 2;
+	public float ElevateRate = 1;
+	public float TurretRate = 1;
+	public float MaxElevation = 70;
+	public float MinElevation = -5;
+	public float MaxPower = 120;
+	public float DeltaPower = 2;
+	public float Power = 20;
+	public float Modifier = 1;
+	public bool Followcam = true;
 	public float HP = 100;
 	public string Type = "Tank";
 	//public bool playerControlled = true;
 
-	public Rigidbody rb;
+	public Rigidbody Rb;
 	//References to related game Objects
-	public GameObject turret;
-	public GameObject elevator;
-	public GameObject mycamera;
-	public GameObject mySkyCam;
-	GameObject prefSmoke;
+	public GameObject Turret;
+	public GameObject Elevator;
+	public GameObject Mycamera;
+	public GameObject MySkyCam;
+	GameObject PrefSmoke;
 	//Gun Controller
-	public ProjectileShooter gun;
+	public ProjectileShooter Gun;
 
 
-	public float forwardMoveAmount = 0;
-	public float turnAmount = 0;
+	public float ForwardMoveAmount = 0;
+	public float TurnAmount = 0;
 
-	public float rotateAmount = 0;
-	public float currentEl = 40;
-	public float elevateAmount = 40;
+	public float RotateAmount = 0;
+	public float CurrentEl = 40;
+	public float ElevateAmount = 40;
 
 
 
 	//Variables to store information about the tank's state needed by turn controller
-	public float score = 0;
-	public bool destroyed = false;
-	public float shotDistance = -1;
-	public int target = -1;
-	public int currentWeapon = 0;
-	public int cameraPref = 1;
-	public float cameraAngle = 0;
-	public float fuel = 100;
+	public float Score = 0;
+	public bool Destroyed = false;
+	public float ShotDistance = -1;
+	public int Target = -1;
+	public int CurrentWeapon = 0;
+	public int CameraPref = 1;
+	public float CameraAngle = 0;
+	public float Fuel = 100;
 
 	void Start(){
 		//Prepare prefab
-		prefSmoke = Resources.Load ("Smoke") as GameObject;
+		PrefSmoke = Resources.Load ("Smoke") as GameObject;
 
 		//Get own rigid body
-		rb = GetComponent<Rigidbody> ();
+		Rb = GetComponent<Rigidbody> ();
 
 		//Randomize starting turret elevation
 		float initialel = Random.Range (15F, 45F);
-		elevator.transform.Rotate (initialel, 0, 0);
-		elevateAmount = initialel;
-		currentEl = initialel;
+		Elevator.transform.Rotate (initialel, 0, 0);
+		ElevateAmount = initialel;
+		CurrentEl = initialel;
 
 		//Randomize initial direction of the tank
 		transform.Rotate(0, Random.Range (0, 360), 0);
@@ -74,19 +74,19 @@ public class TankController : MonoBehaviour{
 
 	//Tank Movement, can't use axis due to conflict with turret controls
 	void FixedUpdate(){
-		rb.maxAngularVelocity = maxSpeed;
+		Rb.maxAngularVelocity = MaxSpeed;
 
 		//Move as instructed by turn controller
-		transform.Rotate(0, -turnAmount, 0);
-		rb.AddRelativeForce(0,0,-forwardMoveAmount);
+		transform.Rotate(0, -TurnAmount, 0);
+		Rb.AddRelativeForce(0,0,-ForwardMoveAmount);
 
 
 
 		//Speed Limiter
-		if (Mathf.Sqrt(Mathf.Pow (rb.velocity.z, 2) + Mathf.Pow (rb.velocity.x, 2)) > maxSpeed) {
-			rb.drag = .95F;
+		if (Mathf.Sqrt(Mathf.Pow (Rb.velocity.z, 2) + Mathf.Pow (Rb.velocity.x, 2)) > MaxSpeed) {
+			Rb.drag = .95F;
 		} else {
-			rb.drag = .1F;
+			Rb.drag = .1F;
 		}
 
 	}
@@ -106,18 +106,18 @@ public class TankController : MonoBehaviour{
 				if(turnController.AITurnOver){
 					if (damage < HP) {
 						Debug.Log ("Player " + turnController.player.ToString() + " Score +" + HP.ToString());
-						turnController.tankController[turnController.player].score += damage;
+						turnController.tankController[turnController.player].Score += damage;
 					} else {
 						Debug.Log ("Player " + turnController.player.ToString() + " Score +" + damage.ToString());
-						turnController.tankController[turnController.player].score += HP;
+						turnController.tankController[turnController.player].Score += HP;
 					}
 				} else {
 					if (damage < HP) {
 						Debug.Log ("Player " + turnController.currentAI.ToString() + " Score +" + HP.ToString());
-						turnController.AItankController[turnController.currentAI].score += damage;
+						turnController.AItankController[turnController.currentAI].Score += damage;
 					} else {
 						Debug.Log ("Player " + turnController.currentAI.ToString() + " Score +" + damage.ToString());
-						turnController.AItankController[turnController.currentAI].score += HP;
+						turnController.AItankController[turnController.currentAI].Score += HP;
 					}
 				}
 
@@ -130,13 +130,13 @@ public class TankController : MonoBehaviour{
 			if(turnController.player >= 0){
 				if(gameObject == turnController.players[turnController.player]){
 					Debug.Log ("Shot self");
-					notifRot = Quaternion.LookRotation(turret.transform.position -(turret.transform.position - turret.transform.up));
+					notifRot = Quaternion.LookRotation(Turret.transform.position -(Turret.transform.position - Turret.transform.up));
 				} else {
 					notifRot = Quaternion.LookRotation(gameObject.transform.position -turnController.players[turnController.player].transform.position);
 					Debug.Log ("Shot other");
 				}
 			} else {
-				notifRot = Quaternion.LookRotation(turret.transform.position -(turret.transform.position - turret.transform.up));
+				notifRot = Quaternion.LookRotation(Turret.transform.position -(Turret.transform.position - Turret.transform.up));
 				Debug.Log ("Shot By AI");
 			}
 			DamageNotif (damage.ToString ("F1"), 1F, 0F, 2F, notifRot);
@@ -146,8 +146,8 @@ public class TankController : MonoBehaviour{
 			if (HP <= 0) {
 				DamageNotif ("Destroyed", -1F, 0F, 2F, notifRot);
 				Debug.Log ("Tank Destroyed");
-				destroyed = true;
-				GameObject smoke = Instantiate(prefSmoke) as GameObject;
+				Destroyed = true;
+				GameObject smoke = Instantiate(PrefSmoke) as GameObject;
 				smoke.transform.position = transform.position;
 				//Destroy (gameObject);
 			}

@@ -71,7 +71,7 @@ public class Projectile : MonoBehaviour {
 				i++;
 			}
 			//Tell owner how far it went
-			owner.GetComponent<TankController>().shotDistance = Vector3.Distance(transform.position, owner.transform.position);
+			owner.GetComponent<TankController>().ShotDistance = Vector3.Distance(transform.position, owner.transform.position);
 
 			//Destroy the projectile
 			transform.GetChild (0).GetComponent<ParticleSystem> ().emissionRate = 0;

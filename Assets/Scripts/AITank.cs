@@ -65,10 +65,10 @@ public class AITank : MonoBehaviour {
 			TurnController turnController = turnControllerObj.GetComponent<TurnController>();
 			if (damage < HP) {
 				Debug.Log ("Player " + turnController.player.ToString() + " Score +" + HP.ToString());
-				turnController.tankController[turnController.player].score += damage;
+				turnController.tankController[turnController.player].Score += damage;
 			} else {
 				Debug.Log ("Player " + turnController.player.ToString() + " Score +" + damage.ToString());
-				turnController.tankController[turnController.player].score += HP;
+				turnController.tankController[turnController.player].Score += HP;
 			}
 			HP -= damage;
 			Quaternion notifRot;
