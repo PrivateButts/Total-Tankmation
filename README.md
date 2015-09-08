@@ -31,4 +31,18 @@ Stretch Goals
 	Optimization
 
 
-TODO:
+TODO for Expo:
+	Upgrade project to latest unity (Adam)
+	Rebuild terrian system
+	Fancyfy spawning (Adam)
+		Spawn on flat surface (Adam & Randy)
+	Fancyfy UI
+	Despegetti Code (Adam)
+	BIRDS (Adam)
+
+
+TODO for Release:
+	Networked multiplayer (Whose Feeling Brave?)
+	Shop system (Adam)
+	Deversify Tank model
+		Colorizer (Randy)
