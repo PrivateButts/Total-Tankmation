@@ -11,21 +11,24 @@ Core Game
 		GUI - Rough
 
 	World Generation/Destruction
-		Voxel Based destructable Terrain - Scratched due to time
+		Voxel Based destructable Terrain - 
 		Procedural generation - Completed in branch
-		Heightmap based terrain destruction - prototyped
-		World populater
+		Heightmap based terrain destruction - Done
+		World populater - Basic
 
 	Scoring - Started
 
 	Basic hotseat game with human players - Done
 
 Stretch Goals
-	AI
-	Economy / More Weapons/ Fuel
+	AI - Basic
+	Economy / More Weapons/ Fuel - Basic
 	Defenses
 	Terrain Manipulation Weapons
 	Weapon Trails - Done
 	Explosions - Rough
 	Damage Notifications - Rough
 	Optimization
+
+
+TODO:
