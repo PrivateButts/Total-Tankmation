@@ -16,7 +16,7 @@ public class GameData : MonoBehaviour {
 		DontDestroyOnLoad(transform.gameObject);
 
 		Seed = Random.Range (0f, 9999f);
-		SeedBtn.text = Seed.ToString();
+		//SeedBtn.text = Seed.ToString();
 	}
 
 	

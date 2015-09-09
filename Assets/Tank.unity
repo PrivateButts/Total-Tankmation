@@ -650,7 +650,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6bfac9bf92810f48bb852406c1658c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Weapon: []
+  Weapon:
+  - {fileID: 135208, guid: b1200cba42f3f304a9f4988976dc2bf7, type: 2}
+  - {fileID: 158610, guid: 2d6bc9db2aa257f4ca7d3a08c5d0a5ee, type: 2}
+  - {fileID: 179840, guid: 695c71fa23203c04f8e07a22fc54e926, type: 2}
+  - {fileID: 128972, guid: 03d6e2e25da4ada4b8eb03749a45c176, type: 2}
+  - {fileID: 129550, guid: 459e2a5a925e40c4084507436a26cf43, type: 2}
+  - {fileID: 168240, guid: 94e01a53b3438904a8047571fa10781e, type: 2}
 --- !u!1 &597374541
 GameObject:
   m_ObjectHideFlags: 0
@@ -790,7 +796,7 @@ MonoBehaviour:
   AllTankConroller: []
   timeFired: 0
   playertanktospawn: {fileID: 171170, guid: 71b59f5640fc63c4eaaa6a0486dbe187, type: 2}
-  AItanktospawn: {fileID: 188840, guid: b4782742e20b52448852ee4e62cf8bb2, type: 2}
+  AItanktospawn: {fileID: 171170, guid: 71b59f5640fc63c4eaaa6a0486dbe187, type: 2}
   numberofplayers: 5
   numberofAIplayers: 0
   spawnrangex: 50

@@ -67,9 +67,8 @@ public class TurnController : MonoBehaviour {
 
    
     // Use this for initialization
-	void Start () {
-
-		_gameData = GameObject.FindGameObjectWithTag ("GameData").GetComponent<GameData> ();
+	void Start() {
+        _gameData = GameObject.FindGameObjectWithTag ("GameData").GetComponent<GameData> ();
 
 		//Specify how many Players and AI players to spawn
 		spawnTanks (numberofplayers, numberofAIplayers);
@@ -84,6 +83,7 @@ public class TurnController : MonoBehaviour {
 		for (int i=0; i < numPlayers; i++) {
 			tankController.Add(players[i].GetComponent<TankController>());
 		}
+        
 		//Select a random player to go first
 		player = Random.Range (0, players.Length);
 		//Debug.Log (player);
@@ -92,8 +92,7 @@ public class TurnController : MonoBehaviour {
 		tankController[player].Mycamera.GetComponent<Camera>().enabled = true;
 		tankController[player].Mycamera.GetComponent<AudioListener>().enabled = true;
 		lastcamera = numberofAIplayers + player;
-
-
+        		
 		/************************************
 		 * 	Generate List of Available Weapons
 		 * *********************************/
@@ -103,7 +102,7 @@ public class TurnController : MonoBehaviour {
 			weapons[i] = weaponController.Weapon[i].name;
 		}
 		txtWeapon.text = weapons[0];
-
+		
 
 		/*************************************
 		*	Generate List of AI Tanks
@@ -420,7 +419,7 @@ public class TurnController : MonoBehaviour {
 	}
 
 
-	//Turn swap function, doesn't matter what the game state is, this should work.
+	//Turn swap function, doesn't matter what the game state is, this should work. Figures out who the next player is and starts thier turn
 	void nextTurn(){
 		Debug.Log ("AI turn: " + AITurnOver.ToString() + " Player Turn: " + PlayerTurnOver.ToString());
 
@@ -440,6 +439,7 @@ public class TurnController : MonoBehaviour {
 	}
 
 
+    //Call the next AI's turn to begin
 	void nextAI(){
 		currentAI++;
 		Debug.Log("AI Player: " + currentAI);
@@ -467,6 +467,7 @@ public class TurnController : MonoBehaviour {
 	}
 
 
+    //Call the next Human Player's turn to begin
 	void nextPlayer(){
 		player++;
 		Debug.Log ("Player: " + player.ToString());
@@ -546,8 +547,6 @@ public class TurnController : MonoBehaviour {
 		AllTankConroller [nextCamera].MySkyCam.GetComponent<Camera> ().enabled = true;
 		AllTankConroller [nextCamera].MySkyCam.GetComponent<AudioListener> ().enabled = true;
 		lastcamera = nextCamera;
-
-	
 	}
 
 
@@ -579,6 +578,7 @@ public class TurnController : MonoBehaviour {
 			temptank.GetComponent<TankController>().Score = _gameData.Tanks[numplayers + i].Score;
 			temptank.transform.position = new Vector3 (x, y, z);
 			temptank.tag = ("AITank");
+            Debug.Log("Tank Spawned");
 		}
 	}
 
@@ -589,11 +589,13 @@ public class TurnController : MonoBehaviour {
 		int destroyedplayers = 0;
 		int destroyedAI = 0;
 
+        //Count destroyed players
 		for (int j = 0; j < players.Length; j++){
 			if (tankController[j].Destroyed == true)
 				destroyedplayers++;
 		}
 
+        //Count destroyed AIs
 		for (int j = 0; j < AItankList.Count; j++){
 			if (AItankController[j].Destroyed == true)
 				destroyedAI++;
@@ -605,18 +607,24 @@ public class TurnController : MonoBehaviour {
 			tankController [0].Mycamera.GetComponent<Camera> ().enabled = true;
 			gameover = true;
 			string dispResult = "Press Enter to Start a new game\n";
-			if (destroyedplayers + destroyedAI == players.Length + AItankList.Count) {
+
+			if (destroyedplayers + destroyedAI == players.Length + AItankList.Count) { //Draw Logic
 				dispResult += "The game ended in a draw";
-			} else if (destroyedplayers == players.Length - 1) {
+
+			} else if (destroyedplayers == players.Length - 1) { //Player win logic
 				for (int j = 0; j < players.Length; j++) {
 					if (tankController [j].Destroyed == false){
 						tankController[j].Score += 500;
 						dispResult += _gameData.Tanks[j].Name + " has survived the round! +500 points";
 					}
 				}
-			} else {
+
+			} else { //AI Win Logic
 				dispResult += "Humanity has been defeated";
 			}
+
+
+            //Generate results screen
 			dispResult = dispResult + "\n\nName\t\tScore";
 			for( int i = 0; i < (players.Length); i++){
 				Debug.Log (i);
@@ -629,21 +637,27 @@ public class TurnController : MonoBehaviour {
 				_gameData.Tanks[numberofplayers + i].Score = AItankController[i].Score;
 			}
 			txtResult.text = dispResult;
+
 			//Return true that the game is over
 			_gameData.Seed += 10;
 			return true;
-		} else {
+		
+        } else {
 			//Return false if 2 or more entities are still alive
 			return false;
 		}
 	}
 
 
+    //GUI Updater
 	void updateGUI(int displayIndex){
-		//Update GUI Elements
+		
+        //Update GUI Elements
 		if (displayIndex < 0) {
 			displayIndex = 0;
 		}
+
+        //GUI Elements to update
 		txtPower.text = "Power: " + AllTankConroller [displayIndex].Power.ToString ("F1");
 		txtSpeed.text = "Speed: " + (Mathf.Sqrt (Mathf.Pow (AllTankConroller [displayIndex].Rb.velocity.z, 2) + Mathf.Pow (AllTankConroller [displayIndex].Rb.velocity.x, 2))).ToString ("F1");
 		txtElevator.text = "Elevation: " + AllTankConroller [displayIndex].CurrentEl.ToString ("F1");
