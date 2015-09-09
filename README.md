@@ -21,6 +21,7 @@ Core Game
 	Basic hotseat game with human players - Done
 
 Stretch Goals
+
 	AI - Basic
 	Economy / More Weapons/ Fuel - Basic
 	Defenses
@@ -32,16 +33,18 @@ Stretch Goals
 
 
 TODO for Expo:
-	Upgrade project to latest unity (Adam)
+
+	Upgrade project to latest unity (Adam) - Done
 	Rebuild terrian system
 	Fancyfy spawning (Adam)
 		Spawn on flat surface (Adam & Randy)
 	Fancyfy UI
-	Despegetti Code (Adam)
+	Despegetti Code (Adam) - Done (Line Spacing, Variable Case Consistency)
 	BIRDS (Adam)
 
 
 TODO for Release:
+
 	Networked multiplayer (Whose Feeling Brave?)
 	Shop system (Adam)
 	Deversify Tank model
