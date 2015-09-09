@@ -108,6 +108,7 @@ public class TurnController : MonoBehaviour {
 		/*************************************
 		*	Generate List of AI Tanks
 		**************************************/
+        Debug.Log("Start AI Tank List Generation");
 		GameObject [] temp;
 		temp = GameObject.FindGameObjectsWithTag ("AITank");
 		for (int i = 0; i < temp.Length; i++) {
