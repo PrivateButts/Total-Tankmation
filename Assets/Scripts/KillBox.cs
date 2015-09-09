@@ -13,6 +13,8 @@ public class KillBox : MonoBehaviour {
 	
 	}
 
+
+    //Destroy objects exiting the killbox
 	void OnTriggerExit(Collider other) {
 		Debug.Log ("KB Exit" + other.name);
 		Destroy (other.gameObject);

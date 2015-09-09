@@ -3,16 +3,16 @@ using System.Collections;
 
 public class SphereExplosion : MonoBehaviour {
 	float created;
-	public float explosionsize = 5;
-	float expansion = .2F;
+	public float ExplosionSize = 5;
+	//float expansion;
 	float maxsize = 4.8F;
 
 	public AudioSource expSFX;
 
 	// Use this for initialization
 	void Start () {
-		expansion = explosionsize / 50F;
-		maxsize = explosionsize - 0.2F;
+        //expansion = ExplosionSize / 50F;
+        maxsize = ExplosionSize - 0.2F;
 		created = Time.time;
 		expSFX.time = 0;
 		expSFX.Play ();

@@ -2,27 +2,32 @@
 using System.Collections;
 
 public class Mirv : MonoBehaviour {
-	public float baseDamage = 45;
-	public float damageAOE = 5;
+	//Projectile Settings
+    public float BaseDamage = 45;
+	public float DamageAOE = 5;
+    public float TTS = 2;
+    public float ProjTTL = 25;
+    public float SpreadSpeed = 10F;
+    public int MirvCount = 4;
+	
+
+
+    //Object management
 	GameObject prefab;
 	GameObject prefab2;
-	public float TTS = 2;
-	public float projTTL = 25;
 	float startTime;
-	public bool followcam = false;
-	public GameObject mirvProjectiles;
-	public float spreadSpeed = 10F;
-	GameObject trail;
+	public bool Followcam = false;
+	public GameObject MirvProjectiles;
+    GameObject trail;
 	float mirvTime;
-	public GameObject owner;
-	public int mirvCount = 4;
-	public bool alive;
+	public GameObject Owner;
+	public bool Alive;
 
 
 
 	// Use this for initialization
 	void Start () {
-		alive = true;
+		Alive = true;
 		mirvTime = Time.time;
 		startTime = GameObject.FindGameObjectWithTag("TurnController").GetComponent<TurnController>().timeFired;
 		prefab = Resources.Load ("Explosionsphere") as GameObject;
@@ -35,10 +40,11 @@ public class Mirv : MonoBehaviour {
 		acttrail.rigidbody.velocity = rigidbody.velocity;*/
 	}
 	
-	// Update is called once per frame
+
+    //TTL Garbage collection
 	void Update () {
 		//Time to live on projectiles
-		if (Time.time - startTime > projTTL) {
+		if (Time.time - startTime > ProjTTL) {
 			Destroy(gameObject);
 		} else if (Time.time - mirvTime > TTS) {
 			SpawnMirv();
@@ -47,37 +53,48 @@ public class Mirv : MonoBehaviour {
 	}
 
 
+    //Collision event handler
 	void OnTriggerEnter(Collider other){
 		if (other.tag != "KillBox" && other.tag != "Weapon" && other.tag != "Trail") {
 			//Create explosion
 			GameObject explosion = Instantiate (prefab) as GameObject;
 			//Create explosion at the location where the collision occured
 			explosion.transform.position = transform.position;
-			explosion.GetComponent<SphereExplosion> ().explosionsize = damageAOE;
+            explosion.GetComponent<SphereExplosion>().ExplosionSize = DamageAOE;
 			explosion = Instantiate (prefab2) as GameObject;
 			//Create explosion at the location where the collision occured
 			explosion.transform.position = transform.position;
-			Collider[] hits = Physics.OverlapSphere (gameObject.transform.position, damageAOE);
+			Collider[] hits = Physics.OverlapSphere (gameObject.transform.position, DamageAOE);
+
+
+            //Process everything within AOE effect
 			int i = 0;
 			while (i < hits.Length) {
 				if (hits [i].tag == "AITank" || hits [i].tag == "Trail" || hits [i].tag == "PlayerTank") {
+                    //Calculate applied damage
 					float distance = Vector3.Distance (gameObject.transform.position, hits [i].gameObject.transform.position);
 					if (distance < 1) {
-						distance = 1;
+						distance = 1; //Avoid increased damage beyond full damage
 					}
-					float damage = baseDamage / distance;
-					if(hits[i].gameObject == owner.gameObject){
-						hits [i].SendMessage ("AddDamage", -damage);
+					float damage = BaseDamage / distance; //Reduce damage by distance
+
+                    //Actually send damage notifications
+					if(hits[i].gameObject == Owner.gameObject){
+						hits [i].SendMessage ("AddDamage", -damage);//Special case for self inflicted damage
 					} else {
 						hits [i].SendMessage ("AddDamage", damage);
 					}
 				}
+
+                //Terrain deformation
 				if (hits[i].tag == "Terrain"){
 					Debug.Log("Attemping to deform terrain");
-					hits[i].gameObject.GetComponent<DestructableTerrain>().Crater (Mathf.RoundToInt(explosion.transform.position.x), Mathf.RoundToInt(explosion.transform.position.z), Mathf.RoundToInt(damageAOE), 1000f);
+					hits[i].gameObject.GetComponent<DestructableTerrain>().Crater (Mathf.RoundToInt(explosion.transform.position.x), Mathf.RoundToInt(explosion.transform.position.z), Mathf.RoundToInt(DamageAOE), 1000f);
 				}
 				i++;
 			}
+
+
 			//Destroy the projectile
 			transform.GetChild (0).GetComponent<ParticleSystem> ().emissionRate = 0;
 			transform.DetachChildren();
@@ -87,14 +104,14 @@ public class Mirv : MonoBehaviour {
 
 	void SpawnMirv(){
 		float iSpread = 0.1F;
-		for (int i = 0; i<mirvCount; i++) {
-			GameObject mirvs = Instantiate (mirvProjectiles) as GameObject;
+		for (int i = 0; i<MirvCount; i++) {
+			GameObject mirvs = Instantiate (MirvProjectiles) as GameObject;
 			mirvs.transform.position = transform.localPosition + transform.right * iSpread;
-			mirvs.GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity + new Vector3(Random.Range (-1, 1), Random.Range (-1, 1), Random.Range (-1, 1)) * spreadSpeed;
+			mirvs.GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity + new Vector3(Random.Range (-1, 1), Random.Range (-1, 1), Random.Range (-1, 1)) * SpreadSpeed;
 			if (mirvs.GetComponent<Mirv> ()) {
-				mirvs.GetComponent<Mirv> ().owner = owner;
+				mirvs.GetComponent<Mirv> ().Owner = Owner;
 			} else {
-				mirvs.GetComponent<Projectile> ().owner = owner;
+				mirvs.GetComponent<Projectile> ().Owner = Owner;
 			}
 		}
 		transform.GetChild (0).GetComponent<ParticleSystem> ().emissionRate = 0;

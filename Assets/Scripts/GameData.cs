@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 
 public class GameData : MonoBehaviour {
-	public List<PlayerData> tanks = new List<PlayerData>();
+	public List<PlayerData> Tanks = new List<PlayerData>();
 	public Text PlayersIn, AIsIn;
 	public InputField SeedBtn;
 	public int Players, AIs;
@@ -16,7 +16,7 @@ public class GameData : MonoBehaviour {
 		DontDestroyOnLoad(transform.gameObject);
 
 		Seed = Random.Range (0f, 9999f);
-		SeedBtn.text = Seed.ToString();
+		//SeedBtn.text = Seed.ToString();
 	}
 
 	
@@ -31,6 +31,7 @@ public class GameData : MonoBehaviour {
 			return;
 		}
 
+        //Create Hunan Player Names
 		for (int i = 0; i < Players; i++) {
 			PlayerData player = new PlayerData();
 			player.IsAI = false;
@@ -38,9 +39,10 @@ public class GameData : MonoBehaviour {
 			player.Score = 0;
 			player.Model = "default";
 
-			tanks.Add (player);
+			Tanks.Add (player);//Add each to the Tanks list
 		}
 
+        //Create AI Player Names
 		for (int i = 0; i < AIs; i++) {
 			PlayerData player = new PlayerData();
 			player.IsAI = true;
@@ -48,7 +50,7 @@ public class GameData : MonoBehaviour {
 			player.Score = 0;
 			player.Model = "default";
 			
-			tanks.Add (player);
+		    Tanks.Add (player);//Add each to the Tanks list
 		}
 		Application.LoadLevel (1);
 	}

@@ -4,22 +4,30 @@ using System.Collections;
 public class trailTTL : MonoBehaviour {
 	float created;
 	float ttl;
-	// Use this for initialization
+
+
+	//Setup TTL system
 	void Start () {
 		ttl = gameObject.GetComponent<ParticleSystem> ().startLifetime;
 		created = Time.time;
 	}
+
 	
-	// Update is called once per frame
+	//Cleanup
 	void Update () {
 		if (Time.time - created > ttl + gameObject.GetComponent<ParticleSystem> ().duration) {
-			Destroy(gameObject);
+			Destroy(gameObject); //Destroy the trail object after standard timeout + duration of particle effect
 		}
 	}
 
+
+    //Stop emmitting particles when hit by explosion
 	void AddDamage(float damage){
 		gameObject.GetComponent<ParticleSystem> ().emissionRate = 0;
 	}
+
+
+    //Stop emmiting particles when collision detected
 	void OnCollistionEnter(){
 		gameObject.GetComponent<ParticleSystem> ().emissionRate = 0;
 	}

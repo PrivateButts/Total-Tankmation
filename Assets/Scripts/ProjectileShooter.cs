@@ -4,73 +4,92 @@ using UnityEngine;
 using System.Collections;
 
 public class ProjectileShooter : MonoBehaviour {
-	public AudioSource shoot;
+	public AudioSource shoot; //Sound file to play when shot fired
 	float SoundTime;
 	float LastShot;
-	bool playing;
-	// Use this for initialization
-	GameObject [] weapons;
-	GameObject trail;
-	GameObject currentWeapon;
-	public float Volume;
+	bool Playing;
+    public float Volume; //Desired volume of sfx
+
+
+	//Globals to import into from other objects
+	GameObject [] Weapons;
+	//GameObject Trail;
+	GameObject CurrentWeapon;
 	GameObject Tank;
 	TankController TankController;
-	void Start () {
+	
+    
+    void Start () {
 		//Initialize LastShot
-		Tank = this.transform.parent.parent.parent.parent.gameObject;
-		TankController = Tank.GetComponent<TankController>();
-		playing = false;
+		Tank = this.transform.parent.parent.parent.parent.gameObject; //Get the game object of the tank who is running the script
+		TankController = Tank.GetComponent<TankController>(); //Get that tank's Tank Controller
+
+        //Initialize times
+        Playing = false;  
 		SoundTime = Time.time;
 		LastShot = Time.time;
-		//preload the projectile
+
+		//Load the available weapons into the scripts weapons variable for later use.
 		AvailWeapons weaponController = GameObject.FindGameObjectWithTag ("AvailWeapons").GetComponent<AvailWeapons>();
-		weapons = new GameObject[weaponController.weapon.Length];
-		for (int i=0; i<weaponController.weapon.Length; i++) {
-			//Debug.Log (weaponController.weapon[i].name);
-			weapons[i] = weaponController.weapon[i];
+		Weapons = new GameObject[weaponController.Weapon.Length];
+		for (int i=0; i<weaponController.Weapon.Length; i++) {
+			//Debug.Log (weaponController.Weapon[i].name);
+			Weapons[i] = weaponController.Weapon[i];
 		}
-		trail = Resources.Load ("projectileTrail") as GameObject;
+
+        //Preload asset
+		//Trail = Resources.Load ("projectileTrail") as GameObject;
 	}
 	
-	// Update is called once per frame
+
+	//Updates sound volume
 	void Update () {
-		//Spacebar to fire
-		if (playing == true) {
+        //Only do this if sound is playing
+		if (Playing == true) {
+            //Sound timeout
 			if (Time.time - SoundTime > 2) {
 				shoot.Stop ();
-				playing = false;  
+				Playing = false;  
 			}
+
+            //Sound fade
 			if (Time.time - SoundTime > 1){
 				shoot.volume -= 1 * Time.deltaTime;
 			}
 		}
 	}
+
+
+    //Shoot function is called to actually fire a projectile
 	public void Shoot(){
 		//Check to make sure we haven't fired too recently
 		if(Time.time - LastShot > 1){
+            //Sound
 			shoot.Play ();
 			shoot.volume = Volume;
-			playing = true;
+            Playing = true;
 			SoundTime = Time.time;
-			currentWeapon = weapons[TankController.currentWeapon];
-			//Start preparing the projectile for launch
-			GameObject projectile = Instantiate(currentWeapon) as GameObject;
-			//Starting location of projectile
-			Projectile projCont = projectile.GetComponent<Projectile>();
-			if (projCont == null){
+            
+            //Start of projectile launching code
+			CurrentWeapon = Weapons[TankController.CurrentWeapon];
+            GameObject projectile = Instantiate(CurrentWeapon) as GameObject; //Start preparing the projectile for launch
+            Projectile projCont = projectile.GetComponent<Projectile>(); //Starting location of projectile
+
+			//If the proj doesn't have a projectile component, use Mirv instead
+            if (projCont == null){
 				Mirv projCont2 = projectile.GetComponent<Mirv>();
-				projCont2.owner = Tank;
+				projCont2.Owner = Tank;
 			} else {
-			projCont.owner = Tank;
+			projCont.Owner = Tank;
 			}
+
+            //Projectile has been created, start setting the projectile in motion
 			projectile.transform.position = transform.position + new Vector3(0,0,0);
 			projectile.transform.rotation = transform.rotation;
 			projectile.transform.Rotate (0,180,0);
 			Rigidbody rb = projectile.GetComponent<Rigidbody>();
-			//Initial velocity relative to the empty that is firing it.
-			rb.velocity = transform.rotation * new Vector3(0,0,-TankController.power);
-			//Update timer for next shot delay
-			LastShot = Time.time;
+            rb.velocity = transform.rotation * new Vector3(0, 0, -TankController.Power); //Initial velocity relative to the empty that is firing it.
+            LastShot = Time.time; //Update timer for next shot delay
 		}
 	}
 

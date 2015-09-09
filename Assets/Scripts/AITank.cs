@@ -10,7 +10,7 @@ public class AITank : MonoBehaviour {
 	public float HP = 100;
 	public bool AIactive = false;
 	float startTurnTime;
-	public float turnLength = 10;
+	public float TurnLength = 10;
 
 
 	// Use this for initialization
@@ -30,17 +30,18 @@ public class AITank : MonoBehaviour {
 		Debug.Log (tankList.Count);
 	}
 	
-	// Update is called once per frame
+
+	//Used for logging
 	void Update () {
 		if (AIactive == true){
 			Debug.Log ("AI Active");
-			if (turnLength < Time.time - startTurnTime) {
+			if (TurnLength < Time.time - startTurnTime) {
 				Debug.Log ("AI Timeout");
 				AIactive = false;
 			}
 			if ((Time.time * 100) % 10 == 0) {
 
-				Debug.Log ("Time Left: " + (turnLength -Time.time - startTurnTime).ToString());
+				Debug.Log ("Time Left: " + (TurnLength -Time.time - startTurnTime).ToString());
 			}
 		}
 	}
@@ -50,7 +51,9 @@ public class AITank : MonoBehaviour {
 		Debug.Log ("AI Player Activating");
 		startTurnTime = Time.time;
 	}
+    
 
+    //Spawn a damage message
 	void DamageNotif(string damage, float height, float center, float size, Quaternion notifRot){
 		GameObject damageGameObject = (GameObject)Instantiate(Resources.Load ("Text Damage Display"), transform.position + new Vector3 (0, 2, 0), transform.rotation);
 		damageGameObject.GetComponentInChildren<TextMesh>().text = damage;
@@ -59,16 +62,18 @@ public class AITank : MonoBehaviour {
 		damageGameObject.transform.rotation = notifRot;
 	}
 
+    
+    //Process an incoming damage message
 	void AddDamage(float damage){
 		if (HP > 0) {
 			GameObject turnControllerObj = GameObject.FindGameObjectWithTag ("TurnController");
 			TurnController turnController = turnControllerObj.GetComponent<TurnController>();
 			if (damage < HP) {
 				Debug.Log ("Player " + turnController.player.ToString() + " Score +" + HP.ToString());
-				turnController.tankController[turnController.player].score += damage;
+				turnController.tankController[turnController.player].Score += damage;
 			} else {
 				Debug.Log ("Player " + turnController.player.ToString() + " Score +" + damage.ToString());
-				turnController.tankController[turnController.player].score += HP;
+				turnController.tankController[turnController.player].Score += HP;
 			}
 			HP -= damage;
 			Quaternion notifRot;
