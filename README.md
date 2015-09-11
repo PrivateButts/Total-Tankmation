@@ -41,6 +41,7 @@ TODO for Expo:
 	Fancyfy UI
 	Despegetti Code (Adam) - Done (Line Spacing, Variable Case Consistency)
 	BIRDS (Adam)
+        Improve Camera Controls
 
 
 TODO for Release:
