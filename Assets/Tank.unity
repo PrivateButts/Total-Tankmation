@@ -797,6 +797,7 @@ MonoBehaviour:
   timeFired: 0
   playertanktospawn: {fileID: 171170, guid: 71b59f5640fc63c4eaaa6a0486dbe187, type: 2}
   AItanktospawn: {fileID: 171170, guid: 71b59f5640fc63c4eaaa6a0486dbe187, type: 2}
+  PlatformToSpawn: {fileID: 145268, guid: dd61beecae207bd43a3ef2feca21c67d, type: 2}
   numberofplayers: 5
   numberofAIplayers: 0
   spawnrangex: 50

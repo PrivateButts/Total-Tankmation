@@ -44,6 +44,7 @@ public class TurnController : MonoBehaviour {
 	//Spawing Controls
 	public GameObject playertanktospawn;
 	public GameObject AItanktospawn;
+    public GameObject PlatformToSpawn;
 	//How many Players/AI to spawn
 	public int numberofplayers = 1;
 	public int numberofAIplayers = 1;
@@ -132,12 +133,22 @@ public class TurnController : MonoBehaviour {
 			AllTankConroller.Add (tankController[i]);
 			//Debug.Log (i);
 		}
+
+
+        //Try to eleminate rogue projectiles
+        GameObject [] activeWeapon = GameObject.FindGameObjectsWithTag ("Weapon");
+        while (activeWeapon.Length > 0)
+            Destroy(activeWeapon[0]);
+
 	}
 
 	
 	// Update is called once per frame
 	void Update () {
-
+		GameObject [] activeWeaponA = GameObject.FindGameObjectsWithTag ("Weapon");
+        if (activeWeaponA.Length > 0) {
+            Debug.Log(activeWeaponA[0]);    
+        }
 		//Reset all movement control inputs to zero
 
 		float modifier;
@@ -186,6 +197,7 @@ public class TurnController : MonoBehaviour {
 			tankController [player].TurnAmount = 0;
 			tankController [player].RotateAmount = 0;
 			tankController [player].ElevateAmount = 0;
+            tankController[player].Active = true;
 			/******************************************
 			 * 
 			 * 			KEYBOARD CONTROLS
@@ -255,6 +267,7 @@ public class TurnController : MonoBehaviour {
 				tankController [player].TurnAmount = 0;
 				tankController [player].RotateAmount = 0;
 				tankController [player].ElevateAmount = 0;
+                tankController[player].Active = false;
 			}
 
 			if (Input.GetButtonDown ("ChangeWeapon")) {
@@ -558,12 +571,14 @@ public class TurnController : MonoBehaviour {
 			int x = Random.Range (-spawnrangex, spawnrangex);
 			int	z = Random.Range (-spawnrangez, spawnrangez);
 			//Determine Y coordinate, adjust by -400 based on terrain position, then add 2 to avoid spawning inside terrain
-			int y = Mathf.RoundToInt(terrainobj.SampleHeight(new Vector3(x, 0, z)) - 398);
+			int y = Mathf.RoundToInt(terrainobj.SampleHeight(new Vector3(x, 0, z)) - 395);
 			//Spawn the player, set name, set position
 			GameObject temptank = Instantiate(playertanktospawn) as GameObject;
 			temptank.name = _gameData.Tanks[i].Name;
 			temptank.GetComponent<TankController>().Score = _gameData.Tanks[i].Score;
 			temptank.transform.position = new Vector3 (x, y, z);
+            GameObject Platform = Instantiate(PlatformToSpawn) as GameObject;
+            Platform.transform.position = new Vector3(x, y - 4, z);
 		}
 		//Loop creating AI players
 		for (int i=0; i<numAIs; i++) {
@@ -571,13 +586,15 @@ public class TurnController : MonoBehaviour {
 			int x = Random.Range (-spawnrangex, spawnrangex);
 			int	z = Random.Range (-spawnrangez, spawnrangez);
 			//Determine Y coordinate, adjust by -400 based on terrain position, then add 2 to avoid spawning inside terrain
-			int y = Mathf.RoundToInt(terrainobj.SampleHeight(new Vector3(x, 0, z)) - 398);
+			int y = Mathf.RoundToInt(terrainobj.SampleHeight(new Vector3(x, 0, z)) - 395);
 			//Spawn the player, set name, set position
 			GameObject temptank = Instantiate(AItanktospawn) as GameObject;
 			temptank.name = "AI - " + _gameData.Tanks[numplayers + i].Name;
 			temptank.GetComponent<TankController>().Score = _gameData.Tanks[numplayers + i].Score;
 			temptank.transform.position = new Vector3 (x, y, z);
 			temptank.tag = ("AITank");
+            GameObject Platform = Instantiate(PlatformToSpawn) as GameObject;
+            Platform.transform.position = new Vector3(x, y - 4, z);
             Debug.Log("Tank Spawned");
 		}
 	}

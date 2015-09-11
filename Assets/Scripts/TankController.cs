@@ -52,6 +52,8 @@ public class TankController : MonoBehaviour{
 	public int CameraPref = 1;
 	public float CameraAngle = 0;
 	public float Fuel = 100;
+    public bool Active;
+    public int RecentHit;
 
 	void Start(){
 		//Prepare prefab
@@ -69,13 +71,23 @@ public class TankController : MonoBehaviour{
 		//Randomize initial direction of the tank
 		transform.Rotate(0, Random.Range (0, 360), 0);
 
+        Active = false;
+        RecentHit = 0;
+
 	}
 
 
 	//Tank Movement, can't use axis due to conflict with turret controls
 	void FixedUpdate(){
-		Rb.maxAngularVelocity = MaxSpeed;
-
+        if (Active || RecentHit > 0) {
+            Rb.maxAngularVelocity = MaxSpeed;
+            if (RecentHit > 0) {
+                RecentHit -= 1;
+            }
+        } else {
+            Rb.maxAngularVelocity = 0;
+        }
+        
 		//Move as instructed by turn controller
 		transform.Rotate(0, -TurnAmount, 0);
 		Rb.AddRelativeForce(0,0,-ForwardMoveAmount);
@@ -94,6 +106,9 @@ public class TankController : MonoBehaviour{
 
 	//Process incoming damage notificaiton
 	void AddDamage(float damage){
+
+        RecentHit = 600;
+
 		//Make sure you still have HP left to damage
 		if (HP > 0) {
 			GameObject turnControllerObj = GameObject.FindGameObjectWithTag ("TurnController");
